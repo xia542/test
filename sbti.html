@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBTI吗喽人格测试 | 27种人格全解析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: #f8f7fa;
+        }
+        .rainbow-border {
+            background: linear-gradient(90deg, #FFD93D, #FF9100, #FF6B6B, #C084FC);
+            height: 4px;
+            width: 100%;
+        }
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .option-card:hover {
+            border-color: #a78bfa;
+            background-color: #f5f3ff;
+        }
+        .option-card.selected {
+            border-color: #7c3aed;
+            background-color: #ede9fe;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .type-badge {
+            transition: all 0.4s ease;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a78bfa; }
+        .malo-gradient {
+            background: linear-gradient(135deg, #FFD93D 0%, #FF9100 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+<div class="rainbow-border fixed top-0 z-50"></div>
+
+<nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-1 z-40">
+    <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg malo-gradient flex items-center justify-center text-white font-bold text-sm">SBTI</div>
+            <h1 class="text-lg font-bold text-gray-800">SBTI吗喽人格测试</h1>
+        </div>
+        <div class="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+            纯娱乐 · 不收集数据
+        </div>
+    </div>
+</nav>
+
+<main class="max-w-3xl mx-auto px-4 py-8 pb-20">
+    <div class="mb-8" id="progressContainer" style="display:none;">
+        <div class="flex justify-between text-xs text-gray-500 mb-2">
+            <span id="stepLabel">步骤 1/10</span>
+            <span id="progressPercent">0%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-2">
+            <div id="progressBar" class="progress-bar malo-gradient h-2 rounded-full" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <div id="appContent">
+        <!-- 首页 -->
+        <div id="startScreen" class="text-center py-12 fade-in">
+            <div class="text-6xl mb-6">🐒</div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">SBTI吗喽人格测试</h2>
+            <p class="text-gray-600 max-w-lg mx-auto mb-8 leading-relaxed">
+                2026全网爆火恶搞版人格测试<br>
+                测你是<strong>吗喽MALO/死者DEAD/送钱者ATM/小丑JOKER</strong>哪种精神状态
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-10 max-w-2xl mx-auto">
+                <div onclick="startEasyTest()" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-amber-300 hover:shadow-md transition-all cursor-pointer">
+                    <div class="text-3xl mb-3">⚡</div>
+                    <h3 class="font-bold text-lg mb-2">简易10题速测</h3>
+                    <p class="text-sm text-gray-500">2分钟测出你的精神状态</p>
+                </div>
+                <div onclick="startFullTest()" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:border-amber-300 hover:shadow-md transition-all cursor-pointer">
+                    <div class="text-3xl mb-3">📚</div>
+                    <h3 class="font-bold text-lg mb-2">完整版31题</h3>
+                    <p class="text-sm text-gray-500">官方全题，精准恶搞</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-100 rounded-xl p-5 text-left max-w-2xl mx-auto mb-6">
+                <h3 class="font-bold text-amber-800 mb-2">📌 什么是SBTI？</h3>
+                <p class="text-sm text-gray-600 leading-relaxed">
+                    SBTI（Silly Big Personality Test）是2026年爆火的<strong>纯娱乐恶搞人格测试</strong>，
+                    它以MBTI为框架，用<strong>27种扎心自嘲标签</strong>定义当代年轻人的精神状态。
+                    题目全是生活化发疯场景，结果主打一个真实扎心又好笑。
+                </p>
+            </div>
+        </div>
+
+        <!-- 题目界面 -->
+        <div id="questionScreen" style="display:none;">
+            <div id="questionContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 fade-in"></div>
+            <div class="flex justify-between mt-6">
+                <button onclick="prevStep()" id="prevBtn" class="px-6 py-3 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors font-medium" style="visibility:hidden;">
+                    ← 上一题
+                </button>
+                <button onclick="nextStep()" id="nextBtn" class="px-8 py-3 rounded-xl malo-gradient text-white font-medium hover:opacity-90 transition-colors shadow-md">
+                    下一题
+                </button>
+            </div>
+        </div>
+
+        <!-- 加载 -->
+        <div id="loadingScreen" style="display:none;" class="text-center py-20">
+            <div class="relative w-24 h-24 mx-auto mb-6">
+                <div class="absolute inset-0 border-4 border-amber-200 rounded-full"></div>
+                <div class="absolute inset-0 border-4 border-amber-500 rounded-full border-t-transparent animate-spin"></div>
+                <div class="absolute inset-0 flex items-center justify-center text-2xl">🐒</div>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">正在生成你的精神状态报告...</h3>
+            <p class="text-gray-500 text-sm" id="loadingText">检测是否为吗喽</p>
+        </div>
+
+        <!-- 报告页面 -->
+        <div id="reportScreen" style="display:none;" class="fade-in space-y-8">
+            <!-- 结果头部 -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 md:p-8 text-center">
+                <div id="typeIcon" class="text-5xl mb-3">🐒</div>
+                <div id="typeBadge" class="type-badge malo-gradient inline-block px-5 py-2 rounded-full text-white text-lg font-bold mb-3">
+                    你的类型：MALO（吗喽）
+                </div>
+                <h2 id="typeName" class="text-2xl font-bold text-gray-800 mb-2">摆烂打工人 · 拒绝内卷进化</h2>
+                <p id="typeDesc" class="text-gray-600 max-w-lg mx-auto">人生是个副本，而我只是一只吗喽。活着就行，快乐第一。</p>
+            </div>
+
+            <!-- 深度解析 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                <h3 class="text-lg font-bold mb-4">🧠 你的深度性格解析</h3>
+                <div id="fullAnalysis" class="space-y-4 text-sm text-gray-600 leading-relaxed"></div>
+            </div>
+
+            <!-- 优势与盲点 -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-green-50 rounded-2xl p-6 border border-green-100">
+                    <h3 class="font-bold text-green-800 mb-3">✅ 你的核心优势</h3>
+                    <ul id="strengthsList" class="text-sm text-gray-700 space-y-2"></ul>
+                </div>
+                <div class="bg-red-50 rounded-2xl p-6 border border-red-100">
+                    <h3 class="font-bold text-red-800 mb-3">⚠️ 你的性格盲点</h3>
+                    <ul id="weaknessesList" class="text-sm text-gray-700 space-y-2"></ul>
+                </div>
+            </div>
+
+            <!-- 针对性建议 -->
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border border-amber-100 p-6 md:p-8">
+                <h3 class="text-lg font-bold mb-5">🎯 专属生存建议 & 行动方案</h3>
+                <div id="adviceList" class="space-y-5 text-sm text-gray-700 leading-relaxed"></div>
+            </div>
+
+            <!-- 底部按钮 -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                <button onclick="restart()" class="px-6 py-3 rounded-xl border-2 border-amber-500 text-amber-600 font-medium hover:bg-amber-50 transition-colors">
+                    重新测试
+                </button>
+                <button onclick="window.print()" class="px-6 py-3 rounded-xl bg-gray-800 text-white font-medium hover:bg-gray-900 transition-colors">
+                    保存报告
+                </button>
+            </div>
+
+            <div class="text-center text-xs text-gray-400 mt-6 max-w-lg mx-auto">
+                SBTI吗喽人格测试 纯娱乐无科学依据
+                测试是镜子，不是枷锁，开心最重要
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // ========== 题目数据 ==========
+    // 简易10题（核心题）
+    const easyQuestions = [
+        {id:1,q:"我做决定比较果断，不喜欢犹豫",o:["不认同","中立","认同"],type:["dead","normal","ctrl"]},
+        {id:2,q:"我做事常常有计划，____",o:["然而计划不如变化快","有时能完成，有时不能","我讨厌被打破计划"],type:["malo","joke","ctrl"]},
+        {id:3,q:"大多数人是善良的",o:["其实邪恶的人心比世界上的痔疮更多","也许吧","是的，我愿相信好人更多"],type:["shit","normal","sexy"]},
+        {id:4,q:"我在不同人面前会表现出不一样的自己",o:["不认同","中立","认同"],type:["dead","normal","joke"]},
+        {id:5,q:"快考试了，学校规定必须上晚自习，但今晚你约了女/男神一起玩《绝地求生：刺激战场》，你怎么办？",o:["翘了！反正就一次！","干脆请个假吧。","都快考试了还去啥。"],type:["joke","sexy","ctrl"]},
+        {id:6,q:"你因玩《第五人格》而结识许多网友，并被邀请线下见面，你的想法是？",o:["网上口嗨下就算了，真见面还是有点忐忑。","见网友也挺好，反正谁来聊我就聊两句。","我会打扮一番并热情聊天，万一呢，我是说万一呢？"],type:["dead","normal","sexy"]},
+        {id:7,q:"我一定要不断往上爬、变得更厉害",o:["不认同","中立","认同"],type:["malo","normal","ctrl"]},
+        {id:8,q:"朋友带了ta的朋友一起来玩，你最可能的状态是",o:["对“朋友的朋友”天然有点距离感，怕影响二人关系","看对方，能玩就玩。","朋友的朋友应该也算我的朋友！要热情聊天"],type:["dead","normal","sexy"]},
+        {id:9,q:"对象超过5小时没回消息，说自己窜稀了，你会怎么想？",o:["拉稀不可能5小时，也许ta隐瞒了我。","在信任和怀疑之间摇摆。","也许今天ta真的不太舒服。"],type:["shit","normal","atm"]},
+        {id:10,q:"我对天发誓，我对待每一份感情都是认真的！",o:["并没有","也许?","是的！（问心无愧骄傲脸）"],type:["joke","normal","atm"]}
+    ];
+
+    // 完整版31题（根据你提供的图片整理）
+    const fullQuestions = [
+        {id:1,q:"我做决定比较果断，不喜欢犹豫",o:["不认同","中立","认同"],type:["dead","normal","ctrl"]},
+        {id:2,q:"我做事常常有计划，____",o:["然而计划不如变化快","有时能完成，有时不能","我讨厌被打破计划"],type:["malo","joke","ctrl"]},
+        {id:3,q:"有时候你明明对一件事有不同的、负面的看法，但最后没说出来。多数情况下原因是：",o:["这种情况较少。","可能碍于情面或者关系。","不想让别人知道自己是个阴暗的人。"],type:["shit","atm","dead"]},
+        {id:4,q:"你因便秘坐在马桶上（已长达30分钟），拉不出很难受。此时你更像",o:["再坐三十分钟看看，说不定就有了。","用力拍打自己的屁股并说：“死屁股，快拉啊！”","吃点泻药，必须解决。"],type:["malo","joke","ctrl"]},
+        {id:5,q:"大多数人是善良的",o:["其实邪恶的人心比世界上的痔疮更多","也许吧","是的，我愿相信好人更多"],type:["shit","normal","sexy"]},
+        {id:6,q:"你因玩《第五人格》而结识许多网友，并被邀请线下见面，你的想法是？",o:["网上口嗨下就算了，真见面还是有点忐忑。","见网友也挺好，反正谁来聊我就聊两句。","我会打扮一番并热情聊天，万一呢，我是说万一呢？"],type:["dead","normal","sexy"]},
+        {id:7,q:"我很清楚真正的自己是什么样的",o:["不认同","中立","认同"],type:["dead","normal","shit"]},
+        {id:8,q:"我和人相处主打一个电子围栏，靠太近会自动报警。",o:["认同","中立","不认同"],type:["dead","normal","atm"]},
+        {id:9,q:"此题没有题目，请盲选",o:["反复思考后感觉应该选A?","啊，要不选B?","不会就选C?"],type:["dead","joke","normal"]},
+        {id:10,q:"我做事主要为了取得成果和进步，而不是避免麻烦和风险。",o:["不认同","中立","认同"],type:["malo","normal","ctrl"]},
+        {id:11,q:"恋爱后，对象非常黏人，你作何感想?",o:["那很爽了","都行无所谓","我更喜欢保留独立空间"],type:["atm","normal","dead"]},
+        {id:12,q:"突然某一天，我意识到人生哪有什么他妈的狗屁意义，人不过是和动物一样被各种欲望支配着，纯纯是被激素控制的东西，饿了就吃，困了就睡，一发情就想交配，我们简直和猪狗一样没什么区别。",o:["是这样的。","也许是，也许不是。","这简直是胡扯"],type:["dead","normal","ctrl"]},
+        {id:13,q:"你走在街上，一位萌萌的小女孩蹦蹦跳跳地朝你走来，她递给你一根棒棒糖，此时你作何感想？",o:["呜呜她真好真可爱！居然给我糖！","有点开心，也有点不知所措。","她是不是认错人了？"],type:["atm","normal","dead"]},
+        {id:14,q:"快考试了，学校规定必须上晚自习，但今晚你约了女/男神一起玩《绝地求生：刺激战场》，你怎么办？",o:["翘了！反正就一次！","干脆请个假吧。","都快考试了还去啥。"],type:["joke","sexy","ctrl"]},
+        {id:15,q:"我一定要不断往上爬、变得更厉害",o:["不认同","中立","认同"],type:["malo","normal","ctrl"]},
+        {id:16,q:"您平时有什么爱好?",o:["吃喝拉撒","艺术爱好","饮酒","健身"],type:["malo","sexy","joke","ctrl"]},
+        {id:17,q:"外人的评价对我来说无所谓。",o:["不认同","中立","认同"],type:["dead","normal","shit"]},
+        {id:18,q:"我在不同人面前会表现出不一样的自己",o:["不认同","中立","认同"],type:["dead","normal","joke"]},
+        {id:19,q:"我在任何关系里都很重视个人空间",o:["我更喜欢依赖与被依赖","看情况","是的！（斩钉截铁地说道）"],type:["atm","normal","dead"]},
+        {id:20,q:"我内心有真正追求的东西",o:["不认同","中立","认同"],type:["dead","normal","ctrl"]},
+        {id:21,q:"我不够好，周围的人都比我优秀",o:["认同","中立","不认同"],type:["atm","normal","shit"]},
+        {id:22,q:"我喜欢打破常规，不喜欢被束缚",o:["认同","保持中立","不认同"],type:["joke","normal","ctrl"]},
+        {id:23,q:"对象超过5小时没回消息，说自己窜稀了，你会怎么想？",o:["拉稀不可能5小时，也许ta隐瞒了我。","在信任和怀疑之间摇摆。","也许今天ta真的不太舒服。"],type:["shit","normal","atm"]},
+        {id:24,q:"别人说你“执行力强”，你内心更接近哪句？",o:["我被逼到最后确实执行力超强。。。","啊，有时候吧。","是的，事情本来就该被推进"],type:["malo","normal","ctrl"]},
+        {id:25,q:"我渴望和我信任的人关系密切，熟得像失散多年的亲戚。",o:["认同","中立","不认同"],type:["atm","normal","dead"]},
+        {id:26,q:"我做事通常有目标。",o:["不认同","中立","认同"],type:["dead","normal","ctrl"]},
+        {id:27,q:"朋友带了ta的朋友一起来玩，你最可能的状态是",o:["对“朋友的朋友”天然有点距离感，怕影响二人关系","看对方，能玩就玩。","朋友的朋友应该也算我的朋友！要热情聊天"],type:["dead","normal","sexy"]},
+        {id:28,q:"我在感情里经常担心被对方抛弃",o:["是的","偶尔","不是"],type:["atm","normal","shit"]},
+        {id:29,q:"你的恋爱对象是一个尊老爱幼，温柔敦厚，洁身自好，光明磊落，大义凛然，能言善辩，口才流利，观察入微，见多识广，博学多才，诲人不倦，和蔼可亲，平易近人，心地善良，慈眉善目，积极进取，意气风发，玉树临风，国色天香，倾国倾城，花容月貌的人，此时你会？",o:["就算ta再优秀我也不会陷入太深。","会介于A和C之间。","会非常珍惜ta，也许会变成恋爱脑。"],type:["shit","normal","atm"]},
+        {id:30,q:"我对天发誓，我对待每一份感情都是认真的！",o:["并没有","也许?","是的！（问心无愧骄傲脸）"],type:["joke","normal","atm"]},
+        {id:31,q:"我不仅是屌丝，我还是joker,我还是咸鱼，这辈子没谈过一场恋爱，胆怯又自卑，我的青春就是一场又一场的意淫，每一天幻想着我也能有一个女孩子和我一起压马路，一起逛街，一起玩，现实却是爆了父母金币，读了个烂学校，混日子之后找班上，没有理想，没有目标，没有能力的三无人员，每次看到你能在网上开屌丝的玩笑，我都想哭，我就是地底下的老鼠，透过下水井的缝隙，窥探地上的各种美好，每一次看到这种都是对我心灵的一次伤害，对我生存空间的一次压缩，求求哥们给我们这种小丑一点活路吧，我真的不想在白天把枕巾哭湿一大片",o:["我哭了。。","这是什么。。","这不是我！"],type:["joke","normal","shit"]}
+    ];
+
+    // ========== 27种人格完整数据 ==========
+    const sbtiTypes = {
+        malo: {
+            icon: "🐒",
+            name: "MALO（吗喽）",
+            title: "摆烂打工人 · 拒绝内卷进化",
+            desc: "人生是个副本，而我只是一只吗喽。活着就行，快乐第一。",
+            analysis: `
+                <p>你不是“不上进”，你是看透了内卷骗局的清醒者。你的灵魂还停留在树上，吃、睡、摸鱼是人生三大追求。</p>
+                <p>你习惯了用佛系的外壳保护自己，不内耗、不攀比、不强求。在这个人人都想往上爬的世界里，你选择了躺平。</p>
+                <p>你最大的优点是情绪稳定，最大的缺点是偶尔会被说“不上进”。但你心里清楚，快乐比成功更重要。</p>
+            `,
+            strengths: ["情绪稳定，极少内耗", "心态佛系，不易焦虑", "活在当下，享受简单快乐", "拒绝内卷，保护自己能量", "社交随缘，不勉强自己"],
+            weaknesses: ["容易被说“不上进”", "偶尔会自我怀疑", "关键时刻容易逃避", "缺乏长期目标感", "怕被社会淘汰"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-amber-800 mb-2">1. 心态建议：接纳自己的“吗喽性”</h4>
+                    <p>不必为“不上进”自责，你的佛系是对抗内卷的智慧。允许自己躺平，偶尔努力一下就当惊喜。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-amber-800 mb-2">2. 社交建议：远离内耗人群</h4>
+                    <p>多和同类吗喽玩，远离焦虑内卷怪。社交随缘，不用勉强自己合群，独处更快乐。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-amber-800 mb-2">3. 工作建议：摸鱼也要摸出水平</h4>
+                    <p>完成本职工作即可，不必过度奉献。学会拒绝额外加班，保护自己的快乐能量。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-amber-800 mb-2">4. 成长建议：佛系但不摆烂到底</h4>
+                    <p>可以躺平，但别放弃基本生存能力。偶尔学点小技能，为自己的快乐生活兜底。</p>
+                </div>
+            `
+        },
+        dead: {
+            icon: "💀",
+            name: "DEAD（死者）",
+            title: "精神已死 · 日常佛系疲惫",
+            desc: "灵魂早已下班，肉体勉强营业。无欲无求，看透一切。",
+            analysis: `
+                <p>你不是懒，你是精神上的“死者”。对大多数事情都提不起兴趣，不是因为不想，而是真的没力气。</p>
+                <p>你习惯了用冷漠和疲惫当盾牌，保护自己不被外界伤害。别人觉得你丧，其实你只是累了。</p>
+                <p>你对未来没什么期待，对过去也没什么留恋，只想安安静静地度过每一天。</p>
+            `,
+            strengths: ["情绪稳定，几乎不内耗", "看透一切，不易被PUA", "边界感强，懂得拒绝", "真实不装，活得自在", "内心强大，抗挫力强"],
+            weaknesses: ["容易被说“死气沉沉”", "对什么都提不起兴趣", "社交圈越来越小", "容易陷入虚无主义", "缺乏动力和热情"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-purple-800 mb-2">1. 心态建议：允许自己“死”一会儿</h4>
+                    <p>不必强迫自己“振作起来”，允许自己丧，允许自己躺平。你的疲惫是真实的，不是矫情。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-purple-800 mb-2">2. 行动建议：从小事开始“复活”</h4>
+                    <p>每天只做一件小事，比如喝一杯热水、开窗透透气。不必追求改变，先让自己舒服起来。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-purple-800 mb-2">3. 社交建议：减少无效社交</h4>
+                    <p>不必勉强自己合群，减少消耗你的人和事。和能让你舒服的人待在一起，哪怕只是沉默。</p>
+                </div>
+            `
+        },
+        atm: {
+            icon: "💸",
+            name: "ATM（送钱者）",
+            title: "人形提款机 · 永远付出型",
+            desc: "别人的快乐是我的责任，自己的委屈自己消化。",
+            analysis: `
+                <p>你天生就是个“付出型人格”，习惯了照顾别人、满足别人，却忘了自己也需要被照顾。</p>
+                <p>你对朋友大方、对恋人温柔、对家人孝顺，却常常把自己放在最后一位。别人觉得你善良，其实你只是怕被讨厌。</p>
+                <p>你习惯了用付出来换安全感，却忘了真正的关系不需要你用金钱和付出维持。</p>
+            `,
+            strengths: ["善良大方，重情重义", "体贴周到，懂得照顾人", "朋友多，人缘好", "情绪稳定，不喜欢冲突", "责任感强，值得信赖"],
+            weaknesses: ["容易被当成“冤大头”", "不懂拒绝，容易被消耗", "付出得不到回报会委屈", "习惯讨好，失去自我", "容易被PUA"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-pink-800 mb-2">1. 边界建议：学会说“不”</h4>
+                    <p>不必为了别人的好感而勉强自己。拒绝一次，你会发现天不会塌，反而更轻松。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-pink-800 mb-2">2. 自我建议：把自己放在第一位</h4>
+                    <p>你的感受和别人一样重要。先照顾好自己，再谈照顾别人。别把自己活成别人的附属品。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-pink-800 mb-2">3. 关系建议：筛选你的圈子</h4>
+                    <p>远离那些只知道索取、不懂感恩的人。真正的朋友会心疼你的付出，而不是理所当然地享受。</p>
+                </div>
+            `
+        },
+        sexy: {
+            icon: "🔥",
+            name: "SEXY（尤物）",
+            title: "自信爆棚 · 男女通杀",
+            desc: "天生焦点，气场两米八，嘴硬心软，魅力满分。",
+            analysis: `
+                <p>你自带“尤物”气场，自信、大方、有魅力，走到哪里都是焦点。你不是装的，你是真的很会发光。</p>
+                <p>你嘴硬心软，表面上看起来不好惹，其实内心很温柔。别人觉得你难接近，其实你只是怕被伤害。</p>
+                <p>你在感情里游刃有余，不是因为花心，而是因为你懂得爱自己，也懂得怎么爱别人。</p>
+            `,
+            strengths: ["自信大方，气场强大", "魅力十足，男女通杀", "情商高，会说话", "敢爱敢恨，不拖泥带水", "懂得爱自己，也懂得爱别人"],
+            weaknesses: ["容易被说“太招摇”", "容易招桃花，也容易招是非", "嘴硬心软，容易吃亏", "有时候太自信，显得自负", "怕被看穿内心的脆弱"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-red-800 mb-2">1. 心态建议：继续发光，别在意别人的眼光</h4>
+                    <p>你的自信和魅力是天生的，不必为了别人的闲言碎语而收敛。你值得被喜欢，也值得被看见。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-red-800 mb-2">2. 感情建议：别被“烂桃花”消耗</h4>
+                    <p>你的魅力会吸引很多人，但不是所有人都值得你回应。学会筛选，别把时间浪费在不值得的人身上。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-red-800 mb-2">3. 自我建议：别太嘴硬，学会示弱</h4>
+                    <p>偶尔示弱不是软弱，而是信任。不必永远装坚强，你也可以有脆弱的时候。</p>
+                </div>
+            `
+        },
+        shit: {
+            icon: "💩",
+            name: "SHIT（狗屎人）",
+            title: "一边骂世界 · 一边收拾烂摊子",
+            desc: "看透世界的烂，却依然认真生活，又丧又坚强。",
+            analysis: `
+                <p>你是个矛盾体，一边骂世界烂透了，一边又认真地收拾自己的烂摊子。你看透了人性的阴暗，却依然选择善良。</p>
+                <p>你嘴上说着摆烂，身体却很诚实，把日子过得井井有条。别人觉得你丧，其实你比谁都清醒。</p>
+                <p>你对世界很失望，但对自己不放弃。你知道生活很烂，但还是想好好活下去。</p>
+            `,
+            strengths: ["清醒通透，看透人性", "又丧又坚强，韧性极强", "嘴上摆烂，行动认真", "有原则，不随波逐流", "真实不装，活得明白"],
+            weaknesses: ["容易陷入负面情绪", "对世界很失望，容易悲观", "嘴上不饶人，容易得罪人", "内心敏感，容易受伤", "不相信别人，防备心重"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-2">1. 心态建议：接受世界的烂，也接受自己的好</h4>
+                    <p>世界确实不完美，但你也不必因此否定一切。允许自己丧，也允许自己偶尔对世界抱有期待。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-2">2. 行动建议：把注意力放回自己身上</h4>
+                    <p>别总盯着世界的烂，多看看自己的生活。把时间和精力花在自己身上，比什么都重要。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-2">3. 社交建议：远离消耗你的人和事</h4>
+                    <p>少看那些负面新闻，少和负能量的人接触。你的情绪很宝贵，别被别人的烂事消耗。</p>
+                </div>
+            `
+        },
+        ctrl: {
+            icon: "👑",
+            name: "CTRL（控制者）",
+            title: "内卷之王 · 完美主义",
+            desc: "人生必须掌控，努力到极致，绝不认输。",
+            analysis: `
+                <p>你天生就是个“控制狂”，对自己要求极高，对别人也一样。你不允许自己失败，也不允许事情失控。</p>
+                <p>你努力、上进、自律，是别人眼里的“卷王”。你把成功当成唯一的目标，却忘了停下来看看自己。</p>
+                <p>你习惯了用掌控一切来获得安全感，一旦事情不在你的计划里，你就会焦虑不安。</p>
+            `,
+            strengths: ["目标明确，执行力超强", "自律上进，永不放弃", "有规划，做事有条理", "责任心强，值得信赖", "抗压能力强，能扛事"],
+            weaknesses: ["容易焦虑，压力很大", "控制欲强，让人窒息", "完美主义，容易自我否定", "不懂放松，活得很累", "对别人也很严格，容易得罪人"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-blue-800 mb-2">1. 心态建议：接受不完美，学会放过自己</h4>
+                    <p>不必事事都做到最好，也不必控制一切。偶尔失控也没关系，天不会塌下来。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-blue-800 mb-2">2. 行动建议：学会放松，给生活留白</h4>
+                    <p>每天留一点时间给自己，不工作、不学习，只做自己喜欢的事。别把自己逼得太紧。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-blue-800 mb-2">3. 关系建议：给别人一点空间</h4>
+                    <p>不必控制别人的想法和行为，每个人都有自己的节奏。学会信任，也学会放手。</p>
+                </div>
+            `
+        },
+        joke: {
+            icon: "🤡",
+            name: "JOKE（小丑）",
+            title: "快乐小丑 · 搞笑担当",
+            desc: "用搞笑掩盖孤独，别人笑了，我就赢了。",
+            analysis: `
+                <p>你是人群中的“开心果”，用搞笑和段子逗别人笑，却把自己的孤独藏在面具后面。别人觉得你乐观开朗，其实你只是怕被讨厌。</p>
+                <p>你习惯了用幽默来保护自己，用自嘲来缓解尴尬。你害怕别人看到你的脆弱，所以一直装坚强。</p>
+                <p>你内心很敏感，很在意别人的看法。别人一句无心的话，你会想很久。</p>
+            `,
+            strengths: ["幽默风趣，情商高", "乐观开朗，能给别人带来快乐", "反应快，会说话", "化解尴尬的高手", "朋友多，人缘好"],
+            weaknesses: ["用搞笑掩盖内心的脆弱", "害怕被讨厌，过度讨好", "敏感多疑，容易内耗", "不敢表达真实的自己", "有时候太装，活得很累"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-yellow-800 mb-2">1. 心态建议：不必一直装开心</h4>
+                    <p>你也可以不搞笑，也可以难过、也可以脆弱。不必为了别人的快乐，牺牲自己的情绪。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-yellow-800 mb-2">2. 行动建议：学会表达真实的自己</h4>
+                    <p>偶尔卸下你的“小丑面具”，和信任的人说说你的心里话。你会发现，真实的你也很可爱。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-yellow-800 mb-2">3. 关系建议：找一个能懂你脆弱的人</h4>
+                    <p>真正的朋友，会喜欢搞笑的你，也会心疼难过的你。别只和那些只喜欢你搞笑的人在一起。</p>
+                </div>
+            `
+        },
+        normal: {
+            icon: "😐",
+            name: "NORMAL（普通人）",
+            title: "一边想躺平 · 一边想努力",
+            desc: "普通且真实，偶尔焦虑，偶尔清醒，大部分时间在摸鱼。",
+            analysis: `
+                <p>你就是最真实的普通人，没有极端的人格，也没有特别的标签。你一边想躺平，一边又怕被社会淘汰；一边想努力，一边又没动力。</p>
+                <p>你偶尔会焦虑，偶尔会清醒，大部分时间在摸鱼和摆烂中度过。你不是不上进，你只是在和自己和解。</p>
+                <p>你接受自己的普通，也偶尔会羡慕别人的精彩。你知道自己不是最好的，但也不是最差的。</p>
+            `,
+            strengths: ["真实不装，活得自在", "心态平衡，不极端", "懂得和自己和解", "适应力强，能屈能伸", "对生活有期待，也能接受平淡"],
+            weaknesses: ["容易三分钟热度，没毅力", "一边躺平一边焦虑", "目标不明确，容易迷茫", "容易被别人的节奏带偏", "有时候太佛系，缺乏动力"],
+            advice: `
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-2">1. 心态建议：接受自己的“普通”</h4>
+                    <p>你不是不够好，你只是很普通。普通的生活也可以很精彩，不必逼自己活成别人的样子。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-2">2. 行动建议：从小目标开始，别逼自己</h4>
+                    <p>不必一下子改变很多，每天做一件小事就好。比如早起10分钟，或者读几页书。</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-800 mb-2">3. 生活建议：找到自己的节奏</h4>
+                    <p>别和别人比进度，每个人的节奏都不一样。你不用和别人一样，按自己的步调走就好。</p>
+                </div>
+            `
+        },
+        // 以下为补全的19种人格，格式与上面一致
+        ghost: {
+            icon: "👻",
+            name: "GHOST（透明人）",
+            title: "人间透明 · 存在感为零",
+            desc: "习惯了在人群中隐身，不被注意，也不想被注意。",
+            analysis: `<p>你像个透明人一样活在世界上，习惯了不被注意、不被需要、不被记住。你不是社恐，你只是不想成为焦点。</p>`,
+            strengths: ["情绪稳定，几乎不内耗", "不被关注，活得自在", "边界感强，不麻烦别人", "内心强大，抗挫力强", "懂得独处，享受孤独"],
+            weaknesses: ["存在感低，容易被忽略", "不敢表达自己的需求", "社交圈越来越小", "害怕被拒绝，不敢主动", "容易被人当成“好欺负”"],
+            advice: `<div><h4 class="font-bold text-gray-800 mb-2">1. 心态建议：你的存在本身就很重要</h4><p>不必刻意隐身，也不必害怕被注意。你不需要成为焦点，也值得被看见。</p></div>`
+        },
+        crybaby: {
+            icon: "😭",
+            name: "CRYBABY（爱哭鬼）",
+            title: "泪点超低 · 情绪敏感体",
+            desc: "一点小事就能让你破防，不是矫情，是太柔软。",
+            analysis: `<p>你是个泪点超低的爱哭鬼，看个感人的视频会哭，被人说一句重话会哭，甚至看个悲剧新闻都会哭。你不是矫情，你只是太柔软了。</p>`,
+            strengths: ["共情能力强，温柔善良", "内心柔软，懂得体谅别人", "情绪真实，不装", "能感受到别人的情绪，适合当倾听者", "心地善良，容易被打动"],
+            weaknesses: ["泪点低，容易破防", "情绪敏感，容易受别人影响", "抗压能力弱，遇到事容易哭", "容易被人说“矫情”", "情绪波动大，不稳定"],
+            advice: `<div><h4 class="font-bold text-blue-800 mb-2">1. 心态建议：哭不是软弱，是释放</h4><p>想哭就哭，不必忍着。眼泪不是软弱的象征，而是情绪的出口。</p></div>`
+        },
+        stubborn: {
+            icon: "🐂",
+            name: "STUBBORN（倔驴）",
+            title: "九头牛拉不回 · 死磕到底",
+            desc: "认准的事，八头牛都拉不回来。不是固执，是原则。",
+            analysis: `<p>你是个出了名的倔驴，认准的事谁劝都没用。别人觉得你固执，其实你只是有自己的原则和底线。</p>`,
+            strengths: ["有原则，有底线", "坚持到底，不轻易放弃", "有主见，不随波逐流", "说到做到，守信用", "目标明确，执行力强"],
+            weaknesses: ["太固执，听不进别人的意见", "容易钻牛角尖", "有时候太强硬，容易得罪人", "不懂得变通，容易吃亏", "太好面子，不认错"],
+            advice: `<div><h4 class="font-bold text-orange-800 mb-2">1. 心态建议：学会听别人的意见</h4><p>偶尔听听别人的意见，不是妥协，而是多一个角度。别因为固执，错过更好的选择。</p></div>`
+        },
+        paranoid: {
+            icon: "👁️",
+            name: "PARANOID（多疑鬼）",
+            title: "脑补大师 · 被害妄想症",
+            desc: "别人一个眼神，你已经在脑子里演完了一部大戏。",
+            analysis: `<p>你是个脑补大师，别人一句无心的话、一个不经意的眼神，你都会脑补出一万种可能。你不是想太多，你只是太敏感，也太缺乏安全感。</p>`,
+            strengths: ["观察力强，能察觉到别人的情绪变化", "心思细腻，考虑周全", "自我保护意识强，不容易被骗", "警惕性高，不轻易相信别人", "危机意识强，能提前规避风险"],
+            weaknesses: ["多疑敏感，容易内耗", "脑补太多，活得很累", "不容易相信别人，防备心重", "容易误会别人，影响关系", "情绪容易受别人影响，不稳定"],
+            advice: `<div><h4 class="font-bold text-purple-800 mb-2">1. 心态建议：别把别人的话太当回事</h4><p>别人的一句话、一个眼神，不代表什么。别脑补太多，给自己找不痛快。</p></div>`
+        },
+        peoplepleaser: {
+            icon: "🤝",
+            name: "PPL（讨好者）",
+            title: "别人开心，我就开心",
+            desc: "把别人的感受放在第一位，把自己的需求藏起来。",
+            analysis: `<p>你是个天生的讨好者，习惯了把别人的感受放在第一位，把自己的需求藏起来。你害怕冲突，害怕被讨厌，所以一直委屈自己，成全别人。</p>`,
+            strengths: ["善良体贴，懂得照顾别人", "情商高，会说话", "朋友多，人缘好", "情绪稳定，不喜欢冲突", "乐于助人，值得信赖"],
+            weaknesses: ["不懂拒绝，容易被消耗", "习惯讨好，失去自我", "付出得不到回报会委屈", "害怕冲突，不敢表达真实想法", "容易被人当成“软柿子”捏"],
+            advice: `<div><h4 class="font-bold text-pink-800 mb-2">1. 边界建议：学会说“不”</h4><p>不必为了别人的好感而勉强自己。拒绝一次，你会发现天不会塌，反而更轻松。</p></div>`
+        },
+        dreamer: {
+            icon: "🌙",
+            name: "DREAMER（白日梦想家）",
+            title: "活在梦里 · 现实绝缘体",
+            desc: "现实太苦，所以我躲进梦里。不是逃避，是向往。",
+            analysis: `<p>你是个天生的白日梦想家，总喜欢活在自己的幻想里。你不是逃避现实，你只是对现实太失望，所以只能在梦里寻找希望。</p>`,
+            strengths: ["想象力丰富，有创造力", "乐观开朗，对未来有期待", "心地善良，容易相信美好", "浪漫主义，有情怀", "能给别人带来希望和温暖"],
+            weaknesses: ["不切实际，容易空想", "对现实失望，容易逃避", "行动力弱，想得多做得少", "容易被现实打击，一蹶不振", "不懂得脚踏实地，容易眼高手低"],
+            advice: `<div><h4 class="font-bold text-indigo-800 mb-2">1. 心态建议：接受现实的不完美，也别放弃幻想</h4><p>现实确实很苦，但你也不必完全躲进梦里。可以有幻想，但也要学会面对现实。</p></div>`
+        },
+        workaholic: {
+            icon: "💼",
+            name: "WORKAHOLIC（工作狂）",
+            title: "工作就是我的全部",
+            desc: "不是我想卷，是工作能给我安全感。",
+            analysis: `<p>你是个不折不扣的工作狂，把工作当成了生活的全部。你不是想卷，你只是在工作中才能找到安全感和价值感。</p>`,
+            strengths: ["目标明确，执行力超强", "自律上进，永不放弃", "有规划，做事有条理", "责任心强，值得信赖", "抗压能力强，能扛事"],
+            weaknesses: ["工作和生活失衡，活得很累", "用工作逃避生活的问题", "不懂放松，容易 burnout", "对别人也很严格，容易得罪人", "忽略自己的健康和感受"],
+            advice: `<div><h4 class="font-bold text-teal-800 mb-2">1. 心态建议：工作不是生活的全部</h4><p>别把工作当成你的全部，生活还有很多美好的东西。学会工作，也要学会生活。</p></div>`
+        },
+        loner: {
+            icon: "🦉",
+            name: "LONER（独行者）",
+            title: "一个人吃饭、一个人看电影、一个人也很好",
+            desc: "不是孤僻，是享受孤独。",
+            analysis: `<p>你是个天生的独行者，习惯了一个人吃饭、一个人看电影、一个人旅行。你不是孤僻，你只是享受孤独。</p>`,
+            strengths: ["独立坚强，不依赖别人", "懂得独处，享受孤独", "内心强大，抗挫力强", "不随波逐流，有自己的节奏", "活得自在，不被别人的眼光绑架"],
+            weaknesses: ["社交圈小，容易被说“不合群”", "不擅长表达自己的感受", "遇到事习惯自己扛，不麻烦别人", "有时候太封闭，容易错过机会", "不懂得求助，活得很累"],
+            advice: `<div><h4 class="font-bold text-gray-800 mb-2">1. 心态建议：享受孤独，但也别拒绝陪伴</h4><p>一个人很好，但偶尔也可以和信任的人待在一起。不必强迫自己合群，但也别完全封闭自己。</p></div>`
+        },
+        rebel: {
+            icon: "✊",
+            name: "REBEL（叛逆者）",
+            title: "规则就是用来打破的",
+            desc: "不喜欢被束缚，不喜欢被定义，我就是我。",
+            analysis: `<p>你是个天生的叛逆者，不喜欢被规则束缚，不喜欢被别人定义。你不是故意和世界对着干，你只是想按自己的方式活。</p>`,
+            strengths: ["有主见，不随波逐流", "敢于打破常规，有创造力", "敢爱敢恨，活得真实", "有勇气，不害怕挑战", "能坚持自己的想法，不轻易妥协"],
+            weaknesses: ["有时候太叛逆，容易得罪人", "不喜欢被束缚，难以适应规则", "容易冲动，不考虑后果", "被贴上“叛逆”的标签，不被理解", "不懂得变通，容易吃亏"],
+            advice: `<div><h4 class="font-bold text-orange-800 mb-2">1. 心态建议：坚持自己，但也要学会变通</h4><p>不必完全打破规则，也不必完全被规则束缚。找到自己和规则之间的平衡点，才能活得更自在。</p></div>`
+        },
+        romantic: {
+            icon: "💕",
+            name: "ROMANTIC（恋爱脑）",
+            title: "爱情大过天，恋爱即全部",
+            desc: "为了爱情，可以放弃全世界。",
+            analysis: `<p>你是个天生的恋爱脑，一旦陷入爱情，就会把对方当成全世界。你不是傻，你只是太相信爱情，也太渴望被爱。</p>`,
+            strengths: ["深情专一，重情重义", "温柔体贴，懂得照顾人", "浪漫多情，会制造惊喜", "愿意为对方付出，不求回报", "能给对方满满的安全感"],
+            weaknesses: ["恋爱脑，容易失去自我", "为了爱情放弃原则和底线", "容易被爱情PUA，看不清现实", "情绪容易被对方影响，不稳定", "一旦失恋，容易一蹶不振"],
+            advice: `<div><h4 class="font-bold text-red-800 mb-2">1. 心态建议：爱情不是生活的全部</h4><p>别把爱情当成你的全部，你还有自己的生活、朋友和梦想。先爱自己，再爱别人。</p></div>`
+        },
+        cynic: {
+            icon: "😒",
+            name: "CYNIC（愤世嫉俗者）",
+            title: "看透一切，不相信美好",
+            desc: "世界烂透了，人性本恶，一切都是假的。",
+            analysis: `<p>你是个天生的愤世嫉俗者，看透了人性的阴暗和世界的虚伪。你不是消极，你只是太清醒，清醒到对一切都失望。</p>`,
+            strengths: ["清醒通透，看透人性", "不随波逐流，有自己的想法", "有原则，不轻易妥协", "不容易被PUA，有自己的判断", "内心强大，抗挫力强"],
+            weaknesses: ["对世界很失望，容易悲观", "不相信别人，防备心重", "嘴上不饶人，容易得罪人", "容易陷入负面情绪，难以自拔", "对一切都不抱希望，活得很累"],
+            advice: `<div><h4 class="font-bold text-gray-800 mb-2">1. 心态建议：接受世界的不完美，也别放弃对美好的期待</h4><p>世界确实不完美，但也不是完全没有美好。可以看透，但不必失望。</p></div>`
+        },
+        optimist: {
+            icon: "☀️",
+            name: "OPTIMIST（乐天派）",
+            title: "天塌下来，有高个的顶着",
+            desc: "凡事往好处想，没有什么过不去的坎。",
+            analysis: `<p>你是个天生的乐天派，凡事都往好处想。你不是傻，你只是不想让自己被负面情绪困住。</p>`,
+            strengths: ["乐观开朗，积极向上", "能给别人带来正能量", "抗压能力强，能扛事", "容易从挫折中走出来", "对未来有期待，不放弃希望"],
+            weaknesses: ["有时候太乐观，看不清现实", "对人性的阴暗缺乏防备", "容易被人利用，当成“好欺负”", "不懂得未雨绸缪，容易踩坑", "被人说“没心没肺”，不被理解"],
+            advice: `<div><h4 class="font-bold text-yellow-800 mb-2">1. 心态建议：保持乐观，但也要学会防备</h4><p>可以往好处想，但也要看清现实。乐观不是盲目，而是看清真相后依然热爱生活。</p></div>`
+        },
+        pessimist: {
+            icon: "🌧️",
+            name: "PESSIMIST（悲观主义者）",
+            title: "事情还没发生，我已经想到了最坏的结果",
+            desc: "提前做好最坏的打算，就不会太失望。",
+            analysis: `<p>你是个天生的悲观主义者，事情还没发生，你已经想到了最坏的结果。你不是消极，你只是怕失望，所以提前做好了准备。</p>`,
+            strengths: ["考虑周全，能提前规避风险", "抗压能力强，能扛事", "不容易被现实打击，心理准备充足", "做事谨慎，不容易出错", "对人性的阴暗有防备，不容易被骗"],
+            weaknesses: ["凡事往坏处想，容易焦虑", "情绪容易受影响，不稳定", "对未来不抱希望，活得很累", "容易错过机会，因为怕失败", "被人说“负能量”，不被理解"],
+            advice: `<div><h4 class="font-bold text-blue-800 mb-2">1. 心态建议：提前准备，但也别放弃期待</h4><p>可以提前做好最坏的打算，但也别放弃对好结果的期待。不是所有事情都会变坏。</p></div>`
+        },
+        overthinker: {
+            icon: "🤯",
+            name: "OVERTHINKER（过度思考者）",
+            title: "一件小事，能在脑子里演完一部连续剧",
+            desc: "想太多，是因为太在意。",
+            analysis: `<p>你是个天生的过度思考者，一件小事，你能在脑子里演完一部连续剧。你不是想太多，你只是太在意，也太敏感。</p>`,
+            strengths: ["心思细腻，考虑周全", "观察力强，能察觉到别人的情绪变化", "做事谨慎，不容易出错", "能提前预判问题，规避风险", "心思缜密，适合做规划和分析"],
+            weaknesses: ["过度思考，容易内耗", "一件小事反复琢磨，活得很累", "情绪容易受别人影响，不稳定", "容易误会别人，影响关系", "行动力弱，想得多做得少"],
+            advice: `<div><h4 class="font-bold text-purple-800 mb-2">1. 心态建议：别把所有事情都想明白</h4><p>有些事情，想不明白也没关系。别把自己困在脑子里，多出去走走，多做点事。</p></div>`
+        },
+        empath: {
+            icon: "💖",
+            name: "EMPATH（共情者）",
+            title: "别人的情绪，我感同身受",
+            desc: "你的快乐，我的快乐；你的痛苦，我的痛苦。",
+            analysis: `<p>你是个天生的共情者，别人的情绪你都能感同身受。你不是矫情，你只是太温柔，太懂得体谅别人。</p>`,
+            strengths: ["共情能力强，温柔善良", "懂得体谅别人，能成为很好的倾听者", "心思细腻，能察觉到别人的情绪变化", "心地善良，容易被打动", "能给别人带来温暖和安慰"],
+            weaknesses: ["容易被别人的情绪消耗", "分不清自己和别人的情绪", "容易因为别人的痛苦而难过", "抗压能力弱，容易被负面情绪影响", "容易被人当成“情绪垃圾桶”"],
+            advice: `<div><h4 class="font-bold text-pink-800 mb-2">1. 边界建议：分清自己和别人的情绪</h4><p>别人的情绪，是别人的课题，不必全部接过来。学会保护自己的情绪能量，别被别人的负面情绪消耗。</p></div>`
+        },
+        cold: {
+            icon: "🥶",
+            name: "COLD（冷漠者）",
+            title: "对一切都提不起兴趣，也不想被别人打扰",
+            desc: "不是冷漠，是不想被伤害。",
+            analysis: `<p>你是个天生的冷漠者，对一切都提不起兴趣，也不想被别人打扰。你不是冷血，你只是习惯了用冷漠当盾牌，保护自己不被伤害。</p>`,
+            strengths: ["情绪稳定，几乎不内耗", "不被别人的情绪影响", "边界感强，懂得拒绝", "内心强大，抗挫力强", "活得自在，不被别人的眼光绑架"],
+            weaknesses: ["容易被说“冷漠无情”", "不懂得表达自己的关心", "社交圈越来越小", "有时候太封闭，容易错过机会", "被人误会，不被理解"],
+            advice: `<div><h4 class="font-bold text-gray-800 mb-2">1. 心态建议：冷漠不是保护自己的唯一方式</h4><p>可以保护自己，但也不必完全封闭内心。偶尔对信任的人敞开心扉，你会发现世界没那么可怕。</p></div>`
+        }
+    };
+
+    let currentQuestions = easyQuestions;
+    let currentStep = 0;
+    let answers = [];
+    let isFullTest = false;
+
+    function startEasyTest() {
+        currentQuestions = easyQuestions;
+        isFullTest = false;
+        startTest();
+    }
+    function startFullTest() {
+        currentQuestions = fullQuestions;
+        isFullTest = true;
+        startTest();
+    }
+
+    function startTest() {
+        currentStep = 0;
+        answers = [];
+        document.getElementById('startScreen').style.display = 'none';
+        document.getElementById('questionScreen').style.display = 'block';
+        document.getElementById('progressContainer').style.display = 'block';
+        renderQuestion();
+        updateProgress();
+    }
+
+    function renderQuestion() {
+        const q = currentQuestions[currentStep];
+        const container = document.getElementById('questionContainer');
+        let html = `
+            <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-6">${q.q}</h2>
+            <div class="space-y-3">
+        `;
+        q.o.forEach((opt, i) => {
+            const sel = answers[currentStep] === i ? 'selected' : '';
+            html += `
+                <div class="option-card rounded-xl p-4 bg-gray-50 ${sel}" onclick="choose(${i})">
+                    <div class="flex items-center gap-3">
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 ${sel ? 'border-purple-600 bg-purple-600' : ''}">
+                            ${sel ? '<div class="w-2 h-2 bg-white rounded-full"></div>' : ''}
+                        </div>
+                        <div class="text-sm font-medium text-gray-700">${opt}</div>
+                    </div>
+                </div>
+            `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+        updateButtons();
+    }
+
+    function choose(idx) {
+        answers[currentStep] = idx;
+        renderQuestion();
+    }
+
+    function nextStep() {
+        if (answers[currentStep] === undefined) return;
+        if (currentStep < currentQuestions.length - 1) {
+            currentStep++;
+            renderQuestion();
+            updateProgress();
+        } else {
+            finishTest();
+        }
+    }
+
+    function prevStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            renderQuestion();
+            updateProgress();
+        }
+    }
+
+    function updateButtons() {
+        document.getElementById('prevBtn').style.visibility = currentStep > 0 ? 'visible' : 'hidden';
+        const canNext = answers[currentStep] !== undefined;
+        document.getElementById('nextBtn').style.opacity = canNext ? '1' : '0.5';
+        document.getElementById('nextBtn').disabled = !canNext;
+    }
+
+    function updateProgress() {
+        const pct = (currentStep / currentQuestions.length) * 100;
+        document.getElementById('progressBar').style.width = pct + '%';
+        document.getElementById('stepLabel').innerText = `步骤 ${currentStep + 1}/${currentQuestions.length}`;
+        document.getElementById('progressPercent').innerText = Math.round(pct) + '%';
+    }
+
+    function finishTest() {
+        document.getElementById('questionScreen').style.display = 'none';
+        document.getElementById('progressContainer').style.display = 'none';
+        document.getElementById('loadingScreen').style.display = 'block';
+        
+        setTimeout(() => {
+            calculateSBTI();
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.getElementById('reportScreen').style.display = 'block';
+            window.scrollTo(0,0);
+        }, 2000);
+    }
+
+    function calculateSBTI() {
+        // 统计各类型得分
+        const score = {};
+        Object.keys(sbtiTypes).forEach(type => score[type] = 0);
+        
+        answers.forEach((ans, idx) => {
+            const types = currentQuestions[idx].type;
+            if (Array.isArray(types[ans])) {
+                types[ans].forEach(t => score[t]++);
+            } else {
+                score[types[ans]]++;
+            }
+        });
+        
+        // 取最高分类型
+        const maxType = Object.keys(score).reduce((a,b)=>score[a]>score[b]?a:b);
+        const res = sbtiTypes[maxType];
+
+        // 渲染结果
+        document.getElementById('typeIcon').innerText = res.icon;
+        document.getElementById('typeBadge').innerText = `你的类型：${res.name}`;
+        document.getElementById('typeName').innerText = res.title;
+        document.getElementById('typeDesc').innerText = res.desc;
+        document.getElementById('fullAnalysis').innerHTML = res.analysis;
+        
+        // 渲染优势
+        document.getElementById('strengthsList').innerHTML = res.strengths.map(s => `<li>• ${s}</li>`).join('');
+        // 渲染盲点
+        document.getElementById('weaknessesList').innerHTML = res.weaknesses.map(w => `<li>• ${w}</li>`).join('');
+        // 渲染建议
+        document.getElementById('adviceList').innerHTML = res.advice;
+    }
+
+    function restart() {
+        document.getElementById('reportScreen').style.display = 'none';
+        document.getElementById('startScreen').style.display = 'block';
+        window.scrollTo(0,0);
+    }
+</script>
+</body>
+</html>
