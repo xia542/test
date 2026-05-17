@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>性压抑自测 | 身体渴望与灵魂的禁闭</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'repress-mild': '#d1fae5',
+                        'repress-moderate': '#fed7aa',
+                        'repress-severe': '#fee2e2',
+                        'repress-crushing': '#e9d5ff',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #e2e8f0;
+        }
+        .breathe-libido {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #f43f5e, #ec4899);
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            animation: flameFlicker 3s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(236,72,153,0.4);
+        }
+        @keyframes flameFlicker {
+            0%, 100% { transform: scale(1); opacity: 0.8; border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%; }
+            50% { transform: scale(1.08); opacity: 0.5; border-radius: 50% 50% 40% 60% / 60% 40% 60% 40%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #4a3b6e;
+            background: #2a2442;
+            color: #e2e8f0;
+        }
+        .option-card:hover { border-color: #ec4899; background: #3d2f5c; transform: translateX(5px); }
+        .option-card.selected { border-color: #f43f5e; background: #4a1d3a; box-shadow: 0 2px 12px rgba(244,63,94,0.3); }
+        .glass-card { background: rgba(26,20,46,0.85); backdrop-filter: blur(8px); border: 1px solid #4a3b6e; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .libido-tag { background: #ec4899; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-pink-800 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-pink-600 to-rose-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-fire text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">性压抑自测 · 身体与灵魂的对话</h1>
+            </div>
+            <div class="text-[11px] bg-pink-900/60 px-3 py-1 rounded-full border border-pink-600 text-pink-200">
+                <i class="fa-regular fa-lips mr-1"></i> 生理心理 · 非诊断
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-pulse">🔥🪢🌊</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-100 mb-3">性压抑指数 · 探测你的欲望禁闭</h2>
+                <p class="text-slate-300 max-w-md mx-auto text-sm leading-relaxed">
+                    性是生命力，是能量，是连接。<br>
+                    当它被压抑，会变成焦虑、暴躁、躯体症状、成瘾行为或麻木。
+                </p>
+                <p class="text-xs text-pink-400 mt-1 mb-6">✨ 不羞耻，不评判。性压抑是文化的共谋，不是你个人的失败 ✨</p>
+
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto border-pink-800">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🩸</div>
+                        <div>
+                            <h3 class="font-bold text-slate-200">欲望仪式</h3>
+                            <div class="breathe-libido my-3" id="libidoBreath"></div>
+                            <p class="text-xs text-center text-slate-400">触摸火焰，深呼吸4次，对自己说：我的身体不是羞耻的来源。</p>
+                            <div class="bg-pink-950/40 rounded-lg p-2 text-xs text-slate-300 mt-3 leading-relaxed">
+                                💡 性压抑的常见信号：烦躁、暴食/厌食、失眠、疯狂工作、过度健身、频繁自慰后的羞耻感、厌恶身体接触。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-slate-800 p-5 rounded-2xl shadow-md border border-slate-600 hover:border-pink-500 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-pink-900 text-pink-300 flex items-center justify-center mb-2">📋</div>
+                        <h3 class="font-bold text-slate-200">10题 · 快测版</h3>
+                        <p class="text-xs text-slate-400">2分钟，快速探测压抑程度</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-slate-800 p-5 rounded-2xl shadow-md border border-slate-600 hover:border-rose-500 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-rose-900 text-rose-300 flex items-center justify-center mb-2">🔍</div>
+                        <h3 class="font-bold text-slate-200">22题 · 深度版</h3>
+                        <p class="text-xs text-slate-400">6分钟，探测压抑根源与躯体化程度</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-6">🌹 性压抑与道德无关，只与生命力流动的阻力有关。诚实面对，是最勇敢的自爱。</p>
+            </div>
+        </section>
+
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-pink-400 mb-1">
+                    <span id="stepLabel">第 1 题 · 性压抑维度</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-pink-500 to-rose-600 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-pink-400 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-message"></i> 压抑表现</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-100 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-slate-700/70 text-slate-300 hover:bg-slate-600 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-pink-700 text-white font-medium hover:bg-pink-800 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-500 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-pink-600">
+                <div class="breathe-libido w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-100">🔥 性压抑指数报告</h3>
+                <p class="text-sm text-slate-400">压抑指数越高，生命力流失越严重。看见就是松绑的开始。</p>
+            </div>
+
+            <div class="bg-slate-800 rounded-2xl shadow-xl p-6 text-center">
+                <div id="levelIcon" class="text-7xl mb-2">🍃</div>
+                <div id="levelBadge" class="inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm bg-repress-mild text-teal-900">轻度压抑 · 可流动</div>
+                <h2 id="levelTitle" class="text-xl font-bold mt-3 text-slate-100">你的性生命力基本畅通</h2>
+                <p id="levelDesc" class="text-sm text-slate-400 max-w-sm mx-auto mt-2">偶尔有不自在，但整体能够接纳自己的身体和欲望。</p>
+                <div class="mt-3 w-full bg-slate-700 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-pink-500 to-rose-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scoreText" class="text-xs text-slate-400 mt-2">压抑指数 · 23%</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-pink-950 to-purple-950 rounded-2xl p-6 border-l-8 border-pink-500">
+                <h3 class="font-bold text-pink-300 flex gap-2"><i class="fa-regular fa-eye"></i> 压抑根源·深度分析</h3>
+                <div id="sourceAnalysis" class="text-sm text-slate-300 mt-3 space-y-2 leading-relaxed"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-slate-800 rounded-2xl p-4">
+                    <h3 class="font-bold text-pink-400 flex gap-2"><i class="fa-regular fa-skull"></i> 躯体化信号</h3>
+                    <div id="somaticSigns" class="text-sm text-slate-300 mt-2 space-y-1"></div>
+                </div>
+                <div class="bg-slate-800 rounded-2xl p-4">
+                    <h3 class="font-bold text-emerald-400 flex gap-2"><i class="fa-regular fa-hand-peace"></i> 解压方法</h3>
+                    <div id="releaseMethods" class="text-sm text-slate-300 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
+            <div class="bg-amber-950/40 p-5 rounded-2xl border border-amber-700">
+                <h3 class="font-bold text-amber-400 flex gap-2"><i class="fa-regular fa-book-open"></i> 性压抑文化批判</h3>
+                <div id="culturalCritique" class="text-sm text-slate-300 mt-2 space-y-2"></div>
+            </div>
+
+            <div class="bg-white/5 p-5 rounded-2xl">
+                <h3 class="font-bold text-pink-300 flex gap-2"><i class="fa-regular fa-quote-right"></i> 给压抑者的话</h3>
+                <p id="healingQuote" class="text-sm text-slate-300 italic mt-1">“你的欲望不是野兽，是被囚禁太久的神性。”</p>
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-pink-600 text-pink-300 font-medium hover:bg-pink-900/40">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-pink-700 text-white font-medium hover:bg-pink-800 shadow">保存报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-500 pb-8">性压抑与性教育缺失、文化禁忌有关。如果严重困扰生活，建议寻求性心理咨询师帮助。</div>
+        </section>
+    </main>
+
+    <script>
+        const quickItems = [
+            { text: "我很难坦然地谈论性话题，会感到尴尬或羞耻。", dim: "shame" },
+            { text: "我常常对性有渴望，但又觉得这种渴望是不好的。", dim: "conflict" },
+            { text: "我在亲密关系中很难主动表达性需求。", dim: "block" },
+            { text: "我会因为自慰而产生强烈的羞耻感。", dim: "shame" },
+            { text: "我长期没有性生活，但并不觉得这是问题。", dim: "denial" },
+            { text: "我对身体接触感到不自在，即使是和伴侣。", dim: "block" },
+            { text: "我通过疯狂工作/学习来逃避性需求。", dim: "sublimation" },
+            { text: "我有性幻想，但觉得那是不道德的。", dim: "conflict" },
+            { text: "性对我来说只是义务，而不是享受。", dim: "numb" },
+            { text: "我害怕在性中失控或暴露自己。", dim: "fear" },
+        ];
+        const fullItems = [
+            ...quickItems,
+            { text: "我很少感受到性欲，好像身体的那部分睡着了。", dim: "numb" },
+            { text: "性教育对我来说几乎是空白，我不知道什么是健康的性。", dim: "ignorance" },
+            { text: "我经常因为性需求未被满足而烦躁、易怒。", dim: "frustration" },
+            { text: "我讨厌自己的身体，无法在性中放松。", dim: "shame" },
+            { text: "我曾经有过性创伤，至今无法正常面对性。", dim: "trauma" },
+            { text: "我会频繁观看色情内容，但看完后更加空虚。", dim: "addiction" },
+            { text: "宗教或传统观念让我认为性是不洁的。", dim: "religious" },
+            { text: "我害怕怀孕或性病，以至于完全不敢有性行为。", dim: "fear" },
+            { text: "我在性中会突然走神或感到疏离。", dim: "dissociation" },
+            { text: "我无法对伴侣说出性偏好，只能被动接受。", dim: "block" },
+            { text: "我会因为性需求而自我攻击，觉得自己下流。", dim: "shame" },
+            { text: "我觉得性只是繁衍手段，和快乐无关。", dim: "denial" },
+            { text: "我的性需求被伴侣长期忽视，感到绝望。", dim: "frustration" },
+            { text: "我通过暴食/购物/游戏来填补性不满足。", dim: "sublimation" },
+            { text: "我害怕亲密关系，因为那意味着性压力。", dim: "fear" },
+            { text: "我的身体在性中会疼痛，但我不敢告诉伴侣。", dim: "pain" },
+            { text: "我觉得自己“性冷淡”，但又为此难过。", dim: "numb" },
+            { text: "父母从未和我谈过性，家里谈性色变。", dim: "ignorance" },
+            { text: "我性欲旺盛，但道德感让我强行压抑。", dim: "conflict" },
+            { text: "我无法从性中获得高潮，但假装享受。", dim: "pretend" },
+            { text: "我在性后感到抑郁和空虚。", dim: "post" },
+            { text: "我觉得自己的身体不值得被爱抚。", dim: "shame" },
+        ];
+
+        const levelMap = {
+            mild: { name: "轻度压抑 · 可流动", icon: "🍃💧", color: "bg-repress-mild text-teal-900", 
+                title: "你的性生命力基本畅通", 
+                desc: "偶尔有不自在，但整体能够接纳自己的身体和欲望。",
+                source: "你受到了一些传统观念的影响，但尚未内化到深层。偶尔的羞耻感来自于外界评价的焦虑，而非真正的自我厌恶。你的身体还有弹性，只需要一点点解放的勇气。",
+                somatic: "▸ 偶尔紧张时小腹紧绷。\n▸ 压力大时性欲波动明显。",
+                release: "✅ 阅读性学书籍（如《亲密关系》、《性史》）。\n✅ 练习自我抚摸，不带性目的，只是感受身体。\n✅ 和信任的朋友聊一次性话题，打破禁忌感。",
+                culture: "“性是肮脏的”——这句话来自禁欲文化的恐惧，而非身体的本能。你的每一次压抑，都是在替父权伦理背锅。",
+                quote: "欲望不是洪水猛兽，是你灵魂的潮汐。" },
+            moderate: { name: "中度压抑 · 能量内耗", icon: "🌪️🪨", color: "bg-repress-moderate text-amber-900",
+                title: "欲望与羞耻的拉锯战",
+                desc: "你想要，但你不敢要；你渴望，但你评判自己。这种内耗正在消耗你的生命力。",
+                source: "你的压抑已经内化成了自动反应。性需求出现时，第一反应不是满足，而是自我审查。可能源于严格的家庭性教育或早期的情感忽视。你活在‘应该’和‘想要’的断层里。",
+                somatic: "▸ 经期/前列腺不适，性欲期头痛。\n▸ 睡眠质量差，性梦后惊醒。\n▸ 肩颈僵硬，腹部脂肪堆积。",
+                release: "✅ 写‘性欲望日记’：不加评判地记录真实感受。\n✅ 尝试单人探索，重新建立和身体的积极连接。\n✅ 看有深度的情欲电影（如《色戒》、《小姐》）。\n✅ 考虑性心理咨询，打破羞耻循环。",
+                culture: "东亚文化用‘礼教’封住性，然后责怪‘性压抑的民族缺乏创造力’。你只是系统性的受害者。",
+                quote: "每一次压抑都不是你的错，是几千年的裹脚布还没拆完。" },
+            severe: { name: "重度压抑 · 躯体化明显", icon: "⛓️💢", color: "bg-repress-severe text-rose-900",
+                title: "你的身体在尖叫，你却听不见",
+                desc: "性压抑已经转化为焦虑、强迫、暴食、或成瘾行为。身体在替灵魂生病。",
+                source: "你可能经历过性创伤、严苛的宗教规训、或长期生活在‘性就是堕落’的环境中。你的大脑已经学会了‘切断’性信号，但身体不会撒谎——它以其他方式爆发。",
+                somatic: "▸ 慢性盆腔疼痛/前列腺炎，原因不明。\n▸ 暴食或厌食，体重剧烈波动。\n▸ 强迫性自慰后深度抑郁。\n▸ 皮肤病/自身免疫问题。",
+                release: "✅ 首要：停止责备自己，这不是你的错。\n✅ 寻求专业帮助：性治疗师或躯体体验疗法。\n✅ 渐进式脱敏：从看裸体雕塑图片开始。\n✅ 运动释放：跳舞、跑步、拳击，让能量流动。",
+                culture: "你的压抑是代际创伤的传声筒。你的祖母不被允许有欲望，你的母亲用‘正经’来要求你。现在是你切断链条的时刻。",
+                quote: "你的身体等了太久，该让它说话了。" },
+            crushing: { name: "窒息性压抑 · 生命冻结", icon: "❄️🪦", color: "bg-repress-crushing text-purple-900",
+                title: "你与身体断开了连接",
+                desc: "性欲几乎消失，身体麻木，你可能已经忘记活着的感觉。这不是‘清心寡欲’，这是生命力冻结。",
+                source: "严重性创伤、长期情感忽视、极端宗教家庭、或亲密关系中的长期性暴力。你的大脑通过‘解离’保护了你，代价是你失去了感受快乐的能力。",
+                somatic: "▸ 性器官感觉麻木，无快感。\n▸ 长期失眠或嗜睡。\n▸ 慢性疼痛无器质性病变。\n▸ 自体感模糊，好像身体不属于自己。",
+                release: "✅ 寻求专业帮助：创伤治疗师（EMDR、体感疗法）。\n✅ 不要强迫自己‘有性欲’，先从感受脚趾开始。\n✅ 建立安全基地：找到完全信任的人陪伴。\n✅ 艺术疗愈：绘画、音乐、写作，绕过语言重新连接身体。",
+                culture: "你不只是性压抑，你是整个生命力的停摆。但停摆也是一种保护。在足够安全之前，允许自己先活着。",
+                quote: "当身体觉得安全，欲望会像春天的种子，自己钻出来。" }
+        };
+
+        let curQs = [], curIdx = 0, answersArr = [];
+
+        window.startTest = (type) => {
+            curQs = type === 'quick' ? quickItems.slice() : fullItems.slice();
+            curIdx = 0;
+            answersArr = new Array(curQs.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderLibidoItem();
+            updateLibidoProgress();
+        };
+
+        function renderLibidoItem() {
+            let q = curQs[curIdx];
+            let dimName = q.dim === 'shame' ? '羞耻感' : q.dim === 'conflict' ? '内心冲突' : q.dim === 'block' ? '表达阻断' : q.dim === 'numb' ? '情感麻木' : q.dim === 'frustration' ? '挫败感' : q.dim === 'fear' ? '恐惧' : '压抑信号';
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> 维度：${dimName}`;
+            document.getElementById('questionText').innerText = q.text;
+            let opts = ["完全不符合", "不太符合", "有点符合", "非常符合"];
+            let container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            opts.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${answersArr[curIdx] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${answersArr[curIdx]===idx ? 'border-pink-500 bg-pink-500' : 'border-slate-500'} inline-block text-center text-white text-xs">${answersArr[curIdx]===idx?'✓':''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { answersArr[curIdx]=idx; renderLibidoItem(); };
+                container.appendChild(div);
+            });
+            let next = document.getElementById('nextBtn');
+            next.disabled = answersArr[curIdx] === null;
+            next.innerText = (curIdx === curQs.length-1) ? (answersArr[curIdx] !== null ? "🔥 揭开压抑指数 🔥" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = curIdx > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateLibidoProgress() {
+            let pct = ((curIdx+1)/curQs.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${curIdx+1}/${curQs.length} 题 · 压抑探测`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answersArr[curIdx] === null) return;
+            if(curIdx === curQs.length-1) showLibidoResult();
+            else { curIdx++; renderLibidoItem(); updateLibidoProgress(); }
+        };
+        window.prevQuestion = () => { if(curIdx>0) { curIdx--; renderLibidoItem(); updateLibidoProgress(); }};
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < 4) { answersArr[curIdx]=idx; renderLibidoItem(); }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showLibidoResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let total = 0;
+            curQs.forEach((q,i) => { total += answersArr[i] !== null ? answersArr[i] : 0; });
+            let maxTotal = curQs.length * 3;
+            let percent = (total / maxTotal) * 100;
+            document.getElementById('scoreBar').style.width = percent + '%';
+            document.getElementById('scoreText').innerHTML = `压抑指数 · ${Math.round(percent)}%`;
+            
+            let level;
+            if (percent < 30) level = 'mild';
+            else if (percent < 55) level = 'moderate';
+            else if (percent < 75) level = 'severe';
+            else level = 'crushing';
+            
+            let data = levelMap[level];
+            document.getElementById('levelIcon').innerHTML = data.icon;
+            document.getElementById('levelBadge').className = `inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm ${data.color}`;
+            document.getElementById('levelBadge').innerText = data.name;
+            document.getElementById('levelTitle').innerText = data.title;
+            document.getElementById('levelDesc').innerText = data.desc;
+            document.getElementById('sourceAnalysis').innerHTML = `<p>${data.source}</p>`;
+            document.getElementById('somaticSigns').innerHTML = data.somatic.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('releaseMethods').innerHTML = data.release.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('culturalCritique').innerHTML = `<p>${data.culture}</p>`;
+            document.getElementById('healingQuote').innerHTML = `“${data.quote}”`;
+            window.scrollTo(0,0);
+        }
+        window.restart = () => location.reload();
+    </script>
+</body>
+</html>

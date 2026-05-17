@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>当代青年精神状态检测 | 你处于哪个赛博纪元</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        chaos: { 50: '#fdf4ff', 100: '#fae8ff', 200: '#f5d0fe', 300: '#f0abfc', 400: '#e879f9', 500: '#d946ef', 600: '#c026d3' },
+                        cyber: { 50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0', 300: '#6ee7b7', 400: '#34d399', 500: '#10b981', 600: '#059669' },
+                        sunset: { 50: '#fff7ed', 100: '#ffedd5', 200: '#fed7aa', 300: '#fdba74', 400: '#fb923c', 500: '#f97316', 600: '#ea580c' }
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #fef3c7 0%, #fce7f3 100%); min-height: 100vh; }
+        .glitch-text {
+            text-shadow: 2px 0 0 #ff00c1, -2px 0 0 #00fff9;
+            animation: glitch 0.3s infinite;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 0 0 #ff00c1, -2px 0 0 #00fff9; }
+            50% { text-shadow: -2px 0 0 #ff00c1, 2px 0 0 #00fff9; }
+            100% { text-shadow: 2px 0 0 #ff00c1, -2px 0 0 #00fff9; }
+        }
+        .breathe-gif {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: linear-gradient(135deg, #f0abfc 0%, #e879f9 100%);
+            margin: 0 auto;
+            animation: spinBreath 4s infinite ease-in-out;
+            cursor: pointer;
+        }
+        @keyframes spinBreath {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.4; }
+        }
+        .option-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #f0abfc;
+            background: rgba(255,255,240,0.8);
+            cursor: pointer;
+        }
+        .option-card:hover { transform: translateX(6px); background: #fdf4ff; border-color: #d946ef; }
+        .option-card.selected {
+            border-color: #d946ef;
+            background: #fae8ff;
+            box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.2);
+        }
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .glass-card { background: rgba(255, 255, 245, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(216, 180, 254, 0.5); }
+        .btn-neon {
+            transition: all 0.2s;
+            box-shadow: 0 0 5px #e879f9;
+        }
+        .btn-neon:active { transform: scale(0.96); }
+        .hot-tag {
+            background: linear-gradient(135deg, #facc15, #f97316);
+            color: #1e293b;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-cyber-200 shadow-lg">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyber-400 to-chaos-500 flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-face-surprise"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-chaos-600 to-sunset-500 bg-clip-text text-transparent">当代青年精神状态检测</h1>
+            </div>
+            <div class="text-xs bg-white/80 px-3 py-1 rounded-full border border-chaos-200">
+                <i class="fa-solid fa-tower-cell mr-1"></i> 全网热梗 · 纯属整活
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-24">
+
+        <!-- 欢迎页：赛博蹦迪 -->
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-7xl mb-4 animate-bounce inline-block">🎭💥🤯</div>
+                <h2 class="text-2xl md:text-3xl font-black text-slate-800 mb-3 tracking-tight">测测你处在哪个<span class="bg-gradient-to-r from-chaos-500 to-sunset-500 bg-clip-text text-transparent glitch-text">「精神状态纪元」</span></h2>
+                <p class="text-slate-600 max-w-md mx-auto leading-loose mb-2">
+                    奥德赛漂流？乙驼祥时期？还是赛博朋克2077发疯中？<br>
+                    这不是心理诊断，这是互联网嘴替——你的精神状态全平台同步。
+                </p>
+                <p class="text-xs text-purple-400 mb-8">✨ 纯幽默自测 · 博你一笑 · 如有雷同纯属命中注定 ✨</p>
+
+                <!-- 热梗沙雕卡 -->
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto border border-chaos-300">
+                    <div class="flex gap-3 items-start">
+                        <div class="text-3xl">🍜</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 mb-1">测前玄学仪式</h3>
+                            <div class="breathe-gif mb-2" id="crazyCircle"></div>
+                            <p class="text-xs text-center text-slate-500 mb-2">点击圆圈，跟着节奏摇头（4秒吸气→4秒憋住→4秒笑出声）</p>
+                            <div class="bg-yellow-100/70 rounded-lg p-2 text-sm text-slate-700">
+                                💡 本测允许：上班摸鱼做 / 厕所划水做 / 边吃薯片边做。<br>
+                                🚫 禁止：当真正诊断、当辞职依据、发给老板看（除非你想提前进入“大萧条时期”）。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 两个测试入口，名字也要整活 -->
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group p-5 bg-white rounded-2xl shadow-lg border-2 border-chaos-200 hover:border-cyber-400 hover:scale-[1.02] transition-all text-left">
+                        <div class="w-10 h-10 rounded-full bg-chaos-100 text-chaos-600 flex items-center justify-center mb-3 group-hover:rotate-12 transition">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">8题 · 快速摸鱼版</h3>
+                        <p class="text-xs text-slate-400">2分钟，测你今日发疯等级</p>
+                        <span class="inline-block mt-2 text-2xs bg-sunset-100 px-2 py-0.5 rounded-full text-sunset-600">🔥 热梗浓度MAX</span>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group p-5 bg-white rounded-2xl shadow-lg border-2 border-cyber-200 hover:border-chaos-400 hover:scale-[1.02] transition-all text-left">
+                        <div class="w-10 h-10 rounded-full bg-cyber-100 text-cyber-600 flex items-center justify-center mb-3 group-hover:rotate-12 transition">
+                            <i class="fa-solid fa-circle-radiation"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800">18题 · 赛博完整版</h3>
+                        <p class="text-xs text-slate-400">5分钟，解锁你的专属纪元+专属BGM梗</p>
+                        <span class="inline-block mt-2 text-2xs bg-chaos-100 px-2 py-0.5 rounded-full text-chaos-600">🎮 隐藏彩蛋</span>
+                    </button>
+                </div>
+                <p class="text-center text-[10px] text-slate-400 mt-8">⚠️ 本测试仅供娱乐，认真你就“奥德赛”了 ⚠️</p>
+            </div>
+        </section>
+
+        <!-- 测试页：风格狂野一点 -->
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-6">
+                <div class="flex justify-between text-xs font-mono text-purple-600 mb-2">
+                    <span id="stepLabel"><i class="fa-regular fa-clock"></i> 第 1 问</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-chaos-500 to-cyber-500 h-3 rounded-full transition-all duration-500" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl shadow-2xl p-6 md:p-8 mb-4 border border-chaos-200">
+                <div class="mb-2 text-xs font-bold text-chaos-600 uppercase tracking-wider flex items-center gap-2" id="categoryLabel">
+                    <i class="fa-regular fa-face-grin-tongue-squint"></i> 精神状态维度
+                </div>
+                <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 mb-6 leading-relaxed" id="questionText">加载梗中...</h2>
+                <div class="space-y-3" id="optionsContainer"></div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="window.prevQuestion()" id="prevBtn" class="px-5 py-2 rounded-xl bg-white/60 text-slate-500 hover:bg-chaos-100 transition-all text-sm border border-chaos-200" style="visibility:hidden;">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> 回溯
+                </button>
+                <button onclick="window.nextQuestion()" id="nextBtn" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-chaos-600 to-sunset-500 text-white font-bold hover:shadow-xl transition-all text-sm disabled:opacity-40 btn-neon">
+                    下一梗 <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+            <p class="text-center text-xs text-slate-400 mt-6">
+                🎮 键盘侠专用：<kbd>1</kbd>~<kbd>4</kbd>选选项，<kbd>Enter</kbd>下一题
+            </p>
+        </section>
+
+        <!-- 结果页：史诗级精神状态报告 -->
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <!-- 情绪缓冲 但用幽默 -->
+            <div class="glass-card rounded-2xl border border-chaos-300 p-6 text-center">
+                <div class="flex justify-center mb-3">
+                    <div class="breathe-gif w-20 h-20" id="resultBreath"></div>
+                </div>
+                <h3 class="text-xl font-black text-slate-800">📢 恭喜你撑到了结果页！</h3>
+                <p class="text-slate-600 text-sm">没有被社会毒打退出，也没有中途崩溃，你已经赢了80%的现代人。</p>
+                <div class="bg-amber-100/50 rounded-xl p-3 mt-3 text-xs text-amber-800">
+                    友情提示：以下内容纯属幽默解构，你的精神状态无论多离谱，都是限量版。
+                </div>
+            </div>
+
+            <!-- 结果核心：赛博牌匾 -->
+            <div class="bg-white/80 rounded-2xl shadow-2xl p-6 backdrop-blur-sm border-t-8 border-chaos-400">
+                <div class="flex flex-col items-center">
+                    <div id="eraIcon" class="text-7xl mb-2">🤡</div>
+                    <div id="eraBadge" class="hot-tag px-5 py-2 rounded-full text-sm font-black mb-4 shadow-md">奥德赛时期</div>
+                    <h2 id="eraTitle" class="text-2xl font-black text-slate-800 mb-2 text-center">漂泊在寻找自我的海上</h2>
+                    <p id="eraDesc" class="text-sm text-slate-600 text-center max-w-md leading-relaxed"></p>
+                    <div class="mt-4 bg-slate-100 rounded-full px-4 py-1 text-xs font-mono">
+                        <span id="scoreRing">精神状态指数: --</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 维度雷达（整活版） -->
+            <div class="glass-card rounded-2xl p-6">
+                <h3 class="font-black text-slate-800 mb-3 flex items-center gap-2"><i class="fa-solid fa-chart-simple"></i> 你的「发疯六边形」</h3>
+                <div class="space-y-3" id="dimensionBars"></div>
+                <p class="text-center text-[11px] text-slate-400 mt-3">数值越高，该属性越炸裂</p>
+            </div>
+
+            <!-- 专属“梗”建议 -->
+            <div class="bg-gradient-to-r from-fuchsia-100 to-orange-100 rounded-2xl p-6 border border-chaos-300">
+                <h3 class="font-black text-slate-800 mb-3 flex items-center gap-2"><i class="fa-solid fa-mask"></i> 给你的「赛博生存指南」</h3>
+                <div id="jokeAdvice" class="space-y-2 text-sm text-slate-700"></div>
+                <div class="mt-4 text-xs text-center text-purple-600">✨ 记住：发疯不是病，是互联网新时代的自我保护色 ✨</div>
+            </div>
+
+            <!-- 热梗彩蛋库 -->
+            <div class="bg-white rounded-2xl p-5 border border-sunset-200">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-regular fa-newspaper"></i> 同时代病友金句</h3>
+                <div id="hotQuote" class="italic text-slate-500 text-sm bg-slate-50 p-3 rounded-xl mt-2">“感觉身体被掏空，但灵魂还在赛博蹦迪”</div>
+                <p class="text-right text-[10px] text-slate-400 mt-2">—— 来自同一纪元的网友</p>
+            </div>
+
+            <!-- 紧急玩梗提醒 -->
+            <div class="bg-yellow-50 border-l-8 border-yellow-400 p-4 rounded-2xl text-xs text-slate-600">
+                <i class="fa-regular fa-lightbulb"></i> 认真建议：如果最近情绪真的很糟糕，不要只靠玩梗撑着。该找朋友发疯就找朋友，该找心理咨询师就去找。赛博拥抱也是拥抱。
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+                <button onclick="window.restart()" class="px-6 py-3 rounded-xl border-2 border-chaos-300 text-chaos-700 font-bold hover:bg-chaos-100 transition-all">
+                    <i class="fa-solid fa-arrow-rotate-left mr-2"></i> 重新检测
+                </button>
+                <button onclick="window.print()" class="px-6 py-3 rounded-xl bg-slate-800 text-white font-bold hover:bg-slate-900 transition-all shadow-md">
+                    <i class="fa-regular fa-image mr-2"></i> 截图发朋友圈
+                </button>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 mt-6">🤖 本AI绝对不存储你的精神状态，因为服务器也没料到你这么疯。</div>
+        </section>
+    </main>
+
+    <script>
+        // ==================== 整活题库 ====================
+        const quickQuestions = [
+            { id: 1, cat: "漂泊浓度", text: "最近一个月，你是否感觉自己在“人生海海”里漂流，不清楚自己到底是主角还是NPC？", opts: ["我是主角", "偶尔迷茫", "纯纯NPC", "已漂流至公海"] },
+            { id: 2, cat: "发疯指数", text: "看到工作/学习消息时，你的第一反应是？", opts: ["平静处理", "叹口气", "想砸手机", "直接转发到“赛博精神病院”群"] },
+            { id: 3, cat: "乙驼祥数值", text: "你是否经常感觉自己像骆驼祥子+AI机器人混血——拼命拉车但永远买不起属于自己的“电子黄包车”？", opts: ["从未", "偶尔emo", "经常自嘲", "我就是祥子本祥"] },
+            { id: 4, cat: "滑铁卢心态", text: "当你全力以赴做一件事却搞砸后，你的心态是？", opts: ["再试试", "短暂崩溃", "躺平三天", "直接进入“大萧条时期”并改写维基百科"] },
+            { id: 5, cat: "赛博依赖", text: "你能离开手机/网络超过2小时吗？", opts: ["轻松", "有点焦虑", "不可能", "手机是我电子义体，离开就2077了"] },
+            { id: 6, cat: "奥尔良信念", text: "当你处于低谷时，是否会突然燃起‘我还能救一下’的奥尔良烤翅般的热血？", opts: ["经常燃", "偶尔", "只在深夜", "燃过，但已冷却"] },
+            { id: 7, cat: "发疯传染力", text: "你最近一个月转发“精神状态”相关梗图的频率？", opts: ["0次", "1-3次", "每天1次", "我就是梗图本身"] },
+            { id: 8, cat: "最终审判", text: "综合来看，你的2025春季精神状态用哪个词形容最贴切？", opts: ["岁月静好", "淡淡疯感", "彻底疯狂", "已重生为液态赛博幽灵"] }
+        ];
+
+        const fullQuestions = [
+            ...quickQuestions,
+            { id: 9, cat: "奥德赛", text: "你是否经常在深夜思考‘我从哪里来，要到哪里去，为什么明天的会还没取消’？", opts: ["从不", "偶尔哲思", "经常困扰", "奥德赛每天都在上演"] },
+            { id: 10, cat: "乙驼祥", text: "努力了但结果依然不如预期时，你觉得自己像？", opts: ["普通奋斗人", "骆驼祥子", "祥子+骡子", "乙驼祥之电子版"] },
+            { id: 11, cat: "滑铁卢", text: "遇到重大失败时，你在心里如何描述这件事？", opts: ["小挫折", "滑铁卢", "人生分水岭", "直接写进墓志铭"] },
+            { id: 12, cat: "大萧条", text: "情绪低落时，你会持续多久？", opts: ["半天", "1-2天", "一周", "感觉进入历史课本的大萧条"] },
+            { id: 13, cat: "赛博朋克", text: "你是否觉得人类应该通过义体改造来提升工作效率？", opts: ["拒绝", "考虑过", "很想", "我现在就想把脑子插上USB"] },
+            { id: 14, cat: "奥尔良", text: "即使生活一团糟，你是否相信未来会有“奥尔良时期”般的反转高光？", opts: ["坚信", "半信半疑", "不太信", "只信麦辣鸡翅"] },
+            { id: 15, cat: "梗王", text: "你平时造梗/接梗的速度？", opts: ["慢半拍", "普通", "很快", "我就是行走的梗库"] },
+            { id: 16, cat: "电子羊", text: "如果你梦见电子羊，你会？", opts: ["无视", "发朋友圈", "跟羊对话", "觉得自己是仿生人"] },
+            { id: 17, cat: "幸存者偏差", text: "看到同龄人成功，你的内心OS？", opts: ["祝福", "羡慕", "焦虑", "他们肯定偷偷植入了赛博义体"] },
+            { id: 18, cat: "最终纪元", text: "假如精神状态可以充值，你愿意？", opts: ["不充", "小充6块", "氪金改命", "直接卖肾买精神稳定器"] }
+        ];
+
+        const catMapping = {
+            "漂泊浓度": "🌊 奥德赛漂流度",
+            "发疯指数": "🤯 即时发疯值",
+            "乙驼祥数值": "🐫 乙驼祥负重感",
+            "滑铁卢心态": "⚔️ 滑铁卢惨烈度",
+            "赛博依赖": "🦾 赛博义体依赖",
+            "奥尔良信念": "🍗 奥尔良回血热",
+            "发疯传染力": "📱 梗图传播指数",
+            "最终审判": "🔮 精神状态熵值",
+            "奥德赛": "🚢 奥德赛时期",
+            "大萧条": "📉 大萧条指数",
+            "赛博朋克": "🎮 赛博朋克2077化",
+            "电子羊": "🐏 仿生人迷思"
+        };
+
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let answers = [];
+        let isQuick = false;
+
+        // 呼吸动画（只是视觉）
+        function bindCrazyCircle() {
+            const circles = document.querySelectorAll('.breathe-gif');
+            circles.forEach(c => {
+                if(!c.hasAttribute('data-bound')) {
+                    c.setAttribute('data-bound', 'true');
+                    c.addEventListener('click', () => {});
+                }
+            });
+        }
+
+        window.startTest = function(type) {
+            isQuick = type === 'quick';
+            currentQuestions = isQuick ? quickQuestions : fullQuestions;
+            currentIndex = 0;
+            answers = new Array(currentQuestions.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderQ();
+            updateProg();
+        };
+
+        function renderQ() {
+            const q = currentQuestions[currentIndex];
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-face-grin-tongue-squint"></i> ${catMapping[q.cat] || q.cat}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-4 text-sm font-medium text-slate-700 ${answers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3 items-center"><div class="w-5 h-5 rounded-full border-2 ${answers[currentIndex] === idx ? 'border-chaos-500 bg-chaos-500' : 'border-slate-300'} flex items-center justify-center">${answers[currentIndex] === idx ? '✓' : ''}</div><span>${opt}</span></div>`;
+                div.onclick = () => { select(idx); };
+                container.appendChild(div);
+            });
+            updateNavBtn();
+        }
+
+        function select(idx) {
+            answers[currentIndex] = idx;
+            renderQ();
+        }
+
+        function updateNavBtn() {
+            const hasAns = answers[currentIndex] !== null;
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = !hasAns;
+            const isLast = currentIndex === currentQuestions.length - 1;
+            nextBtn.innerHTML = isLast ? (hasAns ? '揭晓你的纪元 🎉' : '揭晓你的纪元') : '下一梗 ➡️';
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateProg() {
+            const pct = ((currentIndex+1)/currentQuestions.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `<i class="fa-regular fa-clock"></i> 第 ${currentIndex+1}/${currentQuestions.length} 问 · ${currentQuestions[currentIndex].cat}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() {
+            if(answers[currentIndex] === null) return;
+            if(currentIndex === currentQuestions.length-1) showResult();
+            else { currentIndex++; renderQ(); updateProg(); }
+        };
+        window.prevQuestion = function() { if(currentIndex>0) { currentIndex--; renderQ(); updateProg(); } };
+
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            const key = e.key;
+            if(['1','2','3','4'].includes(key) && currentQuestions[currentIndex]) {
+                let idx = parseInt(key)-1;
+                if(idx < currentQuestions[currentIndex].opts.length) select(idx);
+            } else if(key === 'Enter') window.nextQuestion();
+        });
+
+        // 结果计算 + 梗纪元分配
+        function showResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let total = 0;
+            const dimMap = {};
+            const dimMax = {};
+            currentQuestions.forEach((q,i) => {
+                let score = answers[i] ?? 0;
+                total += score;
+                let catKey = q.cat;
+                if(!dimMap[catKey]) { dimMap[catKey]=0; dimMax[catKey]=0; }
+                dimMap[catKey] += score;
+                dimMax[catKey] += 3;
+            });
+            const maxTotal = currentQuestions.length * 3;
+            const percent = (total / maxTotal) * 100;
+            document.getElementById('scoreRing').innerHTML = `精神状态指数: ${Math.round(percent)}% · 浓度${percent>70?'爆表':percent>40?'微醺':'清醒'}`;
+
+            let era = { name:"奥德赛时期", icon:"⛵️", desc:"你还在人生的海上漂流，寻找属于自己的伊萨卡岛。没关系，奥德赛走了十年，你可以走慢一点。", badge:"bg-cyan-100 text-cyan-800" };
+            if(percent<20) era = { name:"奥尔良时期", icon:"🍗", desc:"热血尚未冷却，像刚出炉的奥尔良烤翅——焦香里带着甜蜜。抓住这股劲，你还能翻盘！", badge:"bg-sunset-100 text-sunset-800" };
+            else if(percent<40) era = { name:"乙驼祥时期", icon:"🐫", desc:"努力拉车，却总感觉被时代的大雨淋湿。你不是不够拼，是这个赛道太颠簸。歇会儿，不丢人。", badge:"bg-stone-100 text-stone-800" };
+            else if(percent<65) era = { name:"滑铁卢时期", icon:"⚔️", desc:"刚经历了一场人生的滑铁卢，战马倒地，勋章生锈。但拿破仑滑铁卢之后还有百日王朝，你也还有大招没放。", badge:"bg-amber-100 text-amber-800" };
+            else if(percent<85) era = { name:"大萧条时期", icon:"📉", desc:"不想努力，只想躺着。精神GDP连续下滑。别怕，大萧条之后是罗斯福新政，你也可以给自己发救济金。", badge:"bg-gray-200 text-gray-700" };
+            else era = { name:"赛博朋克2077时期", icon:"🦾", desc:"你的精神状态已经义体化了！在夜之城里一边发疯一边拯救世界。记住：有bug才是人生，随时可以读档重来。", badge:"bg-cyber-100 text-cyber-800 glitch-text" };
+            
+            document.getElementById('eraIcon').innerText = era.icon;
+            let badgeDiv = document.getElementById('eraBadge');
+            badgeDiv.className = `hot-tag px-5 py-2 rounded-full text-sm font-black mb-4 shadow-md ${era.badge}`;
+            badgeDiv.innerText = era.name;
+            document.getElementById('eraTitle').innerText = era.name + " · " + (era.name.includes("2077")?"系统运行中":"正在加载");
+            document.getElementById('eraDesc').innerHTML = era.desc;
+            document.getElementById('jokeAdvice').innerHTML = `<p>✨ ${era.name}生存建议：${era.name==="奥德赛时期"?"多蹭饭少自责":era.name==="乙驼祥时期"?"今天先休息，明天再拉车":era.name==="赛博朋克2077时期"?"换个义体，或者直接睡一觉重置":era.name==="大萧条时期"?"每天做一件小事，比如呼吸":era.name==="滑铁卢时期"?"去运动，把失败感摔出去":"吃点好的，补补脑"} ✨</p>`;
+            document.getElementById('hotQuote').innerHTML = `“${['感觉身体被掏空，但灵魂还在赛博蹦迪','今天也是精致的废物','已经next level了，next to 棺材','允许自己做个人，哪怕是个NPC'][Math.floor(Math.random()*4)]}”`;
+            // 条形图
+            let container = document.getElementById('dimensionBars');
+            container.innerHTML = '';
+            Object.keys(dimMap).slice(0,6).forEach(cat => {
+                let score = dimMap[cat];
+                let max = dimMax[cat];
+                let pct = (score/max)*100;
+                let bar = document.createElement('div');
+                bar.innerHTML = `<div class="flex justify-between text-xs"><span>${catMapping[cat]||cat}</span><span>${Math.round(pct)}%</span></div><div class="w-full bg-slate-200 rounded-full h-2"><div class="bg-chaos-500 h-2 rounded-full" style="width:0%"></div></div>`;
+                container.appendChild(bar);
+                setTimeout(()=>{ bar.querySelector('div[style]').style.width = pct+'%'; },100);
+            });
+            window.scrollTo(0,0);
+        }
+        window.restart = function() {
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+        };
+        document.addEventListener('DOMContentLoaded', bindCrazyCircle);
+    </script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>NPD人格深度自测 | 警惕你身边的隐形吸血鬼</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'npd-grandiose': '#fef3c7',
+                        'npd-malignant': '#fee2e2',
+                        'npd-covert': '#e0e7ff',
+                        'npd-communal': '#ffe4e6',
+                        'npd-vulnerable': '#d1fae5',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 100%);
+            color: #e2e8f0;
+        }
+        .breathe-npd {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #ef4444, #7c3aed);
+            border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%;
+            animation: pulseToxic 4s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(239,68,68,0.4);
+        }
+        @keyframes pulseToxic {
+            0%, 100% { transform: scale(1); opacity: 0.7; border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; }
+            50% { transform: scale(1.1); opacity: 0.4; border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #4a4a6a;
+            background: #2d2d44;
+            color: #e2e8f0;
+        }
+        .option-card:hover { border-color: #ef4444; background: #3d3d5c; transform: translateX(5px); }
+        .option-card.selected { border-color: #ef4444; background: #4a1d2a; box-shadow: 0 2px 12px rgba(239,68,68,0.3); }
+        .glass-card { background: rgba(30,30,47,0.85); backdrop-filter: blur(8px); border: 1px solid #4a4a6a; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .warning-badge { background: #dc2626; color: white; }
+        h1, h2, h3 { letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-red-800 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-red-600 to-purple-700 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-skull text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-red-400 to-purple-400 bg-clip-text text-transparent">NPD人格深度自测 · 警惕隐形控制</h1>
+            </div>
+            <div class="text-[11px] bg-red-900/70 px-3 py-1 rounded-full border border-red-600 text-red-200">
+                <i class="fa-regular fa-triangle-exclamation mr-1"></i> 非诊断 · 仅供觉察
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-pulse">🩸🎭🪞</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-100 mb-3">自恋型人格障碍 · 光谱探测</h2>
+                <p class="text-slate-400 max-w-md mx-auto text-sm leading-relaxed">
+                    自恋是一个光谱，从健康的自信到毁灭性的NPD。<br>
+                    这里不搞政治正确，直击核心：煤气灯、三角测量、自恋暴怒、缺乏共情。
+                </p>
+                <p class="text-xs text-red-400 mt-1 mb-6">⚠️ 如果你在此人格下长期痛苦，离开是最勇敢的选择 ⚠️</p>
+
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto border-red-800">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🩸</div>
+                        <div>
+                            <h3 class="font-bold text-slate-200">自恋识别仪式</h3>
+                            <div class="breathe-npd my-3" id="npdBreath"></div>
+                            <p class="text-xs text-center text-slate-400">深呼吸，问自己：我在评估自己，还是在识别身边的NPD？</p>
+                            <div class="bg-red-950/40 rounded-lg p-2 text-xs text-slate-300 mt-3 leading-relaxed">
+                                💀 中国式NPD父母经典语录：<br>
+                                “我为你付出了这么多” / “你怎么这么不懂事” / “你的一切都是我给的” / “别人家的孩子” / “你让我丢脸了”
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-slate-800 p-5 rounded-2xl shadow-md border border-slate-600 hover:border-red-500 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-red-900 text-red-300 flex items-center justify-center mb-2">📋</div>
+                        <h3 class="font-bold text-slate-200">10题 · 快速扫描</h3>
+                        <p class="text-xs text-slate-400">2分钟，初步探测NPD倾向</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-slate-800 p-5 rounded-2xl shadow-md border border-slate-600 hover:border-purple-500 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-900 text-purple-300 flex items-center justify-center mb-2">🔍</div>
+                        <h3 class="font-bold text-slate-200">25题 · 深度诊断向</h3>
+                        <p class="text-xs text-slate-400">7分钟，识别显性/隐性/恶性/利他型自恋</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-500 mt-6">🎭 诚实回答，NPD本人往往不会承认——这份测试更适合幸存者和自我觉察者。</p>
+            </div>
+        </section>
+
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-red-400 mb-1">
+                    <span id="stepLabel">第 1 题 · NPD特征</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-red-500 to-purple-600 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-red-400 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-message"></i> 暗黑特征</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-100 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-slate-700/70 text-slate-300 hover:bg-slate-600 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-red-700 text-white font-medium hover:bg-red-800 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-500 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-red-700">
+                <div class="breathe-npd w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-100">🩸 NPD光谱报告</h3>
+                <p class="text-sm text-slate-400">自恋型人格障碍的核心：缺乏共情、特权感、剥削他人、自恋暴怒。</p>
+            </div>
+
+            <div class="bg-slate-800 rounded-2xl shadow-xl p-6 text-center">
+                <div id="styleIcon" class="text-7xl mb-2">👑</div>
+                <div id="styleBadge" class="inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm bg-npd-grandiose text-amber-900">显性自恋 · 浮夸型NPD</div>
+                <h2 id="styleTitle" class="text-xl font-bold mt-3 text-slate-100">世界必须围着我转</h2>
+                <p id="styleDesc" class="text-sm text-slate-400 max-w-sm mx-auto mt-2">优越感写在脸上，共情是奢侈品，你的存在只是为了满足我的需求。</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-red-950 to-purple-950 rounded-2xl p-6 border-l-8 border-red-600">
+                <h3 class="font-bold text-red-300 flex gap-2"><i class="fa-regular fa-eye"></i> 核心特征 · 直击要害</h3>
+                <div id="npdCore" class="text-sm text-slate-300 mt-3 space-y-2 leading-relaxed"></div>
+            </div>
+
+            <div class="bg-red-900/30 rounded-2xl p-5 border border-red-700">
+                <h3 class="font-bold text-red-300 flex gap-2"><i class="fa-regular fa-china-telecom"></i> 中国式NPD父母 · 经典画像</h3>
+                <div id="chineseParents" class="text-sm text-slate-300 mt-2 space-y-2"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-slate-800 rounded-2xl p-4">
+                    <h3 class="font-bold text-red-400 flex gap-2"><i class="fa-regular fa-skull"></i> 对你造成的伤害</h3>
+                    <div id="damageList" class="text-sm text-slate-300 mt-2 space-y-1"></div>
+                </div>
+                <div class="bg-slate-800 rounded-2xl p-4">
+                    <h3 class="font-bold text-emerald-400 flex gap-2"><i class="fa-regular fa-shield"></i> 幸存者自救指南</h3>
+                    <div id="survivalGuide" class="text-sm text-slate-300 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
+            <div class="bg-amber-950/50 p-5 rounded-2xl border border-amber-700">
+                <h3 class="font-bold text-amber-400 flex gap-2"><i class="fa-regular fa-message"></i> 来自幸存者的一句话</h3>
+                <p id="survivorQuote" class="text-sm text-slate-300 italic mt-1">“你不是太敏感，是他们真的在吸食你的能量。”</p>
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-red-600 text-red-300 font-medium hover:bg-red-900/40">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-red-700 text-white font-medium hover:bg-red-800 shadow">保存报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-500 pb-8">基于DSM-5及自恋人格研究 · 若你长期受到NPD虐待，请寻求专业心理帮助及社会支持系统。</div>
+        </section>
+    </main>
+
+    <script>
+        const quickItems = [
+            { text: "我很难真正为别人的成功感到高兴，除非这成功也对我有利。", dim: "grandiose" },
+            { text: "如果被批评，我会暴怒、否认或反过来攻击对方。", dim: "malignant" },
+            { text: "我内心觉得自己比大多数人更特别、更深刻。", dim: "covert" },
+            { text: "我通过帮助别人来获得掌控感和优越感。", dim: "communal" },
+            { text: "我对亲密关系感到矛盾，既渴望被崇拜，又害怕被看穿。", dim: "vulnerable" },
+            { text: "我会不自觉地对人进行“煤气灯操作”，让对方怀疑自己的记忆和感受。", dim: "malignant" },
+            { text: "我习惯把失败归咎于外界或他人。", dim: "grandiose" },
+            { text: "我嫉妒那些比我更成功的人，并且暗暗希望他们失败。", dim: "covert" },
+            { text: "我无法忍受别人不按照我的预期行事。", dim: "grandiose" },
+            { text: "我常觉得别人在针对我、嫉妒我。", dim: "malignant" },
+        ];
+        const fullItems = [
+            ...quickItems,
+            { text: "我习惯用贬低他人来抬高自己。", dim: "grandiose" },
+            { text: "我会在伴侣或朋友之间制造矛盾，享受被争夺的感觉（三角测量）。", dim: "malignant" },
+            { text: "我表面谦虚，但内心觉得大多数人都是庸俗的。", dim: "covert" },
+            { text: "我乐于助人，但希望对方永远欠我人情。", dim: "communal" },
+            { text: "情绪低落时，我需要通过别人的仰慕来恢复。", dim: "vulnerable" },
+            { text: "我几乎无法真正道歉，只会说“对不起你太敏感”。", dim: "grandiose" },
+            { text: "我喜欢在团体中当“隐形的皇帝”，操纵局势。", dim: "malignant" },
+            { text: "我幻想自己拥有无人能及的天赋或成就。", dim: "grandiose" },
+            { text: "我很难理解别人为什么那么“脆弱”。", dim: "malignant" },
+            { text: "我通过成为“受害者”来获取道德资本。", dim: "covert" },
+            { text: "我需要伴侣绝对的忠诚和优先权。", dim: "grandiose" },
+            { text: "我会用沉默、冷暴力来惩罚不服从我的人。", dim: "malignant" },
+            { text: "我很擅长给人“画大饼”，但从不兑现。", dim: "grandiose" },
+            { text: "我觉得规则是给普通人定的，我例外。", dim: "grandiose" },
+            { text: "我讨厌被人比下去，即使是我自己的孩子。", dim: "malignant" },
+            { text: "我通过成为“最懂事的那个孩子”来获得父母的偏爱。", dim: "communal" },
+            { text: "分手/断联后，我会疯狂挽回，只是为了赢回控制权。", dim: "malignant" },
+            { text: "我无法忍受别人不关注我。", dim: "grandiose" },
+            { text: "我内心有深深的空虚感，需要不断通过外界刺激填补。", dim: "vulnerable" },
+            { text: "我习惯对亲密的人进行“服从性测试”。", dim: "malignant" },
+            { text: "别人对我的付出，我很少真正感恩。", dim: "grandiose" },
+            { text: "我会在社交场合说“我认识某某大佬”，以此提升自己地位。", dim: "grandiose" },
+            { text: "我很难承认错误，因为那意味着我不完美。", dim: "grandiose" },
+            { text: "我会用“为你好”来包装控制行为。", dim: "communal" },
+            { text: "我觉得自己比心理咨询师还懂心理学。", dim: "grandiose" },
+        ];
+
+        const npdMap = {
+            grandiose: { name: "显性自恋 · 浮夸型NPD", icon: "👑🔥", color: "bg-npd-grandiose text-amber-900", 
+                title: "世界必须围着我转", 
+                desc: "优越感写在脸上，共情是奢侈品，你的存在只是为了满足我的需求。",
+                core: "🔴 特权感极强，觉得规则不适用于自己。\n🔴 需要不断获取“自恋供给”（赞美、服从、嫉妒）。\n🔴 无法忍受批评，会自恋暴怒（贬低、攻击、冷暴力）。\n🔴 缺乏真正的共情，把你当作功能性的工具。",
+                chineseParents: "“我为你花了那么多钱，你怎么回报我的？”\n“你考这个分数对得起我每天早起给你做饭吗？”\n“我辛辛苦苦把你养大，你就是这么不听话？”\n父母通过孩子来完成自己未竟的梦想，孩子不是独立的个体，是父母的附属品。",
+                damage: "🔸 长期自我怀疑，觉得自己不够好。\n🔸 不敢表达真实需求和情绪。\n🔸 习得性无助：无论怎么努力都得不到认可。\n🔸 成年后容易复制这种模式或吸引同类NPD。",
+                survival: "✅ 认清：你永远无法满足他们，因为他们的需求是无底洞。\n✅ 经济独立 + 物理隔离 = 唯一解法。\n✅ 停止自证清白，停止解释。\n✅ 加入幸存者社群，你不是一个人。",
+                quote: "你不是他们的孩子，你是他们的投资产品、养老工具、情绪血包。" },
+            malignant: { name: "恶性自恋 · 暗黑型NPD", icon: "🦂💀", color: "bg-npd-malignant text-rose-900",
+                title: "操纵与毁灭，是我存在的快感",
+                desc: "享受控制、缺乏悔意、乐于制造混乱。你可能同时具有反社会特质。",
+                core: "🔴 主动操纵（煤气灯、三角测量、贬低-理想化-抛弃循环）。\n🔴 享受他人的痛苦和失控。\n🔴 完全缺乏内疚感，做坏事毫无负担。\n🔴 极度多疑，认为所有人都在算计自己。",
+                chineseParents: "“你敢顶嘴？我生条叉烧都好过生你。”\n当众羞辱孩子，摧毁自尊。\n“你就是来讨债的，我上辈子欠你的。”\n把孩子当作出气筒，随意殴打辱骂。\n在亲戚面前塑造“优秀父母”人设，回家关上门就是暴君。",
+                damage: "🔸 CPTSD（复杂性创伤后应激障碍）。\n🔸 严重自我否定，觉得自己不配活着。\n🔸 长期处于战/逃/僵/讨好模式。\n🔸 躯体化症状：失眠、胃病、心悸。",
+                survival: "✅ 彻底断联，不要幻想他们会改变。\n✅ 寻求专业创伤治疗（EMDR、体感疗法）。\n✅ 重新建立“现实感”：录下对话，找第三方验证。\n✅ 练习愤怒：把他们的错还给他们。",
+                quote: "你不是“不孝”，你是在为自己曾经的自己复仇。离开不是背叛，是求生。" },
+            covert: { name: "隐性自恋 · 脆弱型NPD", icon: "🥀🎭", color: "bg-npd-covert text-indigo-900",
+                title: "我比你高尚，只是世人不懂我",
+                desc: "外表谦虚甚至自卑，内心自视甚高。常用受害者姿态操控。",
+                core: "🔴 内心充满对他人的贬低和嫉妒。\n🔴 永远“怀才不遇”，世界对不起他。\n🔴 用“抑郁”“敏感”作为武器，让你愧疚。\n🔴 冷暴力高手：不主动不拒绝不负责。",
+                chineseParents: "“我身体不好，都是被你气的。”\n“你走了我就去死。”\n情感绑架 + 自杀威胁。\n“我不像别的家长那么开明，我就是老古董，你别管我。”\n用自我贬低来让你妥协。",
+                damage: "🔸 长期处于内疚和自责中。\n🔸 不敢离开父母/伴侣，因为害怕对方“出事”。\n🔸 失去自己的判断力，总觉得是自己的错。",
+                survival: "✅ 区分“感受”和“事实”：他们觉得你错了≠你真的错了。\n✅ 练习“课题分离”：他们的情绪不是你的责任。\n✅ 逐步拉开物理和心理距离。",
+                quote: "他们用“爱”和“牺牲”做笼子，你却以为那是家。" },
+            communal: { name: "利他型自恋 · 道德绑架者", icon: "🙏💉", color: "bg-npd-communal text-rose-800",
+                title: "我是圣人，你们欠我的",
+                desc: "通过“无私奉献”来占据道德高地，让你永远亏欠。",
+                core: "🔴 付出必须要有回报（感激、顺从、特权）。\n🔴 热衷在朋友圈/亲戚面前扮演好人。\n🔴 暗中记仇：你哪一次没满足他，他会翻旧账。\n🔴 用“我对你这么好”来合理化对你的控制。",
+                chineseParents: "“我舍不得吃舍不得穿，全给你了，你还不满足？”\n“我们当年多苦，你现在条件多好，怎么还不知足？”\n“我为了你才不离婚的，你长大要孝顺我。”",
+                damage: "🔸 不敢接受别人的好，因为觉得要偿还。\n🔸 对“被需要”上瘾，不断讨好别人。\n🔸 无法表达愤怒，内耗严重。",
+                survival: "✅ 拒绝“情感高利贷”：你没有义务报答他们的“自我感动”。\n✅ 建立边界：他们的选择是他们的事。\n✅ 允许自己“自私”：先满足自己不是罪。",
+                quote: "他们给了你全世界最贵的东西——愧疚。" },
+            vulnerable: { name: "脆弱型自恋 · 抑郁性NPD", icon: "🌧️🫀", color: "bg-npd-vulnerable text-teal-800",
+                title: "我是最痛苦的，你们都不懂我",
+                desc: "外表抑郁、自我贬低，但内心渴望被当做特别的存在呵护。",
+                core: "🔴 反复展示伤口，吸引拯救者。\n🔴 对忽视极度敏感，会报复性缺席/自伤。\n🔴 把“我很痛苦”当作获取关注和特权的工具。\n🔴 无法承受任何建议，因为那意味着“我不够好”。",
+                chineseParents: "“我这辈子算是完了，就靠你了。”\n把自己的挫败感转嫁给孩子。\n“我不像别人爸爸那么有本事，你别嫌弃我。”\n用自卑来让你闭嘴。",
+                damage: "🔸 过早成为“父母的父母”，被迫懂事。\n🔸 不敢快乐，因为父母还在痛苦。\n🔸 陷入“拯救者-受害者”循环。",
+                survival: "✅ 卸下不属于你的责任：你不必拯救他们。\n✅ 允许自己快乐，那是你的权利。\n✅ 寻找专业支持，而不是独自消化。",
+                quote: "他们把自己的伤口撕给你看，于是你不敢愈合。" }
+        };
+
+        let curQs = [], curIdx = 0, answersArr = [];
+
+        window.startTest = (type) => {
+            curQs = type === 'quick' ? quickItems.slice() : fullItems.slice();
+            curIdx = 0;
+            answersArr = new Array(curQs.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderNpdItem();
+            updateNpdProgress();
+        };
+
+        function renderNpdItem() {
+            let q = curQs[curIdx];
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> 特征：${q.dim === 'grandiose' ? '浮夸型' : q.dim === 'malignant' ? '恶性型' : q.dim === 'covert' ? '隐性型' : q.dim === 'communal' ? '利他型' : '脆弱型'}`;
+            document.getElementById('questionText').innerText = q.text;
+            let opts = ["完全不符合", "有点符合", "比较符合", "非常符合"];
+            let container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            opts.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${answersArr[curIdx] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${answersArr[curIdx]===idx ? 'border-red-500 bg-red-500' : 'border-slate-500'} inline-block text-center text-white text-xs">${answersArr[curIdx]===idx?'✓':''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { answersArr[curIdx]=idx; renderNpdItem(); };
+                container.appendChild(div);
+            });
+            let next = document.getElementById('nextBtn');
+            next.disabled = answersArr[curIdx] === null;
+            next.innerText = (curIdx === curQs.length-1) ? (answersArr[curIdx] !== null ? "🩸 揭露NPD光谱 🩸" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = curIdx > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateNpdProgress() {
+            let pct = ((curIdx+1)/curQs.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${curIdx+1}/${curQs.length} 题 · NPD特征`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answersArr[curIdx] === null) return;
+            if(curIdx === curQs.length-1) showNpdResult();
+            else { curIdx++; renderNpdItem(); updateNpdProgress(); }
+        };
+        window.prevQuestion = () => { if(curIdx>0) { curIdx--; renderNpdItem(); updateNpdProgress(); }};
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < 4) { answersArr[curIdx]=idx; renderNpdItem(); }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showNpdResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let scores = { grandiose:0, malignant:0, covert:0, communal:0, vulnerable:0 };
+            curQs.forEach((q,i) => {
+                let val = answersArr[i] !== null ? answersArr[i] : 0;
+                scores[q.dim] += val;
+            });
+            let maxDim = Object.keys(scores).reduce((a,b) => scores[a] > scores[b] ? a : b, "grandiose");
+            let data = npdMap[maxDim];
+            if(!data) data = npdMap.grandiose;
+            document.getElementById('styleIcon').innerHTML = data.icon;
+            document.getElementById('styleBadge').className = `inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm ${data.color}`;
+            document.getElementById('styleBadge').innerText = data.name;
+            document.getElementById('styleTitle').innerText = data.title;
+            document.getElementById('styleDesc').innerText = data.desc;
+            document.getElementById('npdCore').innerHTML = data.core.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('chineseParents').innerHTML = data.chineseParents.split('\n').map(p => `<p class="text-red-200">${p}</p>`).join('');
+            document.getElementById('damageList').innerHTML = data.damage.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('survivalGuide').innerHTML = data.survival.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('survivorQuote').innerHTML = `“${data.quote}”`;
+            window.scrollTo(0,0);
+        }
+        window.restart = () => location.reload();
+    </script>
+</body>
+</html>

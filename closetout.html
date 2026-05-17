@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出柜风险评估工具 | 你的安全，我们的优先</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: #f8f7fa;
+        }
+        .rainbow-border {
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+            height: 4px;
+            width: 100%;
+        }
+        .option-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .option-card:hover {
+            border-color: #a78bfa;
+            background-color: #f5f3ff;
+        }
+        .option-card.selected {
+            border-color: #7c3aed;
+            background-color: #ede9fe;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .risk-meter {
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .safe-space-notice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .emergency-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #fffaf0 100%);
+            border-left: 4px solid #fc8181;
+        }
+        .script-box {
+            background: #f3f0ff;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 8px 0;
+            position: relative;
+        }
+        .script-box::before {
+            content: "💬";
+            position: absolute;
+            left: -10px;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c4b5fd; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a78bfa; }
+        .breathing-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0 auto;
+            animation: breathe 4s infinite ease-in-out;
+        }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 0.4; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+
+    <div class="rainbow-border fixed top-0 z-50"></div>
+
+    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-1 z-40">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-sm">安</div>
+                <h1 class="text-lg font-bold text-gray-800">出柜风险评估工具</h1>
+            </div>
+            <div class="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                完全本地运行，不收集任何数据
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-3xl mx-auto px-4 py-8 pb-20">
+
+        <!-- 安全提示 -->
+        <div class="safe-space-notice rounded-2xl p-6 text-white mb-8 shadow-lg">
+            <div class="flex items-start gap-4">
+                <div class="text-3xl">🛡️</div>
+                <div>
+                    <h2 class="text-xl font-bold mb-2">这是一个安全的评估空间</h2>
+                    <p class="text-purple-100 text-sm leading-relaxed">
+                        出柜是你个人的权利，而非义务。本工具旨在帮助你理性评估环境安全性，而非催促你做出决定。
+                        所有数据仅在本地处理，关闭页面后即刻消失。无论你最终选择何时、向何人出柜，你的身份都值得被尊重。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 进度 -->
+        <div class="mb-8" id="progressContainer" style="display:none;">
+            <div class="flex justify-between text-xs text-gray-500 mb-2">
+                <span id="stepLabel">步骤 1/5</span>
+                <span id="progressPercent">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="progressBar" class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div id="appContent">
+            
+            <!-- 开始 -->
+            <div id="startScreen" class="text-center py-12 fade-in">
+                <div class="text-6xl mb-6">🌈</div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">了解你的出柜环境</h2>
+                <p class="text-gray-600 max-w-lg mx-auto mb-8 leading-relaxed">
+                    通过评估家庭、工作、社会支持等多个维度，生成个性化的风险评估报告与行动建议。
+                    这不是测试，没有标准答案，只有属于你的安全策略。
+                </p>
+                
+                <div class="grid md:grid-cols-3 gap-4 mb-10 text-left max-w-2xl mx-auto">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="text-2xl mb-2">🏠</div>
+                        <h3 class="font-semibold text-sm mb-1">家庭环境</h3>
+                        <p class="text-xs text-gray-500">经济依赖、观念开放度、家庭关系</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="text-2xl mb-2">💼</div>
+                        <h3 class="font-semibold text-sm mb-1">职场环境</h3>
+                        <p class="text-xs text-gray-500">行业特性、公司文化、法律保障</p>
+                    </div>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div class="text-2xl mb-2">🤝</div>
+                        <h3 class="font-semibold text-sm mb-1">支持系统</h3>
+                        <p class="text-xs text-gray-500">朋友网络、社群资源、心理韧性</p>
+                    </div>
+                </div>
+
+                <button onclick="startAssessment()" class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                    开始评估
+                </button>
+                <p class="text-xs text-gray-400 mt-4">预计用时 3-5 分钟</p>
+            </div>
+
+            <!-- 问题 -->
+            <div id="questionScreen" style="display:none;">
+                <div id="questionContainer" class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 fade-in"></div>
+                <div class="flex justify-between mt-6">
+                    <button onclick="prevStep()" id="prevBtn" class="px-6 py-3 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors font-medium" style="visibility:hidden;">
+                        ← 上一步
+                    </button>
+                    <button onclick="nextStep()" id="nextBtn" class="px-8 py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 transition-colors shadow-md">
+                        下一步
+                    </button>
+                </div>
+            </div>
+
+            <!-- 加载 -->
+            <div id="loadingScreen" style="display:none;" class="text-center py-20">
+                <div class="relative w-24 h-24 mx-auto mb-6">
+                    <div class="absolute inset-0 border-4 border-purple-200 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-purple-600 rounded-full border-t-transparent animate-spin"></div>
+                    <div class="absolute inset-0 flex items-center justify-center text-2xl">📊</div>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">正在分析多维数据...</h3>
+                <p class="text-gray-500 text-sm" id="loadingText">评估家庭支持网络</p>
+            </div>
+
+            <!-- 报告 -->
+            <div id="reportScreen" style="display:none;" class="fade-in space-y-6">
+                
+                <!-- 总体风险 -->
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-6 md:p-8">
+                        <div class="flex flex-col md:flex-row items-center gap-8">
+                            <div class="relative w-40 h-40 flex-shrink-0">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" stroke-width="8"/>
+                                    <circle id="riskCircle" cx="50" cy="50" r="45" fill="none" stroke="#ef4444" stroke-width="8" 
+                                            stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" class="risk-meter"/>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span id="riskScore" class="text-3xl font-bold text-gray-800">--</span>
+                                    <span class="text-xs text-gray-500">风险指数</span>
+                                </div>
+                            </div>
+                            <div class="flex-1 text-center md:text-left">
+                                <div id="riskBadge" class="inline-block px-4 py-1 rounded-full text-sm font-bold mb-3 bg-red-100 text-red-700">
+                                    高风险环境
+                                </div>
+                                <h2 id="riskTitle" class="text-2xl font-bold text-gray-800 mb-2">建议暂缓全面出柜</h2>
+                                <p id="riskSummary" class="text-gray-600 leading-relaxed">
+                                    当前环境存在多个不稳定因素，建议优先建立安全网和经济独立性。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-6 md:px-8 py-6 border-t border-gray-100">
+                        <h3 class="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">各维度风险分析</h3>
+                        <div class="space-y-4" id="dimensionBreakdown"></div>
+                    </div>
+                </div>
+
+                <!-- ==================== 第一层：情绪止血 ==================== -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl border border-purple-100 p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-lg">🩹</div>
+                        <h3 class="text-lg font-bold text-gray-800">如果你现在手在抖，先看这里</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="bg-white/70 rounded-xl p-5">
+                            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <span class="text-purple-500">1.</span> 先做这三件事，让心跳慢下来
+                            </h4>
+                            <div class="flex flex-col items-center mb-4">
+                                <div class="breathing-circle mb-2"></div>
+                                <p class="text-xs text-gray-500">跟着这个圆圈的节奏呼吸：吸气4秒，屏息4秒，呼气4秒</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex gap-2"><span>•</span><span>把手机调成<strong>飞行模式</strong>，去洗把冷水脸（物理切断焦虑循环）</span></li>
+                                <li class="flex gap-2"><span>•</span><span>打开备忘录，复制写下这句话：<em class="text-purple-700">"无论发生什么，我值得被完整地爱，不是被修剪后的自己。"</em></span></li>
+                                <li class="flex gap-2"><span>•</span><span>找一首能让你平静的歌，单曲循环。你现在需要的是<strong>感官锚定</strong>，不是理性分析。</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white/70 rounded-xl p-5">
+                            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <span class="text-purple-500">2.</span> 你不是在欺骗父母，你是在保护自己
+                            </h4>
+                            <p class="text-sm text-gray-600 leading-relaxed mb-3">
+                                很多 LGBTQ+ 孩子会有强烈的<strong>"欺骗愧疚感"</strong>，觉得不向父母坦白就是撒谎，甚至觉得自己"不孝"。
+                            </p>
+                            <div class="bg-purple-100/50 rounded-lg p-4 text-sm text-purple-900 leading-relaxed">
+                                <strong>请记住：</strong>出柜不是义务，保密是智慧。在父母没有准备好接纳真实你的时候，强行出柜不是诚实，是把两个人都推进火坑。你的沉默是自我保护，不是道德缺陷。父母有知情权，但你也有<strong>生存权</strong>。
+                            </div>
+                        </div>
+
+                        <div class="bg-white/70 rounded-xl p-5">
+                            <h4 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
+                                <span class="text-purple-500">3.</span> 如果你觉得自己"不正常"
+                            </h4>
+                            <p class="text-sm text-gray-600 leading-relaxed">
+                                如果你内心深处也觉得"这样不太好"、"是不是能治"，请记住：<strong>你对自己的厌恶感，是这个社会多年灌输的结果，不是你的本能。</strong>试着做一个思维实验：你会因为一个陌生朋友喜欢同性就觉得他恶心吗？那为什么要这样对自己？你不需要喜欢所有人，但请至少不要加入霸凌自己的队伍。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== 第二层：关系话术库 ==================== -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-lg">🎭</div>
+                        <h3 class="text-lg font-bold text-gray-800">具体场景的生存脚本</h3>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3 text-sm uppercase tracking-wide text-gray-500">催婚场景</h4>
+                            <div class="script-box">
+                                <div class="text-sm font-medium text-gray-800 mb-1">温和拖延版</div>
+                                <p class="text-sm text-gray-600">"我现在重心在事业上，感情的事想顺其自然，不想为了结婚而结婚。等我稳定了，自然会考虑。"</p>
+                            </div>
+                            <div class="script-box">
+                                <div class="text-sm font-medium text-gray-800 mb-1">转移焦点版</div>
+                                <p class="text-sm text-gray-600">"妈，你和我爸当年是怎么决定结婚的？是谁先提的？"（把话题引向他们的故事，消耗时间，转移压力）</p>
+                            </div>
+                            <div class="script-box">
+                                <div class="text-sm font-medium text-gray-800 mb-1">设立边界版</div>
+                                <p class="text-sm text-gray-600">"我知道你是为我好，但每次聊这个我都压力很大，晚上会睡不着。我们能不能约定，今年过年不聊这个话题？算我求你。"</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3 text-sm uppercase tracking-wide text-gray-500">试探父母态度（安全抛砖引玉）</h4>
+                            <p class="text-xs text-gray-500 mb-3">不要直接问"你怎么看同性恋"，用这些话题试探：</p>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li class="flex gap-2"><span class="text-blue-500">•</span><span><strong>聊新闻：</strong>"妈，你看那个明星出柜的新闻了吗？网上吵得好凶。"（观察反应：是好奇、厌恶、还是漠不关心？）</span></li>
+                                <li class="flex gap-2"><span class="text-blue-500">•</span><span><strong>聊影视：</strong>"最近看《以你的心诠释我的爱》/《刻在你心底的名字》，觉得拍得挺真实的，不是那种猎奇的。"（看父母是否接话）</span></li>
+                                <li class="flex gap-2"><span class="text-blue-500">•</span><span><strong>聊第三方：</strong>"我同学跟家里说不想结婚，被爸妈骂惨了，现在都不敢回家。我觉得他爸妈有点过了，你说呢？"（借别人的故事看立场）</span></li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-800 mb-3 text-sm uppercase tracking-wide text-gray-500">半出柜话术：对不同的人说不同的话</h4>
+                            <div class="grid md:grid-cols-2 gap-3">
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">对最信任的朋友</div>
+                                    <p class="text-sm text-gray-700">"我在探索自己的性取向，可能和你想的不太一样，但我还在过程中。不管结论是什么，我需要你知道真实的我。"</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">对开明的亲戚</div>
+                                    <p class="text-sm text-gray-700">"我现在不想谈恋爱，不管是男生还是女生，我想先把自己活明白。人生不是只有结婚一条路吧？"</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">对同事/同学</div>
+                                    <p class="text-sm text-gray-700">不主动说，但也不主动否认。"私人生活不想聊太多，周末一般就宅家看书/运动。"（模糊化处理）</p>
+                                </div>
+                                <div class="bg-gray-50 rounded-lg p-4">
+                                    <div class="text-xs font-bold text-gray-500 uppercase mb-2">被追问"有没有对象"</div>
+                                    <p class="text-sm text-gray-700">"有喜欢的人，但还没成，成了自然会告诉你们。"（真假混合，既安抚又不撒谎）</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== 第三层：硬核生存方案 ==================== -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-lg">🎒</div>
+                        <h3 class="text-lg font-bold text-gray-800">如果最坏的情况发生</h3>
+                    </div>
+
+                    <div class="emergency-card rounded-xl p-5 mb-6">
+                        <h4 class="font-bold text-red-800 mb-2">⚠️ 出柜前的"逃生包"清单</h4>
+                        <p class="text-sm text-gray-700 mb-3">在你说出那句话之前，先把这些东西准备好。不是因为你一定会被赶出去，而是因为<strong>有退路的人，说话更有底气。</strong></p>
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-white rounded-lg p-3 border border-red-100">
+                                <div class="font-semibold text-gray-800 mb-1">📁 证件类</div>
+                                <p class="text-gray-600">身份证、户口本（个人页）、毕业证、学位证，全部扫描存云端（用独立邮箱，别用父母手机绑定的账号）</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 border border-red-100">
+                                <div class="font-semibold text-gray-800 mb-1">💳 财务类</div>
+                                <p class="text-gray-600">准备 2000-5000 元现金藏在只有你知道的地方；确保有一张父母不知道的银行卡</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 border border-red-100">
+                                <div class="font-semibold text-gray-800 mb-1">📱 通讯类</div>
+                                <p class="text-gray-600">手机卡改绑自己的身份证；学会用"应用隐藏"或"手机分身"保护隐私</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 border border-red-100">
+                                <div class="font-semibold text-gray-800 mb-1">🏠 住所类</div>
+                                <p class="text-gray-600">提前查好 3 家 24 小时营业的麦当劳/肯德基/便利店位置（有网、有电、不会被赶走）</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-orange-400 pl-4">
+                            <h4 class="font-bold text-gray-800 mb-2">被赶出家门的 72 小时求生指南</h4>
+                            <div class="space-y-3 text-sm text-gray-600">
+                                <p><strong class="text-orange-700">Day 0（当晚）：</strong>不要在大街上游荡。去最近的 24 小时麦当劳/肯德基坐一晚（免费 WiFi、有监控安全、不会被赶走）。同时联系当地同志中心求助热线（页面底部有号码）。</p>
+                                <p><strong class="text-orange-700">Day 1：</strong>找青年旅舍短租（不需要押金，按天付，50-100 元/晚）。如果钱不够，先找日结兼职（外卖众包、快递分拣、展会兼职），当天结算工资。</p>
+                                <p><strong class="text-orange-700">Day 2-3：</strong>申请花呗/借呗应急（不是鼓励借贷，是救命时可用）。联系最信任的朋友，说明情况请求短期借住。如果完全无人可找，搜索"XX市 青年驿站"（很多城市为求职青年提供免费短期住宿）。</p>
+                            </div>
+                        </div>
+
+                        <div class="border-l-4 border-gray-400 pl-4">
+                            <h4 class="font-bold text-gray-800 mb-2">灰色生存：如何在不激怒父母的情况下完成独立</h4>
+                            <ul class="space-y-2 text-sm text-gray-600">
+                                <li>• <strong>银行卡改绑：</strong>把银行预留手机号改成自己的，父母看不到余额变动短信。</li>
+                                <li>• <strong>证件转移：</strong>把重要证件从家里的抽屉转移到学校储物柜、公司更衣柜、或信任的朋友家。</li>
+                                <li>• <strong>手机隐私：</strong>如果父母会查你手机，学会用"应用隐藏"（安卓）或"引导式访问"（iPhone）保护敏感内容。</li>
+                                <li>• <strong>心理断供：</strong>慢慢把"生活费"在语言上改成"借款"——哪怕只是你自己心里这么想。这能切断"他们养我所以我欠他们"的情感锁链。</li>
+                            </ul>
+                        </div>
+
+                        <div class="border-l-4 border-purple-400 pl-4">
+                            <h4 class="font-bold text-gray-800 mb-2">被出柜（非自愿暴露）的危机公关</h4>
+                            <p class="text-sm text-gray-600 mb-2">如果别人替你出柜了，不要当场崩溃否认。越否认，越像真的，也越羞耻。</p>
+                            <div class="bg-purple-50 rounded-lg p-4 text-sm text-purple-900">
+                                <strong>标准话术：</strong>"这是我的私事，我不认为这有什么需要讨论的。如果你对此有偏见，那是你的问题，不是我的。我是什么样的人，不需要你的批准。"
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">把羞耻感反弹回去。出柜的耻辱感只有在"你接受这个耻辱"时才成立。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== 第四层：身份长程建设 ==================== -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-lg">🌱</div>
+                        <h3 class="text-lg font-bold text-gray-800">从幸存者到生活者</h3>
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="bg-green-50 rounded-xl p-5">
+                            <h4 class="font-bold text-green-800 mb-2">出柜后的空虚感是正常的</h4>
+                            <p class="text-sm text-gray-700 leading-relaxed">
+                                很多人以为出柜后就会"轻松了"，但现实中，出柜后往往会迎来一段迷茫期——你不再是"隐藏的自己"，但"真实的自己"该长什么样？你还没见过。<strong>允许自己有一段时间的漂浮感。</strong>这不是失败，这是新生儿的适应期。
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-gray-800 mb-3">身份建设的四个阶段</h4>
+                            <div class="space-y-3">
+                                <div class="flex gap-4">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xs font-bold">1</div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">第一阶段（0-1年）：活着</div>
+                                        <p class="text-xs text-gray-600">确保自己不被饿死、不被逼疯、不被逼回柜子。这是唯一的目标，不需要更高尚。</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-xs font-bold">2</div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">第二阶段（1-3年）：找到同类</div>
+                                        <p class="text-xs text-gray-600">建立"选择的家人"（Chosen Family）圈子。可以是网友、可以是线下社群、可以是那个唯一知道秘密的朋友。</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xs font-bold">3</div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">第三阶段（3-5年）：学习去爱</div>
+                                        <p class="text-xs text-gray-600">探索亲密关系，学习如何作为 LGBTQ+ 身份去爱和被爱。你可能会发现，自己连"正常恋爱"都不会——因为没人教过你。没关系，慢慢学。</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs font-bold">4</div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">第四阶段（5年+）：成为光（可选）</div>
+                                        <p class="text-xs text-gray-600">如果你愿意，成为后来者的灯塔。但不是必须。你先把自己活好，就是对这个世界最大的贡献。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== 第五层：不出柜也是一种正当选择 ==================== -->
+                <div class="bg-gradient-to-br from-gray-50 to-purple-50 rounded-2xl border-2 border-purple-200 p-6 md:p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-lg">🌑</div>
+                        <h3 class="text-lg font-bold text-gray-800">如果你永远不出柜，这也很好</h3>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-gray-700 leading-relaxed">
+                        <p>
+                            <strong>有些人的最优解，就是一辈子不对父母出柜。</strong>这不可耻。这不是懦弱，不是欺骗，这是你在复杂现实中做出的理性生存策略。
+                        </p>
+                        
+                        <div class="bg-white/70 rounded-lg p-4">
+                            <p class="mb-2">你可以有亲密的伴侣、真诚的朋友、充实的事业，只是在父母面前保留一个"他们不需要知道的侧面"。</p>
+                            <p class="text-purple-800 font-medium"><strong>完整性不需要通过向所有人暴露来达成。</strong></p>
+                        </div>
+
+                        <p>
+                            深柜不是柜子，是<strong>堡垒</strong>。你在堡垒里种花、恋爱、读书、做梦，只是在城墙外挂了另一块招牌。这没有错。不要让任何人——包括那些已经出柜的人——告诉你"只有出柜才是真实的"。
+                        </p>
+
+                        <p>
+                            真正的勇敢不是不顾一切地坦白，而是<strong>在不能坦白的环境里，依然不放弃对自己诚实。</strong>你比谁都清楚自己是谁，这本身就足够了。
+                        </p>
+
+                        <div class="text-center pt-4">
+                            <p class="text-purple-600 font-medium text-base">你不需要被全世界看见，才能证明自己存在。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 紧急资源 -->
+                <div class="bg-gradient-to-r from-red-50 to-orange-50 rounded-2xl border border-red-100 p-6">
+                    <h3 class="text-lg font-bold text-red-800 mb-4 flex items-center gap-2">
+                        <span>🆘</span> 紧急支持与求助资源
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-white/60 rounded-lg p-3">
+                            <div class="font-semibold text-red-700">北京同志中心热线</div>
+                            <div class="text-gray-600">400-011-9964（心理咨询）</div>
+                        </div>
+                        <div class="bg-white/60 rounded-lg p-3">
+                            <div class="font-semibold text-red-700">跨性别热线</div>
+                            <div class="text-gray-600">400-011-9964 转 3</div>
+                        </div>
+                        <div class="bg-white/60 rounded-lg p-3">
+                            <div class="font-semibold text-red-700">上海青艾心理热线</div>
+                            <div class="text-gray-600">021-61520122</div>
+                        </div>
+                        <div class="bg-white/60 rounded-lg p-3">
+                            <div class="font-semibold text-red-700"> LGBTQ+ 友善律师</div>
+                            <div class="text-gray-600">可通过当地同志中心转介</div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-red-600/70 mt-4">
+                        如果你正面临家庭暴力或人身威胁，请立即联系当地公安机关（110）或前往最近的人民法院申请人身安全保护令。
+                    </p>
+                </div>
+
+                <!-- 底部 -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+                    <button onclick="restart()" class="px-6 py-3 rounded-xl border-2 border-purple-600 text-purple-600 font-medium hover:bg-purple-50 transition-colors">
+                        重新评估
+                    </button>
+                    <button onclick="window.print()" class="px-6 py-3 rounded-xl bg-gray-800 text-white font-medium hover:bg-gray-900 transition-colors">
+                        保存/打印报告
+                    </button>
+                </div>
+                
+                <div class="text-center mt-8 text-xs text-gray-400 max-w-lg mx-auto leading-relaxed">
+                    免责声明：本工具基于一般性社会研究和心理学原理设计，仅供参考，不构成专业法律或心理咨询建议。
+                    每个人的处境都是独特的，建议在做重大决定前咨询专业人士或信任的支持者。
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const questions = [
+            {
+                id: 'family_economy',
+                category: '家庭环境',
+                question: '你目前对父母的经济依赖程度如何？',
+                description: '经济独立是出柜后应对负面反应的重要缓冲。',
+                options: [
+                    { text: '完全依赖（学费/生活费全部由父母提供）', value: 3, risk: 'high' },
+                    { text: '部分依赖（偶尔需要资助或同住）', value: 2, risk: 'medium' },
+                    { text: '基本独立（偶尔收礼物但不依赖）', value: 1, risk: 'low' },
+                    { text: '完全独立（经济/住房完全自主）', value: 0, risk: 'none' }
+                ]
+            },
+            {
+                id: 'family_attitude',
+                category: '家庭环境',
+                question: '父母对 LGBTQ+ 群体的大致态度？',
+                description: '观察他们平时的言论，而非直接询问。',
+                options: [
+                    { text: '极度排斥（曾表达仇恨言论，认为需要"治疗"）', value: 3, risk: 'high' },
+                    { text: '比较保守（认为"不正常"或"丢人"，但无极端言行）', value: 2, risk: 'medium' },
+                    { text: '漠不关心（不关注此类话题，态度模糊）', value: 1, risk: 'low' },
+                    { text: '相对包容（能理性讨论，尊重多元）', value: 0, risk: 'none' }
+                ]
+            },
+            {
+                id: 'family_violence',
+                category: '家庭环境',
+                question: '家庭历史中是否存在暴力或极端控制行为？',
+                description: '包括肢体暴力、精神虐待、经济控制、强制软禁等。',
+                options: [
+                    { text: '有明确暴力史或极度控制倾向', value: 3, risk: 'high' },
+                    { text: '偶有激烈冲突但无肢体暴力', value: 1, risk: 'medium' },
+                    { text: '沟通虽困难但保持基本尊重', value: 0, risk: 'low' }
+                ]
+            },
+            {
+                id: 'work_industry',
+                category: '工作环境',
+                question: '你所在行业的 LGBTQ+ 包容度如何？',
+                description: '某些行业（如互联网、外企、艺术）相对更友好。',
+                options: [
+                    { text: '传统行业/体制内/高度保守行业', value: 3, risk: 'high' },
+                    { text: '一般私企/制造业/教育（非一线城市）', value: 2, risk: 'medium' },
+                    { text: '互联网/金融/咨询/外企', value: 1, risk: 'low' },
+                    { text: '创意产业/公益/外企/自由职业', value: 0, risk: 'none' }
+                ]
+            },
+            {
+                id: 'work_position',
+                category: '工作环境',
+                question: '你在职场中的位置与可替代性？',
+                description: '核心员工通常拥有更高的容错空间。',
+                options: [
+                    { text: '试用期/实习生/基层（很容易被替换）', value: 2, risk: 'high' },
+                    { text: '普通员工，有一定工作经验', value: 1, risk: 'medium' },
+                    { text: '核心骨干/管理层/稀缺技能岗位', value: 0, risk: 'low' }
+                ]
+            },
+            {
+                id: 'region',
+                category: '社会环境',
+                question: '你目前生活的城市/地区氛围？',
+                description: '一线与新一线城市通常拥有更多元的社群支持。',
+                options: [
+                    { text: '县城/乡镇/保守地区', value: 3, risk: 'high' },
+                    { text: '三四线城市', value: 2, risk: 'medium' },
+                    { text: '二线/新一线城市', value: 1, risk: 'low' },
+                    { text: '北上广深等一线城市', value: 0, risk: 'none' }
+                ]
+            },
+            {
+                id: 'support_network',
+                category: '支持系统',
+                question: '你目前拥有多少"知道并接纳"你身份的亲友？',
+                description: '即使只有一个完全接纳的人，也能大幅降低孤独感。',
+                options: [
+                    { text: '完全没有（我是唯一知道自己身份的人）', value: 3, risk: 'high' },
+                    { text: '1-2个非常信任的朋友知道', value: 1, risk: 'medium' },
+                    { text: '有小圈子（3-5人）知晓并支持', value: 0, risk: 'low' },
+                    { text: '已有一个稳固的支持网络', value: 0, risk: 'none' }
+                ]
+            },
+            {
+                id: 'mental_health',
+                category: '个人准备',
+                question: '你当前的心理健康状态？',
+                description: '出柜过程可能带来压力，需要一定的心理韧性。',
+                options: [
+                    { text: '近期有严重抑郁/焦虑/自伤倾向', value: 3, risk: 'high' },
+                    { text: '情绪起伏较大，正在经历高压期', value: 2, risk: 'medium' },
+                    { text: '总体稳定，偶有情绪波动', value: 1, risk: 'low' },
+                    { text: '心理状态良好，有应对压力的经验', value: 0, risk: 'none' }
+                ]
+            },
+            {
+                id: 'housing',
+                category: '安全基础',
+                question: '如果被赶出家门或失去工作，你是否有应急住所？',
+                description: '这是防止"最坏情况"恶化的关键安全网。',
+                options: [
+                    { text: '没有，无处可去', value: 3, risk: 'high' },
+                    { text: '可以短期借住朋友家（1-2周）', value: 2, risk: 'medium' },
+                    { text: '有能力立即租房（有存款）', value: 0, risk: 'low' }
+                ]
+            }
+        ];
+
+        let currentStep = 0;
+        let answers = {};
+
+        function startAssessment() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('questionScreen').style.display = 'block';
+            document.getElementById('progressContainer').style.display = 'block';
+            renderQuestion();
+            updateProgress();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentStep];
+            const container = document.getElementById('questionContainer');
+            
+            let html = `
+                <div class="mb-2 text-sm font-medium text-purple-600 uppercase tracking-wider">${q.category}</div>
+                <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-2">${q.question}</h2>
+                <p class="text-gray-500 text-sm mb-6">${q.description}</p>
+                <div class="space-y-3">
+            `;
+            
+            q.options.forEach((opt, idx) => {
+                const selected = answers[q.id] === idx ? 'selected' : '';
+                html += `
+                    <div class="option-card rounded-xl p-4 bg-gray-50 ${selected}" 
+                         onclick="selectOption('${q.id}', ${idx})" 
+                         data-index="${idx}">
+                        <div class="flex items-start gap-3">
+                            <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 mt-0.5 flex items-center justify-center ${selected ? 'border-purple-600 bg-purple-600' : ''}">
+                                ${selected ? '<div class="w-2 h-2 bg-white rounded-full"></div>' : ''}
+                            </div>
+                            <div class="text-sm font-medium text-gray-700">${opt.text}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+            container.className = 'bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 fade-in';
+            void container.offsetWidth;
+            updateButtons();
+        }
+
+        function selectOption(questionId, optionIndex) {
+            answers[questionId] = optionIndex;
+            document.querySelectorAll('.option-card').forEach((card, idx) => {
+                const radio = card.querySelector('.w-5');
+                if (idx === optionIndex) {
+                    card.classList.add('selected');
+                    radio.classList.add('border-purple-600', 'bg-purple-600');
+                    radio.innerHTML = '<div class="w-2 h-2 bg-white rounded-full"></div>';
+                } else {
+                    card.classList.remove('selected');
+                    radio.classList.remove('border-purple-600', 'bg-purple-600');
+                    radio.innerHTML = '';
+                }
+            });
+            updateButtons();
+        }
+
+        function updateButtons() {
+            const q = questions[currentStep];
+            const hasAnswer = answers[q.id] !== undefined;
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = !hasAnswer;
+            nextBtn.style.opacity = hasAnswer ? '1' : '0.5';
+            document.getElementById('prevBtn').style.visibility = currentStep > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateProgress() {
+            const percent = ((currentStep) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('stepLabel').textContent = `步骤 ${currentStep + 1}/${questions.length}`;
+            document.getElementById('progressPercent').textContent = Math.round(percent) + '%';
+        }
+
+        function nextStep() {
+            if (answers[questions[currentStep].id] === undefined) return;
+            if (currentStep < questions.length - 1) {
+                currentStep++;
+                renderQuestion();
+                updateProgress();
+            } else {
+                finishAssessment();
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                renderQuestion();
+                updateProgress();
+            }
+        }
+
+        function finishAssessment() {
+            document.getElementById('questionScreen').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('loadingScreen').style.display = 'block';
+            
+            const loadingTexts = [
+                '评估家庭支持网络...',
+                '分析职场包容度数据...',
+                '计算经济安全缓冲...',
+                '评估心理韧性指数...',
+                '生成个性化路线图...'
+            ];
+            
+            let loadIdx = 0;
+            const loadInterval = setInterval(() => {
+                if (loadIdx < loadingTexts.length) {
+                    document.getElementById('loadingText').textContent = loadingTexts[loadIdx];
+                    loadIdx++;
+                }
+            }, 400);
+            
+            setTimeout(() => {
+                clearInterval(loadInterval);
+                document.getElementById('loadingScreen').style.display = 'none';
+                generateReport();
+                document.getElementById('reportScreen').style.display = 'block';
+                window.scrollTo(0, 0);
+            }, 2200);
+        }
+
+        function calculateRisk() {
+            let totalScore = 0;
+            let maxScore = 0;
+            const dimensions = {
+                '家庭环境': { score: 0, max: 0 },
+                '工作环境': { score: 0, max: 0 },
+                '社会环境': { score: 0, max: 0 },
+                '支持系统': { score: 0, max: 0 },
+                '个人准备': { score: 0, max: 0 },
+                '安全基础': { score: 0, max: 0 }
+            };
+            
+            questions.forEach(q => {
+                const ansIdx = answers[q.id];
+                const val = q.options[ansIdx].value;
+                totalScore += val;
+                maxScore += 3;
+                
+                let dim = q.category;
+                if (dim === '家庭环境') dimensions['家庭环境'].score += val;
+                else if (dim === '工作环境') dimensions['工作环境'].score += val;
+                else if (dim === '社会环境') dimensions['社会环境'].score += val;
+                else if (dim === '支持系统') dimensions['支持系统'].score += val;
+                else if (dim === '个人准备') dimensions['个人准备'].score += val;
+                else if (dim === '安全基础') dimensions['安全基础'].score += val;
+                
+                dimensions[dim].max += 3;
+            });
+            
+            const riskPercent = Math.round((totalScore / maxScore) * 100);
+            return { totalScore, maxScore, riskPercent, dimensions };
+        }
+
+        function generateReport() {
+            const { riskPercent, dimensions } = calculateRisk();
+            
+            const circle = document.getElementById('riskCircle');
+            const circumference = 2 * Math.PI * 45;
+            const offset = circumference - (riskPercent / 100) * circumference;
+            
+            setTimeout(() => {
+                circle.style.strokeDashoffset = offset;
+                
+                let color = '#10b981';
+                let badgeClass = 'bg-green-100 text-green-700';
+                let badgeText = '低风险环境';
+                let title = '相对安全的出柜环境';
+                let summary = '你的环境具备较好的支持基础，但仍建议采取渐进式策略，优先向最信任的人出柜。';
+                
+                if (riskPercent >= 70) {
+                    color = '#ef4444';
+                    badgeClass = 'bg-red-100 text-red-700';
+                    badgeText = '高风险环境';
+                    title = '建议暂缓全面出柜';
+                    summary = '当前环境存在多个不稳定因素，强制出柜可能导致经济断绝、心理创伤或人身安全问题。建议优先建立安全网。';
+                } else if (riskPercent >= 40) {
+                    color = '#f59e0b';
+                    badgeClass = 'bg-yellow-100 text-yellow-700';
+                    badgeText = '中风险环境';
+                    title = '谨慎选择性出柜';
+                    summary = '环境中有支持性因素，也存在明显风险点。建议采用"选择性出柜"策略，只对安全的人坦诚。';
+                }
+                
+                circle.style.stroke = color;
+                document.getElementById('riskScore').textContent = riskPercent;
+                document.getElementById('riskScore').style.color = color;
+                document.getElementById('riskBadge').className = `inline-block px-4 py-1 rounded-full text-sm font-bold mb-3 ${badgeClass}`;
+                document.getElementById('riskBadge').textContent = badgeText;
+                document.getElementById('riskTitle').textContent = title;
+                document.getElementById('riskSummary').textContent = summary;
+            }, 100);
+            
+            const breakdownHTML = Object.entries(dimensions).map(([name, data]) => {
+                const pct = Math.round((data.score / data.max) * 100);
+                let color = 'bg-green-500';
+                if (pct > 70) color = 'bg-red-500';
+                else if (pct > 40) color = 'bg-yellow-500';
+                
+                return `
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-gray-600">${name}</span>
+                            <span class="font-medium ${pct > 70 ? 'text-red-600' : pct > 40 ? 'text-yellow-600' : 'text-green-600'}">${pct}% 风险</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="${color} h-2 rounded-full" style="width: ${pct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            document.getElementById('dimensionBreakdown').innerHTML = breakdownHTML;
+        }
+
+        function restart() {
+            currentStep = 0;
+            answers = {};
+            document.getElementById('reportScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('riskCircle').style.strokeDashoffset = 283;
+            window.scrollTo(0, 0);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('questionScreen').style.display === 'none') return;
+            if (e.key === 'Enter' && answers[questions[currentStep].id] !== undefined) {
+                nextStep();
+            }
+        });
+    </script>
+</body>
+</html>

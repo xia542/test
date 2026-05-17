@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>依恋风格深度探索 | 你在关系中的安全感模式</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'safe': '#d1fae5',
+                        'anxious': '#ffe4e6',
+                        'avoid': '#fef3c7',
+                        'fearful': '#f3e8ff',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #fdfbf7 0%, #fef9e6 100%);
+        }
+        .breathe-heart {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #f43f5e, #e11d48);
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") no-repeat center;
+            background-size: 80%;
+            background-color: #f43f5e;
+            animation: heartbeat 1.4s infinite ease-in-out;
+            cursor: pointer;
+            margin: 0 auto;
+        }
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 0.5; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #fde047;
+            background: white;
+        }
+        .option-card:hover { border-color: #eab308; background: #fefce8; transform: translateX(5px); }
+        .option-card.selected { border-color: #eab308; background: #fef9c3; box-shadow: 0 2px 8px rgba(234,179,8,0.2); }
+        .glass-card { background: rgba(255,255,245,0.85); backdrop-filter: blur(8px); border: 1px solid #fde047; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .btn-relation:active { transform: scale(0.97); }
+        .progress-ring { transition: stroke-dashoffset 0.7s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-amber-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-rose-500 to-amber-500 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-heart text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-rose-700 to-amber-700 bg-clip-text text-transparent">依恋风格深度探索</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-amber-200 text-amber-700">
+                <i class="fa-regular fa-hand-holding-heart mr-1"></i> 关系中的安全感模式
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <!-- 欢迎页 -->
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-pulse">🫂💞🔍</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">探索你在关系中的安全感模式</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    为什么有些人靠近会想逃？为什么你总担心被抛弃？<br>
+                    这不是矫情，这是童年写在心里的「依恋地图」。
+                </p>
+                <p class="text-xs text-amber-600 mt-1 mb-6">✨ 不评判，只看见。每一种依恋都是曾经保护你的方式 ✨</p>
+
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">❤️</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">给内心小孩的仪式</h3>
+                            <div class="breathe-heart my-3" id="heartBreath"></div>
+                            <p class="text-xs text-center text-slate-500">触摸心跳，吸气4秒 → 呼气6秒（释放关系焦虑）</p>
+                            <div class="bg-rose-50/60 rounded-lg p-2 text-xs text-slate-700 mt-3 leading-relaxed border-l-3 border-rose-300">
+                                💡 依恋风格不是宿命。安全型可以后天习得，觉察就是改变的开始。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-5 rounded-2xl shadow-md border border-amber-200 hover:border-rose-300 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-2">📋</div>
+                        <h3 class="font-bold">12题 · 快速探测</h3>
+                        <p class="text-xs text-slate-400">3分钟，初步了解你的依恋倾向</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-5 rounded-2xl shadow-md border border-rose-200 hover:border-amber-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-2">🔍</div>
+                        <h3 class="font-bold">28题 · 深度版</h3>
+                        <p class="text-xs text-slate-400">8分钟，精准识别焦虑/回避双维度</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🎧 请回忆成年后亲密关系中的真实感受，不必过度思考。</p>
+            </div>
+        </section>
+
+        <!-- 测试界面 -->
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-amber-700 mb-1">
+                    <span id="stepLabel">第 1 题 · 关系期待</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-rose-400 to-amber-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-rose-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-message"></i> 依恋维度</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-amber-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-rose-600 text-white font-medium hover:bg-rose-700 shadow-md transition disabled:opacity-40 btn-relation">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <!-- 结果页：丰富版 -->
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-rose-300">
+                <div class="breathe-heart w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">🔐 你的依恋风格报告</h3>
+                <p class="text-sm text-slate-500">它影响着你和世界的距离，却不定义你的全部。</p>
+            </div>
+
+            <!-- 双维度得分 + 四象限 -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex flex-col items-center">
+                    <div class="relative w-44 h-44 mb-3">
+                        <svg viewBox="0 0 120 120" class="w-full h-full">
+                            <circle cx="60" cy="60" r="54" fill="none" stroke="#f1f5f9" stroke-width="8"/>
+                            <circle id="attachCircle" cx="60" cy="60" r="54" fill="none" stroke="url(#attachGrad)" stroke-width="8" stroke-dasharray="339.292" stroke-dashoffset="339.292" class="progress-ring"/>
+                            <defs><linearGradient id="attachGrad"><stop offset="0%" stop-color="#f43f5e"/><stop offset="100%" stop-color="#f59e0b"/></linearGradient></defs>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="anxietyNum" class="text-xl font-black text-rose-600">--</span>
+                            <span class="text-[10px] text-slate-400">焦虑维度</span>
+                            <span id="avoidNum" class="text-xl font-black text-amber-600 mt-1">--</span>
+                            <span class="text-[10px] text-slate-400">回避维度</span>
+                        </div>
+                    </div>
+                    <div id="styleBadge" class="inline-block mt-2 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm bg-teal-100 text-teal-800">安全型依恋</div>
+                    <h2 id="styleTitle" class="text-xl font-bold mt-3 text-slate-800">舒适且信任的连结</h2>
+                    <p id="styleDesc" class="text-sm text-slate-600 max-w-sm mx-auto mt-2">你能享受亲密，也不怕独处，内心相信自己是值得被爱的。</p>
+                </div>
+            </div>
+
+            <!-- 焦虑 & 回避 分别解读 -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-rose-50 rounded-2xl p-5 border-l-8 border-rose-400">
+                    <h3 class="font-bold text-rose-800 flex items-center gap-2"><i class="fa-regular fa-face-frown"></i> 焦虑维度解读</h3>
+                    <div id="anxietyInsight" class="text-sm text-slate-700 mt-2 space-y-2"></div>
+                </div>
+                <div class="bg-amber-50 rounded-2xl p-5 border-l-8 border-amber-400">
+                    <h3 class="font-bold text-amber-800 flex items-center gap-2"><i class="fa-regular fa-compass"></i> 回避维度解读</h3>
+                    <div id="avoidInsight" class="text-sm text-slate-700 mt-2 space-y-2"></div>
+                </div>
+            </div>
+
+            <!-- 专属成长建议（四型差异化） -->
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border-l-8 border-indigo-300">
+                <h3 class="font-bold text-indigo-800 flex gap-2"><i class="fa-regular fa-lightbulb"></i> 给你的关系礼物 · 成长方向</h3>
+                <div id="growthAdvice" class="text-sm text-slate-700 mt-3 space-y-3 leading-relaxed"></div>
+                <div class="bg-white/60 rounded-xl p-3 text-xs mt-4 italic text-slate-600">依恋风格可以通过安全的关系体验而重塑，你有能力靠近更温暖的亲密。</div>
+            </div>
+
+            <!-- 该依恋风格的内心独白 + 书影推荐 -->
+            <div class="bg-white rounded-2xl p-5 border border-amber-100 shadow-sm">
+                <div class="flex gap-2 items-center"><i class="fa-regular fa-heart text-rose-400"></i><span class="font-bold text-slate-700">依恋心声</span></div>
+                <p id="innerVoice" class="text-sm text-slate-600 italic mt-1">“我曾害怕靠近，也害怕离开，现在我开始学习刚刚好的距离。”</p>
+                <div class="mt-3 pt-2 border-t border-slate-100">
+                    <p class="text-xs font-medium text-slate-500">📚 推荐资源：</p>
+                    <p id="resourceRec" class="text-xs text-slate-500 mt-1">《关系的重建》 · 《依恋与亲密关系》 · 安全型关系体验</p>
+                </div>
+            </div>
+
+            <div class="bg-amber-50/50 p-4 rounded-xl text-xs text-slate-600 border border-amber-200">
+                <i class="fa-regular fa-hand-peace"></i> 依恋风格不是终点。安全型依恋可以通过新的关系体验、自我觉察和心理咨询逐渐建立。改变永远可能。
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-amber-400 text-amber-700 font-medium hover:bg-amber-50">重新探索</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-rose-600 text-white font-medium hover:bg-rose-700 shadow">保存报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">基于依恋理论 · 成人依恋风格量表(ECR) 改编 · 觉察是改变的开始</div>
+        </section>
+    </main>
+
+    <script>
+        // 题库：焦虑与回避明确分开
+        const quickItems = [
+            { text: "我担心伴侣不会像我爱他/她那样爱我。", dim: "anxiety" },
+            { text: "靠近伴侣让我感到有些不舒服。", dim: "avoid" },
+            { text: "我常常担心伴侣会突然不再爱我。", dim: "anxiety" },
+            { text: "当伴侣太亲近时，我会想后退一步。", dim: "avoid" },
+            { text: "我害怕一旦伴侣了解真实的我，就会嫌弃我。", dim: "anxiety" },
+            { text: "我不太喜欢向伴侣袒露内心深处的感受。", dim: "avoid" },
+            { text: "我经常需要伴侣反复确认他/她在乎我。", dim: "anxiety" },
+            { text: "看到伴侣和别人亲近，我会感到恐慌。", dim: "anxiety" },
+            { text: "我不喜欢依赖伴侣，也不喜欢被依赖。", dim: "avoid" },
+            { text: "当伴侣心情不好时，我会觉得是自己的错。", dim: "anxiety" },
+            { text: "我觉得独自一人比陷入亲密关系更安全。", dim: "avoid" },
+            { text: "我会过度关注伴侣的一举一动，担心被抛弃。", dim: "anxiety" }
+        ];
+        const fullItems = [
+            ...quickItems,
+            { text: "我很容易对伴侣产生依赖，害怕失去他/她。", dim: "anxiety" },
+            { text: "我更喜欢保持独立，不太习惯亲密。", dim: "avoid" },
+            { text: "我觉得别人会离开我，所以不敢完全投入。", dim: "anxiety" },
+            { text: "我不愿意告诉伴侣我的脆弱。", dim: "avoid" },
+            { text: "我经常担心伴侣不想和我在一起了。", dim: "anxiety" },
+            { text: "如果我感到受伤，我会躲起来不联系对方。", dim: "avoid" },
+            { text: "我渴望完全融合的爱，但又担心被吞噬。", dim: "anxiety" },
+            { text: "面对伴侣的情绪，我会不知所措想逃跑。", dim: "avoid" },
+            { text: "我常常反复测试伴侣的爱。", dim: "anxiety" },
+            { text: "亲密让我觉得失去自由。", dim: "avoid" },
+            { text: "我会因为小事觉得伴侣不爱我。", dim: "anxiety" },
+            { text: "我不喜欢肢体接触太多。", dim: "avoid" },
+            { text: "被拒绝后我会崩溃，很久才能恢复。", dim: "anxiety" },
+            { text: "我几乎没有深刻的情感依赖。", dim: "avoid" },
+            { text: "我需要对方立即回应我的消息，否则会焦虑。", dim: "anxiety" },
+            { text: "我认为感情最终都会带来伤害。", dim: "avoid" },
+            { text: "我很难信任伴侣会一直在我身边。", dim: "anxiety" },
+            { text: "我故意和伴侣保持距离来保护自己。", dim: "avoid" },
+            { text: "我会因为害怕失去而讨好对方。", dim: "anxiety" },
+            { text: "比起恋爱我更喜欢一个人自由自在。", dim: "avoid" },
+            { text: "我的心情完全随着伴侣的态度起伏。", dim: "anxiety" },
+            { text: "当伴侣难过时，我不知道怎么安慰，只想离开。", dim: "avoid" },
+            { text: "我常常幻想一个完美的爱人来拯救我。", dim: "anxiety" },
+            { text: "分手后我很快就无所谓了。", dim: "avoid" },
+            { text: "我觉得自己不值得被好好对待。", dim: "anxiety" },
+            { text: "我讨厌脆弱感，所以从不展露需求。", dim: "avoid" },
+            { text: "我害怕孤单一人。", dim: "anxiety" },
+            { text: "我觉得亲密关系很麻烦。", dim: "avoid" }
+        ];
+
+        let curQuestions = [], curIdx = 0, answers = [];
+
+        window.startTest = (type) => {
+            curQuestions = type === 'quick' ? quickItems.slice() : fullItems.slice();
+            curIdx = 0;
+            answers = new Array(curQuestions.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderItem();
+            updateProgress();
+        };
+
+        function renderItem() {
+            let q = curQuestions[curIdx];
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${q.dim === 'anxiety' ? '😰 焦虑维度 · 对被抛弃的敏感度' : '🏝️ 回避维度 · 对亲密的舒适度'}`;
+            document.getElementById('questionText').innerText = q.text;
+            let opts = ["完全不符合", "有点符合", "比较符合", "非常符合"];
+            let container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            opts.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${answers[curIdx] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${answers[curIdx]===idx ? 'border-amber-500 bg-amber-500' : 'border-slate-300'} inline-block text-center text-white text-xs">${answers[curIdx]===idx?'✓':''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { answers[curIdx]=idx; renderItem(); };
+                container.appendChild(div);
+            });
+            let next = document.getElementById('nextBtn');
+            next.disabled = answers[curIdx] === null;
+            next.innerText = (curIdx === curQuestions.length-1) ? (answers[curIdx] !== null ? "🌟 看见我的依恋模式 🌟" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = curIdx > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateProgress() {
+            let pct = ((curIdx+1)/curQuestions.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${curIdx+1}/${curQuestions.length} 题 · 关系感受`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answers[curIdx] === null) return;
+            if(curIdx === curQuestions.length-1) showRichResult();
+            else { curIdx++; renderItem(); updateProgress(); }
+        };
+        window.prevQuestion = () => { if(curIdx>0) { curIdx--; renderItem(); updateProgress(); }};
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < 4) { answers[curIdx]=idx; renderItem(); }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showRichResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            
+            let anxietySum=0, avoidSum=0, anxietyCount=0, avoidCount=0;
+            curQuestions.forEach((item,i) => {
+                let score = answers[i] !== null ? answers[i] : 0;
+                if(item.dim === 'anxiety') { anxietySum+=score; anxietyCount++; }
+                else { avoidSum+=score; avoidCount++; }
+            });
+            let anxietyRaw = anxietyCount ? (anxietySum/anxietyCount) : 0;  // 0-3
+            let avoidRaw = avoidCount ? (avoidSum/avoidCount) : 0;
+            let anxietyScore = Math.round(anxietyRaw * 33.33);
+            let avoidScore = Math.round(avoidRaw * 33.33);
+            document.getElementById('anxietyNum').innerHTML = anxietyScore;
+            document.getElementById('avoidNum').innerHTML = avoidScore;
+            
+            let circum = 2*Math.PI*54;
+            let totalPercent = (anxietyScore + avoidScore) / 1.5;
+            let offset = circum - (Math.min(totalPercent,100)/100)*circum;
+            setTimeout(()=> document.getElementById('attachCircle').style.strokeDashoffset = offset, 50);
+            
+            // 焦虑维度文字解读
+            let anxietyInsight = "";
+            if(anxietyScore < 35) anxietyInsight = "你的焦虑水平较低，不容易担心被抛弃或冷落。你内心有稳定的被爱信念，能够给伴侣适度的空间。";
+            else if(anxietyScore < 60) anxietyInsight = "你有时会担心关系稳定性，但尚可自我安抚。适度焦虑能让你更关注关系，但注意不要过度解读信号。";
+            else anxietyInsight = "你的焦虑水平较高，常常害怕被拒绝或抛弃，容易陷入过度寻求确认的循环。需要学习情绪自我调节，减少对伴侣的过度依赖。";
+            document.getElementById('anxietyInsight').innerHTML = `<p>${anxietyInsight}</p><p class="text-xs text-rose-600 mt-1">💡 焦虑核心：害怕失去 → 过度关注 → 验证爱意 → 短暂安心 → 再次焦虑</p>`;
+            
+            let avoidInsight = "";
+            if(avoidScore < 35) avoidInsight = "你对亲密关系感到舒适，不回避依赖和情感表达。你能够坦然接受爱与被爱。";
+            else if(avoidScore < 60) avoidInsight = "你对亲密有一定保留，需要较多的个人空间。适度的回避是健康的边界，但注意不要因害怕而推开真正的亲近。";
+            else avoidInsight = "你的回避倾向明显，习惯用距离保护自己，害怕被亲密关系束缚。你可能在情感上习惯独来独往，但内心深处或许也渴望联结。";
+            document.getElementById('avoidInsight').innerHTML = `<p>${avoidInsight}</p><p class="text-xs text-amber-600 mt-1">💡 回避核心：害怕依赖 → 保持距离 → 压抑需求 → 看似独立 → 实则孤单</p>`;
+            
+            // 四型判定
+            let styleType = "";
+            let badgeClass="", title="", desc="", growth="", voice="", resource="";
+            if(anxietyScore<40 && avoidScore<40){
+                styleType="安全型依恋"; badgeClass="bg-teal-100 text-teal-800"; title="安心且自在的联结者"; 
+                desc="你能信任他人，也能享受独处，情绪调节能力强。你拥有健康的亲密关系模板。";
+                growth="✅ 继续保持坦诚沟通，你的安全感会传递给伴侣。\n✅ 你已经具备了安全基地的功能，可以成为身边人的稳定支持。\n✅ 在关系中继续练习直接表达需求，而非假设对方知道。";
+                voice="我相信自己值得被爱，也相信对方不会随意离开。亲密让我成长，独处让我完整。";
+                resource="《关系的重建》· 《亲密关系》· 安全型伴侣的相处之道";
+            } else if(anxietyScore>=45 && avoidScore<40){
+                styleType="焦虑型依恋"; badgeClass="bg-rose-100 text-rose-800"; title="渴望靠近又害怕失去的心"; 
+                desc="你非常投入感情，但容易被抛弃恐惧裹挟，需要反复确认爱意。";
+                growth="🔹 练习自我安抚：当焦虑来袭时，先深呼吸10次，问自己'事实是什么'。\n🔹 减少对伴侣的过度监测，把注意力放回自己的生活。\n🔹 建立『安全感日记』，每天记录三件被爱的证据。\n🔹 尝试与安全型的人建立关系，体验稳定的互动模式。";
+                voice="我总在试探，怕下一秒就会被丢下。我需要很多很多的爱，来证明我足够好。";
+                resource="《焦虑型依恋自救指南》· 《安全感：如何建立深度信任》· 正念冥想";
+            } else if(anxietyScore<40 && avoidScore>=45){
+                styleType="回避型依恋"; badgeClass="bg-amber-100 text-amber-800"; title="独立堡垒里的守护者"; 
+                desc="你习惯保持距离，亲密会让你感到束缚。你不太依赖别人，也不喜欢别人依赖你。";
+                growth="🔹 试着从小事分享感受开始，承认脆弱不是失败。\n🔹 设置「亲密练习」每周一次深度对话，时长30分钟。\n🔹 觉察逃避背后的恐惧：你在害怕什么？\n🔹 允许自己需要他人，依赖也是一种能力。";
+                voice="我很好，不需要任何人。可是为什么有时候，我也会觉得孤单？";
+                resource="《关系的重建》· 《如何拥抱一只刺猬》· 情绪聚焦疗法(EFT)";
+            } else {
+                styleType="恐惧型依恋"; badgeClass="bg-purple-100 text-purple-800"; title="矛盾纠结的追逃者"; 
+                desc="你既渴望亲密又害怕受伤，常常陷入想靠近却推开的循环。内心冲突剧烈。";
+                growth="🔹 你需要稳定的安全基地。寻找安全型伴侣或专业咨询师。\n🔹 练习一致性表达：直接说出'我想要靠近，但我有点害怕'。\n🔹 建立情绪锚点：在安全环境中写下你的矛盾感受，不加评判。\n🔹 从小范围的信任开始，慢慢扩大亲密边界。";
+                voice="我想抱你，又怕被你推开，于是我站在原地，假装不需要任何人。";
+                resource="《心理治疗中的依恋》· 《不原谅也没关系》· 依恋取向心理咨询";
+            }
+            document.getElementById('styleBadge').className = `inline-block mt-2 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm ${badgeClass}`;
+            document.getElementById('styleBadge').innerText = styleType;
+            document.getElementById('styleTitle').innerText = title;
+            document.getElementById('styleDesc').innerText = desc;
+            document.getElementById('growthAdvice').innerHTML = growth.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('innerVoice').innerHTML = `“${voice}”`;
+            document.getElementById('resourceRec').innerHTML = resource;
+            window.scrollTo(0,0);
+        }
+        window.restart = () => location.reload();
+    </script>
+</body>
+</html>

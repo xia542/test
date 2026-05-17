@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>高敏感天赋自测 | 你的感知力指数</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hsp-mist': '#eef2ff',
+                        'hsp-lavender': '#e9d5ff',
+                        'hsp-teal': '#ccfbf1',
+                        'hsp-amber': '#fef3c7',
+                        'hsp-rose': '#ffe4e6',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: radial-gradient(circle at 10% 20%, #f8fafc 0%, #f1f5f9 100%);
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        .watermark-sensitive {
+            background: repeating-linear-gradient(45deg, rgba(199,210,254,0.08) 0px, rgba(199,210,254,0.08) 2px, transparent 2px, transparent 8px);
+        }
+        .breathe-petal {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #a5b4fc, #818cf8);
+            border-radius: 60% 40% 50% 50% / 45% 50% 50% 55%;
+            animation: floatPetals 4s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(99,102,241,0.2);
+        }
+        @keyframes floatPetals {
+            0%, 100% { transform: translateY(0px) rotate(0deg); border-radius: 60% 40% 50% 50% / 45% 50% 50% 55%; }
+            50% { transform: translateY(-10px) rotate(3deg); border-radius: 40% 60% 45% 55% / 55% 45% 55% 45%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #e2e8f0;
+            background: white;
+        }
+        .option-card:hover {
+            border-color: #818cf8;
+            background: #eef2ff;
+            transform: translateX(6px);
+        }
+        .option-card.selected {
+            border-color: #4f46e5;
+            background: #e0e7ff;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(165, 180, 252, 0.3);
+        }
+        .fade-in { animation: fadeSlide 0.4s ease-out; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .btn-soft {
+            transition: all 0.2s;
+        }
+        .btn-soft:active { transform: scale(0.96); }
+        .progress-ring { transition: stroke-dashoffset 0.7s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
+    </style>
+</head>
+<body class="watermark-sensitive">
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-indigo-100 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-400 to-purple-400 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-snowflake text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-indigo-700 to-purple-700 bg-clip-text text-transparent">高敏感天赋自测</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-indigo-200 text-indigo-600">
+                <i class="fa-regular fa-gem mr-1"></i> HSP · 深度感知者
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <!-- 欢迎页：高敏感人的开场白 -->
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-pulse">🪶🌿✨</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">你拥有一颗「超感知」的心</h2>
+                <p class="text-slate-500 max-w-md mx-auto leading-relaxed text-sm">
+                    别人听不到的背景噪音，你听得到；别人忽略的微妙情绪，你一秒就能察觉。<br>
+                    这不是“想太多”，这是你的天赋——高敏感(HSP)。
+                </p>
+                <p class="text-xs text-indigo-400 mt-1 mb-6">✨ 不是缺陷，是精密的雷达 ✨</p>
+
+                <!-- 舒缓 intro -->
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🌀</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 flex items-center gap-1">高敏感者专属仪式 <i class="fa-regular fa-hand-peace"></i></h3>
+                            <div class="breathe-petal my-3" id="hspBreath"></div>
+                            <p class="text-xs text-center text-slate-500">触摸花瓣，吸气4秒 → 屏息4秒 → 呼气6秒（释放多余刺激）</p>
+                            <div class="bg-indigo-50/70 rounded-lg p-2 text-xs text-slate-700 mt-3 leading-relaxed border-l-3 border-indigo-300">
+                                💡 高敏感不是病，而是「深度信息处理模式」。你会注意到别人忽略的细节，也因此更容易心累。<br>
+                                今天，我们先不评判，只探索。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 双版本入口 -->
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-5 rounded-2xl shadow-md border border-indigo-100 hover:border-indigo-400 hover:shadow-lg transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">📋</div>
+                        <h3 class="font-bold text-slate-800">12题 · 快速感知</h3>
+                        <p class="text-xs text-slate-400">3分钟，了解你的敏感特质强度</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-5 rounded-2xl shadow-md border border-purple-100 hover:border-purple-400 hover:shadow-lg transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">🌊</div>
+                        <h3 class="font-bold text-slate-800">27题 · 深度觉察版</h3>
+                        <p class="text-xs text-slate-400">8分钟，解析高敏感的五个维度</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🎧 建议佩戴耳机，在安静环境中进行，温柔地对待自己的敏感。</p>
+            </div>
+        </section>
+
+        <!-- 测试界面 -->
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-indigo-600 mb-1 font-mono">
+                    <span id="stepLabel">第 1 题 · 情绪深度</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all duration-400" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 md:p-7 mb-5">
+                <div class="text-xs text-indigo-500 font-bold uppercase tracking-wide flex gap-2 items-center mb-2" id="categoryLabel">
+                    <i class="fa-regular fa-heart"></i> 情绪感知
+                </div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-indigo-50 transition text-sm border border-slate-200" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-indigo-700 text-white font-medium hover:bg-indigo-800 shadow-md transition disabled:opacity-40 btn-soft">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd> 快速选项，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <!-- 结果页：完全高敏感风格 -->
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <div class="glass-card rounded-2xl p-6 text-center border border-indigo-200">
+                <div class="breathe-petal w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">🔮 你的高敏感指数已生成</h3>
+                <p class="text-sm text-slate-500">这份报告是给你的情书——关于你细腻的灵魂。</p>
+            </div>
+
+            <!-- 结果核心 -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <div class="relative w-36 h-36 mx-auto">
+                    <svg viewBox="0 0 120 120" class="w-full h-full">
+                        <circle cx="60" cy="60" r="54" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+                        <circle id="hspCircle" cx="60" cy="60" r="54" fill="none" stroke="url(#hspGrad)" stroke-width="8" stroke-dasharray="339.292" stroke-dashoffset="339.292" class="progress-ring"/>
+                        <defs><linearGradient id="hspGrad"><stop offset="0%" stop-color="#818cf8"/><stop offset="100%" stop-color="#c084fc"/></linearGradient></defs>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center"><span id="hspScoreNum" class="text-3xl font-black text-indigo-800">--</span><span class="text-[10px] text-slate-400">敏感指数</span></div>
+                </div>
+                <div id="levelTag" class="inline-block mt-3 px-4 py-1 rounded-full text-sm font-bold bg-teal-100 text-teal-700">高度敏感倾向</div>
+                <h2 id="hspTitle" class="text-xl font-bold mt-3 text-slate-800">你的雷达超级灵敏</h2>
+                <p id="hspDesc" class="text-sm text-slate-600 max-w-xs mx-auto mt-2">你能捕捉到微妙的情绪、光线和声音，容易共情，也容易心累。</p>
+            </div>
+
+            <!-- 五维度 （DOES模型）-->
+            <div class="bg-white rounded-2xl shadow-md p-5">
+                <h3 class="font-bold flex items-center gap-2 text-indigo-800"><i class="fa-regular fa-chart-scatter"></i> 高敏感天赋五维度 (DOES)</h3>
+                <div class="space-y-3 mt-3" id="doesBars"></div>
+                <p class="text-[10px] text-slate-400 mt-2">D-深度加工 · O-易过度刺激 · E-情绪共情力 · S-细微感知</p>
+            </div>
+
+            <!-- 专属于高敏感人的安抚建议 -->
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border-l-8 border-indigo-300">
+                <h3 class="font-bold text-indigo-800 flex gap-2"><i class="fa-regular fa-face-smile"></i> 给你的「敏感者生存锦囊」</h3>
+                <div id="sensitiveAdvice" class="text-sm text-slate-700 space-y-2 mt-2"></div>
+                <div class="bg-white/60 rounded-xl p-3 text-xs mt-3 text-indigo-700 italic">“你的敏感不是短板，是读懂了别人读不懂的世界。” </div>
+            </div>
+
+            <!-- 高敏感者诗意独白 -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex gap-3"><i class="fa-regular fa-message text-indigo-400"></i><span class="font-semibold text-slate-700">同时代敏感者说：</span></div>
+                <p id="quoteWord" class="text-sm text-slate-500 italic mt-2">“我像是没有皮肤的星球，每一丝风都能吹进骨头里。” </p>
+            </div>
+            
+            <div class="bg-amber-50/50 p-4 rounded-xl text-xs text-slate-600 border border-amber-200">
+                <i class="fa-regular fa-hand-peace"></i> 如果最近情绪超载：听白噪音、减少社交、用纸笔写下来。你的神经系统需要的是「减负」，而不是「克服敏感」。
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-indigo-300 text-indigo-700 font-medium hover:bg-indigo-50">重新自测</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-indigo-800 text-white font-medium hover:bg-indigo-900 shadow">保存我的报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">基于Aron博士高敏感人格理论改编 · 每一份敏感都值得被温柔对待</div>
+        </section>
+    </main>
+
+    <script>
+        // ==================== 高敏感题库 ====================
+        const quickQ = [
+            { id: 1, dim: "情绪共鸣", text: "我很容易被他人的情绪影响，甚至能感觉到身边人的“气场”变化。", opts: ["完全不符", "有点符合", "比较符合", "非常符合"] },
+            { id: 2, dim: "深度加工", text: "我做决定时总会反复考虑各种可能性，即使是很小的事情。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 3, dim: "感官刺激", text: "嘈杂的环境（商场、聚会）会让我感到疲惫甚至头痛。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 4, dim: "艺术感知", text: "我对音乐、美术或自然的美有很深的触动，甚至会眼眶湿润。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 5, dim: "易惊醒", text: "我很容易被轻微的声响或光线的变化惊醒。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 6, dim: "细节敏感", text: "我会注意到别人注意不到的细节（比如别人衣着的微小变化）。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 7, dim: "完美倾向", text: "我对自己要求很高，常常觉得自己做得不够好。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 8, dim: "独处需求", text: "我需要定期独自待着，远离人群才能恢复能量。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 9, dim: "共情过载", text: "看新闻或电影时，我会因为别人的遭遇难过很久。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 10, dim: "直觉强", text: "我常常不用别人开口就能感觉到他们想说什么。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 11, dim: "避免冲突", text: "我很害怕冲突和批评，常常为了和谐而委屈自己。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 12, dim: "享受宁静", text: "我喜欢安静、柔和的生活方式，讨厌激烈刺激的体验。", opts: ["从不", "偶尔", "经常", "总是"] }
+        ];
+
+        const fullQ = [
+            ...quickQ,
+            { id: 13, dim: "深度加工", text: "我会花很长时间反思自己的经历，从中提炼意义。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 14, dim: "情绪共鸣", text: "朋友难过的时候，我感觉像自己也经历了一遍痛苦。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 15, dim: "感官过度", text: "刺眼的光、强烈的气味会让我瞬间烦躁或不舒服。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 16, dim: "饥饿敏感", text: "如果我饿了或者太累了，情绪会立刻变得低落、易怒。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 17, dim: "内在世界", text: "我有非常丰富的内心活动，经常自己构思故事或对话。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 18, dim: "正义感", text: "我对不公平的事反应非常强烈，会替弱者打抱不平。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 19, dim: "被误解", text: "我常常被人说“想太多”“太敏感”。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 20, dim: "审美", text: "我喜欢艺术、文学、诗歌等精神层面的表达。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 21, dim: "易受惊", text: "突然的声响或惊吓会让我心跳加速很长时间。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 22, dim: "压力反应", text: "同时处理多项任务时我会感到无法承受的压力。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 23, dim: "察言观色", text: "我能快速识别出谁在群体中感到不适或被冷落。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 24, dim: "边界感", text: "我需要明确的时间边界，不喜欢被打扰。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 25, dim: "生命力感知", text: "大自然（风、树叶、水流）能瞬间让我平静下来。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 26, dim: "灵感", text: "我经常在安静的时刻获得突然的灵感或洞察。", opts: ["从不", "偶尔", "经常", "总是"] },
+            { id: 27, dim: "关怀", text: "我很容易发现周围人是不是需要帮助。", opts: ["从不", "偶尔", "经常", "总是"] }
+        ];
+
+        const dimMap = {
+            "情绪共鸣": "🌊 情绪共情力", "深度加工": "🧠 深度信息加工", "感官刺激": "✨ 感官敏感度", "艺术感知": "🎨 审美与灵性", "易惊醒": "⚡ 刺激阈限", "细节敏感": "🔍 细节觉察", "完美倾向": "📐 内在压力", "独处需求": "🌙 恢复方式", "共情过载": "💧 情绪过载", "直觉强": "🕊️ 直觉力", "避免冲突": "🛡️ 冲突回避", "享受宁静": "🍃 宁静偏好","内在世界":"📖 内心丰盈","正义感":"⚖️ 正义敏感","被误解":"🗣️ 社交疲惫","审美":"🖌️ 审美敏感","易受惊":"🌩️ 惊吓反应","压力反应":"📛 多任务压力","察言观色":"👀 社交雷达","边界感":"🧩 能量边界","生命力感知":"🌳 自然疗愈","灵感":"💡 灵感汲取","关怀":"🤝 深度关怀"
+        };
+
+        let curQuestions = [];
+        let curIndex = 0;
+        let answersArr = [];
+
+        window.startTest = (type) => {
+            curQuestions = type === 'quick' ? quickQ : fullQ;
+            curIndex = 0;
+            answersArr = new Array(curQuestions.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderItem();
+            updateProgress();
+        };
+
+        function renderItem() {
+            let q = curQuestions[curIndex];
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-dove"></i> ${dimMap[q.dim] || q.dim}`;
+            document.getElementById('questionText').innerText = q.text;
+            let container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            q.opts.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${answersArr[curIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${answersArr[curIndex] === idx ? 'border-indigo-500 bg-indigo-500' : 'border-slate-300'} inline-block text-center text-white text-xs">${answersArr[curIndex] === idx ? '✓' : ''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { answersArr[curIndex] = idx; renderItem(); };
+                container.appendChild(div);
+            });
+            let nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = answersArr[curIndex] === null;
+            let isLast = curIndex === curQuestions.length-1;
+            nextBtn.innerText = isLast ? (answersArr[curIndex] !== null ? "✨ 查看我的敏感图谱 ✨" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = curIndex > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateProgress() {
+            let pct = ((curIndex+1)/curQuestions.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${curIndex+1}/${curQuestions.length} 题 · 感知深度`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answersArr[curIndex] === null) return;
+            if(curIndex === curQuestions.length-1) showResultHighSensitive();
+            else { curIndex++; renderItem(); updateProgress(); }
+        };
+        window.prevQuestion = () => { if(curIndex>0){ curIndex--; renderItem(); updateProgress(); }};
+
+        document.addEventListener('keydown', e => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < curQuestions[curIndex].opts.length){ answersArr[curIndex]=idx; renderItem(); }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showResultHighSensitive() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let total=0;
+            let dimScore={}, dimMax={};
+            curQuestions.forEach((q,i)=>{
+                let s = answersArr[i] ?? 0;
+                total+=s;
+                let d = q.dim;
+                if(!dimScore[d]){ dimScore[d]=0; dimMax[d]=0; }
+                dimScore[d]+=s;
+                dimMax[d]+=3;
+            });
+            let percent = (total/(curQuestions.length*3))*100;
+            document.getElementById('hspScoreNum').innerText = Math.round(percent);
+            let ring = document.getElementById('hspCircle');
+            let circum = 2*Math.PI*54;
+            let offset = circum - (percent/100)*circum;
+            setTimeout(()=> ring.style.strokeDashoffset = offset, 50);
+            
+            let levelText="", levelColor="", title="", desc="", advice="";
+            if(percent<30){
+                levelText="低敏感度 · 沉稳淡定"; levelColor="bg-sky-100 text-sky-700"; title="你拥有‘钝感铠甲’"; desc="你不太容易被环境干扰，心态稳如磐石。这是非常强大的生存优势。"; advice="尊重自己的节奏，但也试着理解身边敏感者的深度世界。";
+            } else if(percent<55){
+                levelText="中等敏感 · 有觉知的人"; levelColor="bg-teal-100 text-teal-700"; title="你的雷达收放自如"; desc="你能够觉察细节，又不容易被淹没。这是理想的高敏感平衡状态。"; advice="继续保持自我关怀，你拥有温和而敏锐的觉察力。";
+            } else if(percent<75){
+                levelText="高度敏感 · 深度共情者"; levelColor="bg-indigo-100 text-indigo-800"; title="你是一台高精度情感探测器"; desc="你能感受到别人感受不到的层次，也容易心累。但你的天赋是爱和创造力。"; advice="每天给自己一段「无目的空白时间」，拒绝信息过载。练习说「我先照顾好自己」。";
+            } else {
+                levelText="极高度敏感 · 灵魂的透明人"; levelColor="bg-purple-100 text-purple-800"; title="你的感官世界比普通人丰富十倍"; desc="你几乎能听到光线，尝到情绪。世界对你来说是一首交响乐。请学会为自己建立防护结界。"; advice="优先考虑低刺激职业/生活方式。耳塞、遮光窗帘、规律作息是你的保护盾。不要为你的「过度反应」道歉。";
+            }
+            document.getElementById('levelTag').className = `inline-block mt-3 px-4 py-1 rounded-full text-sm font-bold ${levelColor}`;
+            document.getElementById('levelTag').innerText = levelText;
+            document.getElementById('hspTitle').innerText = title;
+            document.getElementById('hspDesc').innerText = desc;
+            document.getElementById('sensitiveAdvice').innerHTML = `<p class="flex gap-2"><i class="fa-regular fa-compass"></i>${advice}</p><p class="text-xs text-indigo-600 mt-1">✨ 高敏感者专属技巧：使用降噪耳塞、建立情绪边界、每天独处30分钟、写「情绪日记」。</p>`;
+
+            // DOES 可视化 — 选取主要维度展示
+            let container = document.getElementById('doesBars');
+            container.innerHTML = '';
+            let topDims = ["情绪共鸣","深度加工","感官刺激","细节敏感","独处需求"];
+            topDims.forEach(d => {
+                let score = dimScore[d] || 0;
+                let maxi = dimMax[d] || 3;
+                let pctVal = (score/maxi)*100;
+                let dispName = dimMap[d] || d;
+                let barDiv = document.createElement('div');
+                barDiv.innerHTML = `<div class="flex justify-between text-xs"><span>${dispName}</span><span>${Math.round(pctVal)}%</span></div><div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-500 h-2 rounded-full transition-all" style="width:0%"></div></div>`;
+                container.appendChild(barDiv);
+                setTimeout(()=> barDiv.querySelector('div[style]').style.width = pctVal+'%', 100);
+            });
+            let quotes = ["“我像是海绵，吸收所有人的情绪，却挤不干自己。”","“敏感是我最痛的柔软，也是我见过星辰的眼睛。”","“当我学会保护自己的能量，世界才开始安静地爱我。”"];
+            document.getElementById('quoteWord').innerText = quotes[Math.floor(Math.random()*quotes.length)];
+            window.scrollTo(0,0);
+        }
+        window.restart = () => { location.reload(); };
+    </script>
+</body>
+</html>

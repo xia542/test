@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>九种人生哲学检测 | 你是哪种主义青年</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hedon': '#fef3c7',
+                        'nihil': '#e2e8f0',
+                        'group': '#d1fae5',
+                        'exist': '#e0e7ff',
+                        'logic': '#fce7f3',
+                        'conform': '#fed7aa',
+                        'tao': '#ccfbf1',
+                        'stoic': '#e9d5ff',
+                        'absurd': '#ffedd5',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: radial-gradient(circle at 10% 20%, #fdfbf7 0%, #fef9e6 100%);
+        }
+        .breathe-ideology {
+            width: 100px; height: 100px;
+            background: conic-gradient(from 0deg, #f97316, #eab308, #10b981, #3b82f6, #a855f7, #f97316);
+            border-radius: 50%;
+            animation: spinIdeology 8s infinite linear;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        @keyframes spinIdeology {
+            100% { transform: rotate(360deg); }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #e2e8f0;
+            background: white;
+        }
+        .option-card:hover { border-color: #f97316; background: #fff7ed; transform: translateX(5px); }
+        .option-card.selected { border-color: #f97316; background: #ffedd5; box-shadow: 0 2px 12px rgba(249,115,22,0.15); }
+        .glass-card { background: rgba(255,255,245,0.85); backdrop-filter: blur(8px); border: 1px solid #fed7aa; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .btn-ideology:active { transform: scale(0.97); }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-orange-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-compass text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-orange-700 to-amber-700 bg-clip-text text-transparent">九种人生哲学检测</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-amber-200 text-amber-700">
+                <i class="fa-regular fa-lightbulb mr-1"></i> 你活在哪种主义里
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <!-- 欢迎页 -->
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🤔🎭📚</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">测测你骨子里的「人生哲学」</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    享乐主义？虚无主义？还是荒诞主义？<br>
+                    这不是学术考试，是看看你灵魂深处怎么看待「活着」这件事。
+                </p>
+                <p class="text-xs text-amber-600 mt-1 mb-6">✨ 每个主义都是你对抗世界的一种姿势 ✨</p>
+
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🌀</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">哲学仪式</h3>
+                            <div class="breathe-ideology my-3" id="ideologyBreath"></div>
+                            <p class="text-xs text-center text-slate-500">点击转盘，思考一个问题：今天你为什么起床？</p>
+                            <div class="bg-orange-50/60 rounded-lg p-2 text-xs text-slate-700 mt-3 leading-relaxed">
+                                💡 每一种哲学都是人类面对不确定性的智慧。没有对错，只有适合当下的你。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-5 rounded-2xl shadow-md border border-amber-200 hover:border-orange-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-2">📋</div>
+                        <h3 class="font-bold">10题 · 快问快答</h3>
+                        <p class="text-xs text-slate-400">2分钟，解锁你的主义标签</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-5 rounded-2xl shadow-md border border-orange-200 hover:border-amber-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">🔍</div>
+                        <h3 class="font-bold">20题 · 深度版</h3>
+                        <p class="text-xs text-slate-400">5分钟，精准匹配九种主义</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🎭 诚实回答，甚至矛盾也没关系，人类本来就是纠结的生物。</p>
+            </div>
+        </section>
+
+        <!-- 测试界面 -->
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-amber-700 mb-1">
+                    <span id="stepLabel">第 1 题 · 人生信念</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-orange-500 to-amber-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-orange-600 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-message"></i> 主义倾向</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-amber-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-orange-600 text-white font-medium hover:bg-orange-700 shadow-md transition disabled:opacity-40 btn-ideology">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选项，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <!-- 结果页：九种主义丰富报告 -->
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-orange-400">
+                <div class="breathe-ideology w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📜 你的主义检测报告</h3>
+                <p class="text-sm text-slate-500">你对抗世界荒诞的方式，藏在这些答案里。</p>
+            </div>
+
+            <!-- 结果核心卡片 -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="styleIcon" class="text-7xl mb-2">🎉</div>
+                <div id="styleBadge" class="inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm bg-hedon text-amber-800">享乐主义 Hedonism</div>
+                <h2 id="styleTitle" class="text-xl font-bold mt-3 text-slate-800">人活着就是为了追求快乐</h2>
+                <p id="styleDesc" class="text-sm text-slate-600 max-w-sm mx-auto mt-2">享受当下，啥都不重要，快乐就完事了。</p>
+            </div>
+
+            <!-- 主义详细解读 + 金句 + 生存指南 -->
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border-l-8 border-orange-400">
+                <h3 class="font-bold text-orange-800 flex gap-2"><i class="fa-regular fa-eye"></i> 主义深度解读</h3>
+                <div id="ideologyDetail" class="text-sm text-slate-700 mt-3 space-y-2 leading-relaxed"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 flex items-center gap-2"><i class="fa-regular fa-comment"></i> 你的内心独白</h3>
+                    <p id="innerVoice" class="text-sm text-slate-600 italic mt-2">“人生苦短，及时行乐才是正解。”</p>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-slate-700 flex items-center gap-2"><i class="fa-regular fa-lightbulb"></i> 给你的生存指南</h3>
+                    <div id="survivalGuide" class="text-sm text-slate-600 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
+            <!-- 历史名人代表 + 书影推荐 -->
+            <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200">
+                <div class="flex gap-2 items-center"><i class="fa-regular fa-star text-amber-500"></i><span class="font-semibold text-slate-700">历史上的同道中人</span></div>
+                <p id="famousFigure" class="text-sm text-slate-600 mt-1">伊壁鸠鲁 ·  Epicurus</p>
+                <div class="mt-3 pt-2 border-t border-slate-200">
+                    <p class="text-xs font-medium text-slate-500">📺 推荐影/书：</p>
+                    <p id="mediaRec" class="text-xs text-slate-500 mt-1">《吃货的哲学》 · 《享乐主义手册》</p>
+                </div>
+            </div>
+
+            <!-- 反向视角（其他主义会怎么看你）增加趣味 -->
+            <div class="bg-amber-50/50 p-4 rounded-xl text-xs text-slate-600 border border-amber-200">
+                <i class="fa-regular fa-face-smile"></i> <strong>来自其他主义的吐槽：</strong> <span id="otherView">虚无主义者觉得你太浮躁，斯多葛主义者觉得你不懂节制。</span>
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-orange-400 text-orange-700 font-medium hover:bg-orange-50">重新检测</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-orange-600 text-white font-medium hover:bg-orange-700 shadow">保存报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">每一种哲学都是一面镜子，照见你此刻的生命状态。没有永恒的对错，只有流动的你。</div>
+        </section>
+    </main>
+
+    <script>
+        // 题库：九个主义各出2-3道倾向题（共20题）
+        const quickItems = [
+            { text: "如果人生没有快乐，那活着还有什么意思？", dim: "hedonism" },
+            { text: "我觉得所有意义都是人编出来的，本质上啥都没有。", dim: "nihilism" },
+            { text: "归属感和集体认同对我非常重要，我不想一个人。", dim: "groupism" },
+            { text: "人生的意义是自己创造的，我要活出自己的版本。", dim: "existentialism" },
+            { text: "只有能被科学验证的事情我才相信，别扯玄学。", dim: "logical" },
+            { text: "大家怎么活我就怎么活，跟着主流走最安全。", dim: "conformism" },
+            { text: "顺其自然，不要强求，像水一样流动。", dim: "taoism" },
+            { text: "我只控制我能控制的，不能控制的随它去。", dim: "stoicism" },
+            { text: "人生就像推石头上山，荒诞但也要笑着推。", dim: "absurdism" },
+            { text: "周末我必须出去玩，吃到好吃的我才觉得活过。", dim: "hedonism" },
+        ];
+        const fullItems = [
+            ...quickItems,
+            { text: "人类的存在没有预设目的，我接受这个事实。", dim: "existentialism" },
+            { text: "大家说好的东西通常错不了，我不喜欢标新立异。", dim: "conformism" },
+            { text: "刷手机、吃美食、看剧，能爽就行。", dim: "hedonism" },
+            { text: "一切都是虚无，所以我反而什么都不怕了。", dim: "nihilism" },
+            { text: "为集体做贡献比个人成就更让我满足。", dim: "groupism" },
+            { text: "数据说话，情绪和直觉不可靠。", dim: "logical" },
+            { text: "别折腾，该来的总会来。", dim: "taoism" },
+            { text: "每天起床对自己说：今天会有坏事，但我能应对。", dim: "stoicism" },
+            { text: "生活就是荒诞剧，滑稽又严肃。", dim: "absurdism" },
+            { text: "我常常觉得人生没意义，但还是要假装有。", dim: "nihilism" },
+            { text: "我喜欢和大家一起行动，单独待着会不安。", dim: "groupism" },
+            { text: "我选择成为什么样的人，我就成为什么样的人。", dim: "existentialism" },
+            { text: "中医、星座这些无法验证的东西我不信。", dim: "logical" },
+            { text: "从众是人类的本能，独特只会被孤立。", dim: "conformism" },
+            { text: "无为而治，不争不抢。", dim: "taoism" },
+            { text: "外界评价、成败得失，都与我无关。", dim: "stoicism" },
+            { text: "明知道会输，我还是要较劲，这就是我的反抗。", dim: "absurdism" },
+            { text: "快乐是唯一的内在善。", dim: "hedonism" },
+            { text: "我们只是宇宙的尘埃，所以随便吧。", dim: "nihilism" },
+            { text: "个体的意义来自与他人的连接。", dim: "groupism" },
+        ];
+
+        const ideologyMap = {
+            hedonism: { name: "享乐主义 Hedonism", icon: "🍕🎉", color: "bg-hedon text-amber-800", title: "人活着就是为了追求快乐", desc: "享受当下，啥都不重要，快乐就完事了。", detail: "享乐主义认为快乐是人生的最高目的。你信奉即时满足，讨厌延迟 gratification。在你看来，道德和意义都建立在‘是否快乐’之上。这不是肤浅，而是你对生命最诚实的回应。", voice: "人生苦短，及时行乐才是正解。那些苦行僧式的活法，对不起这趟人间旅行。", guide: "✅ 适度享乐，注意长远快乐（健康也是快乐的基石）。\n✅ 分享快乐，独乐乐不如众乐乐。\n✅ 警惕成瘾性快乐，追求更多元的愉悦。", famous: "伊壁鸠鲁 · 约翰·密尔 · 李白", media: "《吃货的哲学》 · 《享乐主义手册》 · 电影《芭比》", other: "虚无主义觉得你太浮浅，斯多葛主义觉得你太放纵，但存在主义觉得你至少真实。" },
+            nihilism: { name: "虚无主义 Nihilism", icon: "🖤💀", color: "bg-nihil text-slate-800", title: "啥都没有意义，活一天算一天", desc: "人生没意义，但承认这一点本身就很酷。", detail: "虚无主义者看穿了一切价值的脆弱。你不相信终极意义，反而从中获得了一种奇怪的自由。既然没有标准答案，那也就没有必须成功的压力。你的虚无不是绝望，而是卸下重担。", voice: "世界是一场巨大的空，我的挣扎也是空。但空又如何？我依然在这里。", guide: "✅ 拥抱虚无带来的自由：没有使命，反而可以肆意体验。\n✅ 把‘反正没意义’改成‘所以我可以做任何事’\n✅ 警惕滑向彻底消极，虚无也可以成为创造空白页。", famous: "尼采(早期) · 屠格涅夫笔下的人物 · 瑞克和莫蒂", media: "《悲剧的诞生》 · 《瑞克和莫蒂》 · 电影《忧郁症》", other: "享乐主义觉得你太丧，存在主义想拉你起来行动，荒诞主义觉得你还没开始笑。" },
+            groupism: { name: "群体主义 Groupism", icon: "👥🤝", color: "bg-group text-teal-800", title: "在连接中找到归属和意义", desc: "人活着是为了与他人连接，在关系中找到归属。", detail: "你重视集体、家庭或社群。你认为个人价值离不开他人认可和共同叙事。对你来说，‘我们’比‘我’更重要。这不是盲从，而是一种深刻的温度。", voice: "我害怕孤独，我需要被需要。一起吃饭、一起吐槽，才是生活。", guide: "✅ 选择值得的群体，避免有毒的集体。\n✅ 在群体中保留独立思考的能力。\n✅ 平衡集体与个人边界，不失去自我。", famous: "亚里士多德(政治动物) · 雷锋 · 部落文化", media: "《乡土中国》 · 《乌合之众》 · 电影《浪潮》", other: "虚无主义者觉得你自欺，存在主义者担心你失去自我，斯多葛主义者觉得你太依赖外界。" },
+            existentialism: { name: "存在主义 Existentialism", icon: "✨🚶", color: "bg-exist text-indigo-800", title: "人生没意义？那我活出自己的意义！", desc: "存在先于本质，你选择成为谁。", detail: "你相信人首先‘存在’着，然后通过自由选择和行动赋予自己意义。没有上帝写剧本，你就是自己的作者。这份自由带来焦虑，但也带来绝对的创造权。", voice: "我不是任何标签，我是我选择的总和。每一次决定都在雕刻我自己。", guide: "✅ 承担责任：你的选择定义了你是谁。\n✅ 拥抱焦虑：自由必然伴随不确定。\n✅ 行动优先：意义不在思考中，在行动里。", famous: "萨特 · 波伏娃 · 加缪(前期)", media: "《存在与虚无》 · 《恶心》 · 电影《荒野生存》", other: "虚无主义者觉得你还在挣扎，群体主义者觉得你太孤独，逻辑实证主义觉得你太抽象。" },
+            logical: { name: "逻辑实证主义 Logical Positivism", icon: "🔬📐", color: "bg-logic text-pink-800", title: "能验证的才是真的", desc: "别跟我扯玄乎的，事实和数据说话。", detail: "你排斥形而上学，只相信可观察、可验证的事实。科学方法是你的信仰。对你来说，清晰的逻辑比模糊的情感更可靠。", voice: "话要说明白，事要有证据。那些不可证伪的说法，都是伪问题。", guide: "✅ 保持批判性思维，这是优点。\n✅ 允许自己偶尔的非理性，人是情感动物。\n✅ 用科学服务生活，而非绑架生活。", famous: "维也纳学派 · 罗素 · 卡尔纳普", media: "《逻辑哲学论》 · 《科学发现的逻辑》 · 纪录片《宇宙时空之旅》", other: "存在主义觉得你忽略体验，道家觉得你太较真，荒诞主义觉得你还没发现逻辑也有尽头。" },
+            conformism: { name: "从众主义 Conformism", icon: "🐑🚶", color: "bg-conform text-orange-800", title: "别人干啥我干啥，活着不累", desc: "主流就是安全感，不求出彩但求不出错。", detail: "你倾向于跟随多数人的选择。从众能减少决策成本和社交风险。你不是没有主见，而是更在乎融入。", voice: "我不想被当成异类，大家怎么活我就怎么活，这样最省心。", guide: "✅ 觉察从众背后的恐惧，适度挑战它。\n✅ 在小事上练习独立决策。\n✅ 从众不全是坏的，节约认知资源。", famous: "《乌合之众》中的群体 · 多数普通人", media: "《乌合之众》 · 电影《楚门的世界》 · 《影响力》", other: "存在主义觉得你逃避自由，群体主义觉得你只是初级版，虚无主义者觉得无人在乎。" },
+            taoism: { name: "道家哲学 Taoism", icon: "🌊🍃", color: "bg-tao text-teal-800", title: "顺其自然，跟大自然做朋友", desc: "别折腾，像水一样流淌。", detail: "你崇尚无为，顺应事物本来的规律。不强求、不执着，相信‘道’的自然运作。你追求内心的平静和与万物的和谐。", voice: "争什么争，该来的会来，该走的留不住。不如喝茶看云。", guide: "✅ 练习‘无为’——不是什么都不做，而是不强行干预。\n✅ 多接触自然，减少人为焦虑。\n✅ 在努力和放手之间找到平衡点。", famous: "老子 · 庄子 · 李白(晚期)", media: "《道德经》 · 《庄子》 · 电影《功夫熊猫》", other: "斯多葛主义觉得你太被动，享乐主义觉得你太寡淡，逻辑实证主义觉得你太玄。" },
+            stoicism: { name: "斯多葛主义 Stoicism", icon: "🏛️⚔️", color: "bg-stoic text-purple-800", title: "老天爷爱干啥干啥，我只管自己能控制的事", desc: "保持内心平静，不被外物干扰。", detail: "你区分‘可控’和‘不可控’。外界、他人评价、运气都不归你管，但你的判断、态度和行动归你管。你训练自己不被情绪裹挟。", voice: "风暴可以摧毁我的船，但无法摧毁我的平静。", guide: "✅ 每天区分可控/不可控，只关注前者。\n✅ 负面想象：预想失去，珍惜拥有。\n✅ 理性审视冲动，延迟反应。", famous: "爱比克泰德 · 马可·奥勒留 · 塞涅卡", media: "《沉思录》 · 《生活的哲学》 · 电影《火星救援》", other: "享乐主义觉得你苦行，存在主义觉得你压抑选择，荒诞主义觉得你太严肃。" },
+            absurdism: { name: "荒诞主义 Absurdism", icon: "🤡🎭", color: "bg-absurd text-amber-800", title: "人生是场荒诞的闹剧，但咱得笑着演下去", desc: "清醒地知道荒诞，依然投入地生活。", detail: "你承认人类对意义的渴望与世界无意义的沉默之间的冲突。荒诞无法消除，但你可以反抗——不是用自杀，而是用投入地、清醒地、甚至幽默地活着。", voice: "明知道推石头会滚下来，我还是要推，而且我要笑着推。", guide: "✅ 拥抱荒诞：不必强求意义，享受过程。\n✅ 用幽默对抗绝望，笑是最后的武器。\n✅ 像加缪说的：攀登山顶的拼搏本身足以充实心灵。", famous: "阿尔贝·加缪 · 西西弗 · 卓别林", media: "《西西弗神话》 · 《局外人》 · 电影《大话西游》", other: "虚无主义者觉得你还不够彻底，存在主义者觉得你放弃了创造意义，斯多葛主义者觉得你太情绪化。" }
+        };
+
+        let curQs = [], curIdx = 0, answersArr = [];
+
+        window.startTest = (type) => {
+            curQs = type === 'quick' ? quickItems.slice() : fullItems.slice();
+            curIdx = 0;
+            answersArr = new Array(curQs.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderIdeologyItem();
+            updateIdeoProgress();
+        };
+
+        function renderIdeologyItem() {
+            let q = curQs[curIdx];
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> 倾向：${q.dim}`;
+            document.getElementById('questionText').innerText = q.text;
+            let opts = ["完全不同意", "不太同意", "有点同意", "非常同意"];
+            let container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            opts.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${answersArr[curIdx] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${answersArr[curIdx]===idx ? 'border-orange-500 bg-orange-500' : 'border-slate-300'} inline-block text-center text-white text-xs">${answersArr[curIdx]===idx?'✓':''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { answersArr[curIdx]=idx; renderIdeologyItem(); };
+                container.appendChild(div);
+            });
+            let next = document.getElementById('nextBtn');
+            next.disabled = answersArr[curIdx] === null;
+            next.innerText = (curIdx === curQs.length-1) ? (answersArr[curIdx] !== null ? "🎭 揭示我的主义 🎭" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = curIdx > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateIdeoProgress() {
+            let pct = ((curIdx+1)/curQs.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${curIdx+1}/${curQs.length} 题 · 人生信条`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answersArr[curIdx] === null) return;
+            if(curIdx === curQs.length-1) showIdeologyResult();
+            else { curIdx++; renderIdeologyItem(); updateIdeoProgress(); }
+        };
+        window.prevQuestion = () => { if(curIdx>0) { curIdx--; renderIdeologyItem(); updateIdeoProgress(); }};
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < 4) { answersArr[curIdx]=idx; renderIdeologyItem(); }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showIdeologyResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let scores = { hedonism:0, nihilism:0, groupism:0, existentialism:0, logical:0, conformism:0, taoism:0, stoicism:0, absurdism:0 };
+            curQs.forEach((q,i) => {
+                let val = answersArr[i] !== null ? answersArr[i] : 0;
+                scores[q.dim] += val;
+            });
+            let maxDim = Object.keys(scores).reduce((a,b) => scores[a] > scores[b] ? a : b, "hedonism");
+            let data = ideologyMap[maxDim];
+            if(!data) data = ideologyMap.hedonism;
+            document.getElementById('styleIcon').innerHTML = data.icon;
+            document.getElementById('styleBadge').className = `inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm ${data.color}`;
+            document.getElementById('styleBadge').innerText = data.name;
+            document.getElementById('styleTitle').innerText = data.title;
+            document.getElementById('styleDesc').innerText = data.desc;
+            document.getElementById('ideologyDetail').innerHTML = `<p>${data.detail}</p>`;
+            document.getElementById('innerVoice').innerHTML = `“${data.voice}”`;
+            let guideHtml = data.guide.split('\n').map(g => `<p>${g}</p>`).join('');
+            document.getElementById('survivalGuide').innerHTML = guideHtml;
+            document.getElementById('famousFigure').innerHTML = data.famous;
+            document.getElementById('mediaRec').innerHTML = data.media;
+            document.getElementById('otherView').innerHTML = data.other;
+            window.scrollTo(0,0);
+        }
+        window.restart = () => location.reload();
+    </script>
+</body>
+</html>

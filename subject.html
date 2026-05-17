@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>主体性自测 | 你的人生，谁在做主？</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'agent-radiant': '#ffedd5',
+                        'agent-balanced': '#d1fae5',
+                        'agent-seeking': '#e0e7ff',
+                        'agent-deferred': '#fce7f3',
+                        'agent-lost': '#fef3c7',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #fefce8 0%, #fef9e6 100%);
+            color: #334155;
+        }
+        .breathe-sun {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #fbbf24, #f97316);
+            border-radius: 50%;
+            animation: gentleRise 4s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 8px 25px -5px rgba(251,191,36,0.3);
+        }
+        @keyframes gentleRise {
+            0%, 100% { transform: scale(1) translateY(0); opacity: 0.8; }
+            50% { transform: scale(1.08) translateY(-8px); opacity: 0.6; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #e2e8f0;
+            background: white;
+        }
+        .option-card:hover { border-color: #f97316; background: #fff7ed; transform: translateX(5px); }
+        .option-card.selected { border-color: #f97316; background: #ffedd5; box-shadow: 0 2px 12px rgba(249,115,22,0.15); }
+        .glass-card { background: rgba(255,255,245,0.85); backdrop-filter: blur(8px); border: 1px solid #fed7aa; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-amber-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-sun text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-amber-700 to-orange-700 bg-clip-text text-transparent">主体性自测 · 做自己人生的作者</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-amber-200 text-amber-700">
+                <i class="fa-regular fa-hand-peace mr-1"></i> 自我觉察 · 温暖成长
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-pulse">☀️🌱🪶</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">你的人生，谁在做主？</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    主体性，是你是否成为自己人生的第一责任人。<br>
+                    是「我想要」，而不是「我应该」；是「我选择」，而不是「我被安排」。
+                </p>
+                <p class="text-xs text-amber-600 mt-1 mb-6">✨ 主体性不是自私，是你灵魂的主权宣言 ✨</p>
+
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🌞</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">主体性唤醒仪式</h3>
+                            <div class="breathe-sun my-3" id="sunBreath"></div>
+                            <p class="text-xs text-center text-slate-500">触摸太阳，深呼吸三次，对自己说：我的感受是第一位的，我的选择是我的。</p>
+                            <div class="bg-amber-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">
+                                💡 主体性低的表现：总在说“随便”、“都行”、“听你的”；害怕拒绝别人；做决定前必须问很多人；不敢表达真实感受。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-5 rounded-2xl shadow-md border border-amber-200 hover:border-orange-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-2">📋</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快测版</h3>
+                        <p class="text-xs text-slate-400">2分钟，初探你的主体性程度</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-5 rounded-2xl shadow-md border border-orange-200 hover:border-amber-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center mb-2">🔍</div>
+                        <h3 class="font-bold text-slate-800">24题 · 深度版</h3>
+                        <p class="text-xs text-slate-400">6分钟，探测主体性在生活各领域的分布</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌻 主体性可以练习，每一个微小的“我选择”都是在宣誓主权。</p>
+            </div>
+        </section>
+
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-amber-700 mb-1">
+                    <span id="stepLabel">第 1 题 · 主体性维度</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-amber-600 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-message"></i> 主体性表现</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-amber-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-amber-400">
+                <div class="breathe-sun w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">🌻 你的主体性报告</h3>
+                <p class="text-sm text-slate-500">主体性不是天赋，是可以浇灌的种子。</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="levelIcon" class="text-7xl mb-2">✨</div>
+                <div id="levelBadge" class="inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm bg-agent-radiant text-amber-800">主体性明亮 · 灵魂独立</div>
+                <h2 id="levelTitle" class="text-xl font-bold mt-3 text-slate-800">你是自己人生的船长</h2>
+                <p id="levelDesc" class="text-sm text-slate-500 max-w-sm mx-auto mt-2">你清楚地知道自己想要什么，并且有能力为之做出选择。</p>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scoreText" class="text-xs text-slate-400 mt-2">主体性指数 · 78%</p>
+            </div>
+
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border-l-8 border-amber-400">
+                <h3 class="font-bold text-amber-800 flex gap-2"><i class="fa-regular fa-eye"></i> 主体性深度解读</h3>
+                <div id="coreInterpretation" class="text-sm text-slate-700 mt-3 space-y-2 leading-relaxed"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-seedling"></i> 你已拥有的力量</h3>
+                    <div id="strengthsList" class="text-sm text-slate-600 mt-2 space-y-1"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 可以生长的方向</h3>
+                    <div id="growthList" class="text-sm text-slate-600 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
+            <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-heart"></i> 给主体性练习的小任务</h3>
+                <div id="dailyPractice" class="text-sm text-slate-700 mt-2 space-y-2"></div>
+            </div>
+
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-quote-right"></i> 关于主体性的温柔提醒</h3>
+                <p id="gentleReminder" class="text-sm text-slate-600 italic mt-1">“你的‘不’和你的‘是’一样珍贵。”</p>
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-amber-400 text-amber-700 font-medium hover:bg-amber-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 shadow">保存报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">主体性不是与生俱来的，每一次小小的选择都在训练它。你值得活出自己想要的样子。</div>
+        </section>
+    </main>
+
+    <script>
+        const quickItems = [
+            { text: "我能够清楚地知道自己真实的感受，而不是别人告诉我该怎么感受。", dim: "awareness" },
+            { text: "做重要决定时，我优先考虑自己的想法，而不是为了满足别人的期待。", dim: "choice" },
+            { text: "我很难拒绝别人，即使对方的要求让我不舒服。", dim: "boundary", reverse: true },
+            { text: "当别人否定我的选择时，我容易怀疑自己。", dim: "confidence", reverse: true },
+            { text: "我的人生重大选择（专业、工作、伴侣）基本是我自己做出的。", dim: "autonomy" },
+            { text: "我习惯说“随便”，因为害怕自己选的会被否定。", dim: "voice", reverse: true },
+            { text: "我可以坦然地表达“我想要”和“我不想要”。", dim: "voice" },
+            { text: "我会为了讨好别人而压抑自己的真实想法。", dim: "boundary", reverse: true },
+            { text: "我能够承受别人因为我的拒绝而失望。", dim: "boundary" },
+            { text: "我觉得自己的人生是被他人（父母、伴侣、社会）安排的。", dim: "autonomy", reverse: true },
+        ];
+        const fullItems = [
+            ...quickItems,
+            { text: "独处时我能感受到内心的充实，而不是空虚。", dim: "awareness" },
+            { text: "我经常在事后后悔自己当时没有说出真实想法。", dim: "voice", reverse: true },
+            { text: "我能为自己的选择承担后果，不怨天尤人。", dim: "responsibility" },
+            { text: "面对冲突，我会退让，宁愿委屈自己。", dim: "boundary", reverse: true },
+            { text: "我清楚自己热爱什么、厌恶什么。", dim: "awareness" },
+            { text: "别人对我的评价会极大影响我的自我价值感。", dim: "confidence", reverse: true },
+            { text: "在亲密关系中，我能够保持自己的独立空间。", dim: "autonomy" },
+            { text: "我会因为“怕别人觉得我自私”而放弃自己的需求。", dim: "boundary", reverse: true },
+            { text: "我经常不知道自己真正想要什么。", dim: "awareness", reverse: true },
+            { text: "我敢于尝试和主流不一样的人生路径。", dim: "choice" },
+            { text: "即使父母/伴侣反对，我也会坚持自己的重要决定。", dim: "autonomy" },
+            { text: "我容易被他人的情绪影响，分不清那是我的还是对方的。", dim: "boundary", reverse: true },
+            { text: "我做决定前需要询问很多人，否则会不安。", dim: "confidence", reverse: true },
+            { text: "我能接受“我可能选错”，并愿意为此负责。", dim: "responsibility" },
+        ];
+
+        const levelMap = {
+            radiant: { name: "主体性明亮 · 灵魂独立", icon: "☀️✨", color: "bg-agent-radiant text-amber-800", 
+                title: "你是自己人生的船长", 
+                desc: "你清楚地知道自己想要什么，并且有能力为之做出选择。你的主体性明亮而稳定。",
+                core: "你有敏锐的自我觉察，知道自己的感受和需求。在做决定时，你能够优先考虑自己的意愿，而不是被外界声音淹没。你敢于拒绝，也敢于选择。这种主体性不是天生的，而是你一次次勇敢选择的结果。",
+                strengths: "▸ 清晰的自我边界，不轻易被他人的情绪吞没。\n▸ 做决定时果断，且愿意承担后果。\n▸ 在关系中既能亲密，也能独立。\n▸ 能够坦然表达“我想要”和“我不想要”。",
+                growth: "▸ 偶尔可以放下“必须正确”的压力，允许自己任性。\n▸ 尝试一些没有任何功利目的的选择，纯粹为了快乐。\n▸ 在照顾他人时，提醒自己：先戴好自己的氧气面罩。",
+                practice: "✅ 每天做一件纯粹“我想做”的小事（比如喝某种咖啡、走某条路）。\n✅ 练习说“不”而不解释。\n✅ 写下三个“即使别人反对，我也要坚持”的人生领域。",
+                reminder: "你的明亮不是理所当然，是你对自己的忠诚。继续保持，你是身边人的榜样。" },
+            balanced: { name: "主体性扎根 · 柔韧生长", icon: "🌿🌸", color: "bg-agent-balanced text-teal-800",
+                title: "你在成为自己的路上", 
+                desc: "你已经有了相当的主体性，但有时还是会因外界声音而动摇。你在进步，也在反复。",
+                core: "你能在一些领域为自己做主，但在另一些领域（特别是关系或权威面前）容易退让。你知道自己想要什么，但表达出来还需要勇气。你不是没有主体性，你只是还在练习“稳定地使用它”。",
+                strengths: "▸ 大部分时候能觉察自己的真实感受。\n▸ 在低压力的选择上能够自主决定。\n▸ 愿意尝试表达不同意见。\n▸ 有改变的意愿和觉察力。",
+                growth: "▸ 从小事开始练习“不解释的拒绝”。\n▸ 记录三次“我顺从了但不想顺从”的时刻，写下下次可以怎么做。\n▸ 找到一位支持你主体性的朋友或社群。",
+                practice: "✅ 每天说一次“我的想法是……”，即使对方没问。\n✅ 做决定前先问自己“如果没有人会评价我，我会怎么选？”\n✅ 练习接受“让别人失望”的感觉，那是自由的代价。",
+                reminder: "你不需要一夜之间变成另一个人。每一个微小的“我选择”都在重塑你的人生主权。" },
+            seeking: { name: "主体性萌发 · 寻找自己的声音", icon: "🌱🔍", color: "bg-agent-seeking text-indigo-800",
+                title: "你正在学习听见自己", 
+                desc: "你常常困惑“我到底想要什么”。你可能习惯了优先满足他人，自己的声音还很微弱。",
+                core: "你的主体性还在萌芽阶段。你可能长期生活在“被安排”的环境中，或者被教育“听话才是好孩子”。你有时甚至不知道自己喜欢什么，因为太久没有问过自己。这不是你的错，这是环境留给你的功课。",
+                strengths: "▸ 你有改变的意愿，愿意来探索自己。\n▸ 你已经开始觉察“有些不对劲”。\n▸ 你有感受力，只是还不确定哪些属于自己。",
+                growth: "▸ 从最小的事情开始：今天穿什么颜色、吃什么早餐。\n▸ 建立“情绪日记”：每天写下三件“我今天真实的感受”。\n▸ 给自己“无目的时间”，什么都不做，感受内心的声音。",
+                practice: "✅ 每天做一件“只为自己”的小事，不用告诉任何人。\n✅ 练习说“我需要想一想”，不立刻回应别人的要求。\n✅ 找一位咨询师或成长教练，陪你探索自我。",
+                reminder: "种子破土需要时间。你不是没有主体性，你只是还没被允许长出来。" },
+            deferred: { name: "主体性暂存 · 习惯性顺从", icon: "🌸⏳", color: "bg-agent-deferred text-rose-800",
+                title: "你把自己藏在别人的期待里", 
+                desc: "你习惯优先满足他人的需求，很少问自己“我想要什么”。你的主体性还在沉睡。",
+                core: "你可能在成长过程中被过度保护或过度控制，学会了“听话才能安全”。你的真实感受常常被压抑，以至于你有时甚至感受不到压抑——因为你已经习惯了。但那些身体的紧绷、莫名的烦躁、深夜的空虚，是主体性在敲门。",
+                strengths: "▸ 你很善良，擅长照顾他人。\n▸ 你有很强的责任感和忍耐力。\n▸ 你内心其实有渴望，只是不知道如何表达。",
+                growth: "▸ 开始关注自己的身体感受：哪里紧绷？哪里放松？\n▸ 每周留出完全属于自己的2小时，做任何事都可以。\n▸ 练习说“我需要……”，从最简单的需求开始。",
+                practice: "✅ 每天写下“今天我为了自己做了什么”（哪怕只是喝了一杯水）。\n✅ 当别人问你要什么时，试着不回答“随便”。\n✅ 找一位信任的人，练习表达不同意见。",
+                reminder: "你的需求不是麻烦，你的声音不是噪音。你已经照顾了别人很久，现在轮到你了。" },
+            lost: { name: "主体性待苏醒 · 寻找自己的路", icon: "🌙🕯️", color: "bg-agent-lost text-amber-800",
+                title: "你与自己的连接暂时迷路了", 
+                desc: "你可能长期处于压抑或解离状态，不知道自己是谁、想要什么。这是一个需要温柔对待的位置。",
+                core: "你的主体性被深深掩埋，可能是因为长期的忽视、控制或创伤。你可能感觉自己像个空心人，活着但不在场。这不是你的错，是早期的环境让你不得不把真实的自己藏起来。现在，当你准备好时，可以一点点找回来。",
+                strengths: "▸ 你活到了现在，这是你内在力量的证明。\n▸ 你来做了这个测试，说明你还有渴望。\n▸ 你有感受痛苦的能力，那意味着感受快乐的能力也在。",
+                growth: "▸ 优先建立安全感：找到让你感到安全的空间或人。\n▸ 从身体入手：瑜伽、冥想、舞蹈，重新住回身体里。\n▸ 寻求专业支持：心理咨询师可以陪你走这段路。",
+                practice: "✅ 每天花5分钟，把手放在心口，问自己“我现在感觉到了什么”。\n✅ 写一封不寄出的信，给那个“被藏起来的自己”。\n✅ 允许自己什么都不做，允许自己“存在”而不是“表现”。",
+                reminder: "你不是破碎的，你只是暂时失联了。当你准备好的时候，你会一步步走回来。慢一点，没关系。" }
+        };
+
+        let curQs = [], curIdx = 0, answersArr = [];
+
+        window.startTest = (type) => {
+            curQs = type === 'quick' ? quickItems.slice() : fullItems.slice();
+            curIdx = 0;
+            answersArr = new Array(curQs.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderAgentItem();
+            updateAgentProgress();
+        };
+
+        function renderAgentItem() {
+            let q = curQs[curIdx];
+            let dimName = q.dim === 'awareness' ? '自我觉察' : q.dim === 'choice' ? '自主选择' : q.dim === 'boundary' ? '边界感' : q.dim === 'confidence' ? '自我确信' : q.dim === 'autonomy' ? '生命自主权' : q.dim === 'voice' ? '真实表达' : q.dim === 'responsibility' ? '责任承担' : '主体性';
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> 维度：${dimName}`;
+            document.getElementById('questionText').innerText = q.text;
+            let opts = ["完全不符合", "不太符合", "有点符合", "非常符合"];
+            let container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            opts.forEach((opt, idx) => {
+                let div = document.createElement('div');
+                let isSelected = answersArr[curIdx] === idx;
+                let displayIdx = idx;
+                if (q.reverse === true) {
+                    displayIdx = 3 - idx;
+                }
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${isSelected ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${isSelected ? 'border-amber-500 bg-amber-500' : 'border-slate-300'} inline-block text-center text-white text-xs">${isSelected?'✓':''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { 
+                    let storeIdx = idx;
+                    if (q.reverse === true) storeIdx = 3 - idx;
+                    answersArr[curIdx] = storeIdx; 
+                    renderAgentItem(); 
+                };
+                container.appendChild(div);
+            });
+            let next = document.getElementById('nextBtn');
+            next.disabled = answersArr[curIdx] === null;
+            next.innerText = (curIdx === curQs.length-1) ? (answersArr[curIdx] !== null ? "🌻 看见我的主体性 🌻" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = curIdx > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateAgentProgress() {
+            let pct = ((curIdx+1)/curQs.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${curIdx+1}/${curQs.length} 题 · 主体性探索`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answersArr[curIdx] === null) return;
+            if(curIdx === curQs.length-1) showAgentResult();
+            else { curIdx++; renderAgentItem(); updateAgentProgress(); }
+        };
+        window.prevQuestion = () => { if(curIdx>0) { curIdx--; renderAgentItem(); updateAgentProgress(); }};
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < 4) {
+                    let q = curQs[curIdx];
+                    let storeIdx = idx;
+                    if (q.reverse === true) storeIdx = 3 - idx;
+                    answersArr[curIdx] = storeIdx;
+                    renderAgentItem();
+                }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showAgentResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let total = 0;
+            curQs.forEach((q,i) => { total += answersArr[i] !== null ? answersArr[i] : 0; });
+            let maxTotal = curQs.length * 3;
+            let percent = (total / maxTotal) * 100;
+            document.getElementById('scoreBar').style.width = percent + '%';
+            document.getElementById('scoreText').innerHTML = `主体性指数 · ${Math.round(percent)}%`;
+            
+            let level;
+            if (percent >= 75) level = 'radiant';
+            else if (percent >= 55) level = 'balanced';
+            else if (percent >= 35) level = 'seeking';
+            else if (percent >= 20) level = 'deferred';
+            else level = 'lost';
+            
+            let data = levelMap[level];
+            document.getElementById('levelIcon').innerHTML = data.icon;
+            document.getElementById('levelBadge').className = `inline-block mt-1 px-5 py-1.5 rounded-full text-sm font-bold shadow-sm ${data.color}`;
+            document.getElementById('levelBadge').innerText = data.name;
+            document.getElementById('levelTitle').innerText = data.title;
+            document.getElementById('levelDesc').innerText = data.desc;
+            document.getElementById('coreInterpretation').innerHTML = `<p>${data.core}</p>`;
+            document.getElementById('strengthsList').innerHTML = data.strengths.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('growthList').innerHTML = data.growth.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('dailyPractice').innerHTML = data.practice.split('\n').map(p => `<p>${p}</p>`).join('');
+            document.getElementById('gentleReminder').innerHTML = `“${data.reminder}”`;
+            window.scrollTo(0,0);
+        }
+        window.restart = () => location.reload();
+    </script>
+</body>
+</html>

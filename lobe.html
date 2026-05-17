@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>大脑工作风格探索 | 了解你的执行功能图谱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        warm: { 50: '#fffaf5', 100: '#fff5e6', 200: '#ffe4cc', 300: '#ffd1a3', 400: '#ffb870', 500: '#ff9a3c', 600: '#f57d1a' },
+                        sky: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7' },
+                        rose: { 50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af', 400: '#fb7185', 500: '#f43f5e' },
+                        teal: { 50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf', 500: '#14b8a6' }
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Noto Sans SC', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%); min-height: 100vh; }
+        .breathe-circle {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
+            margin: 0 auto;
+            animation: breathe 4s infinite ease-in-out;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .breathe-circle:hover { transform: scale(1.05); }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.25); opacity: 0.4; }
+        }
+        .option-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+        }
+        .option-card:hover { border-color: #7dd3fc; background-color: #f0f9ff; transform: translateX(4px); }
+        .option-card.selected {
+            border-color: #0ea5e9;
+            background-color: #e0f2fe;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+        }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-ring-circle { transition: stroke-dashoffset 0.8s ease-in-out; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); }
+        .script-box { background: #f0f9ff; border-radius: 12px; padding: 16px; margin: 8px 0; position: relative; border-left: 4px solid #38bdf8; }
+        .btn-primary { transition: all 0.2s ease; }
+        .btn-primary:active { transform: scale(0.96); }
+        @media (max-width: 640px) {
+            .option-card { padding: 12px !important; }
+            .script-box { padding: 12px; }
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <nav class="sticky top-0 z-50 glass border-b border-slate-200/60 shadow-sm">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-teal-400 flex items-center justify-center text-white shadow-md">
+                    <i class="fa-solid fa-brain text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-sky-600 to-teal-600 bg-clip-text text-transparent">大脑工作风格探索</h1>
+            </div>
+            <div class="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full border border-slate-200 shadow-sm">
+                <i class="fa-solid fa-shield-halved mr-1"></i>本地运行 · 隐私保护
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-24">
+
+        <!-- 欢迎页 -->
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6 md:py-10">
+                <div class="text-6xl mb-4 animate-bounce">🧠💭</div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-3">了解你的大脑工作风格</h2>
+                <p class="text-slate-500 max-w-md mx-auto leading-relaxed mb-2">
+                    如果你最近因为"拖延"、"分心"、"情绪失控"而不断自责...<br>
+                    先停下来，这不是性格缺陷，只是大脑需要不同的支持策略。
+                </p>
+                <p class="text-xs text-slate-400 mb-8">这不是医学诊断，而是一次与自己的温柔对话</p>
+
+                <!-- 情绪安抚卡片 -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-slate-100 p-6 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl">🫂</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800 mb-2">做题之前，给自己一分钟</h3>
+                            <div class="breathe-circle mb-3" id="breathCircle"></div>
+                            <p class="text-xs text-slate-500 text-center mb-3">点击圆圈跟随呼吸：吸气4秒 → 屏息4秒 → 呼气4秒</p>
+                            <div class="bg-gradient-to-r from-sky-50 to-teal-50 rounded-xl p-3 text-sm text-slate-700 leading-relaxed border border-sky-100">
+                                <i class="fa-regular fa-heart text-rose-400 mr-1"></i>
+                                <strong>请记住：</strong>无法坚持、无法专注、无法控制冲动，<span class="text-sky-600 font-medium">不是你的错，更不是你懒</span>。是大脑的执行功能暂时跟不上你的意愿。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group p-5 bg-white rounded-2xl shadow-md border-2 border-slate-100 hover:border-sky-400 hover:shadow-xl transition-all text-left btn-primary">
+                        <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 mb-1">10题快速探索</h3>
+                        <p class="text-xs text-slate-500">约3分钟，快速了解你的大脑支持需求</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group p-5 bg-white rounded-2xl shadow-md border-2 border-slate-100 hover:border-teal-400 hover:shadow-xl transition-all text-left btn-primary">
+                        <div class="w-10 h-10 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-800 mb-1">30题完整图谱</h3>
+                        <p class="text-xs text-slate-500">约10分钟，绘制你的六维执行功能地图</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 测试页 -->
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-6">
+                <div class="flex justify-between text-xs text-slate-500 mb-2">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden shadow-inner">
+                    <div id="progressBar" class="bg-gradient-to-r from-sky-500 to-teal-500 h-2.5 rounded-full transition-all duration-500" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8 mb-4">
+                <div class="mb-1 text-xs font-bold text-sky-600 uppercase tracking-wider flex items-center gap-2" id="categoryLabel">
+                    <i class="fa-regular fa-circle-question"></i>任务启动
+                </div>
+                <h2 class="text-lg md:text-xl font-bold text-slate-800 mb-6 leading-relaxed" id="questionText">加载中...</h2>
+                <div class="space-y-3" id="optionsContainer"></div>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button onclick="window.prevQuestion()" id="prevBtn" class="px-5 py-2.5 rounded-xl text-slate-500 hover:bg-white hover:shadow-md transition-all font-medium text-sm border border-transparent hover:border-slate-200" style="visibility:hidden;">
+                    <i class="fa-solid fa-arrow-left mr-1"></i>上一题
+                </button>
+                <button onclick="window.nextQuestion()" id="nextBtn" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-slate-800 to-slate-900 text-white font-medium hover:from-slate-900 hover:to-slate-950 transition-all shadow-md text-sm disabled:opacity-40 disabled:cursor-not-allowed btn-primary">
+                    下一题<i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+            
+            <p class="text-center text-xs text-slate-400 mt-6">
+                <i class="fa-regular fa-keyboard"></i> 提示：键盘 <kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-300 text-slate-600 font-sans shadow-sm">1</kbd> - <kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-300 text-slate-600 font-sans shadow-sm">4</kbd> 快速选择，<kbd class="px-1.5 py-0.5 bg-white rounded border border-slate-300 text-slate-600 font-sans shadow-sm">Enter</kbd> 下一题
+            </p>
+        </section>
+
+        <!-- 结果页 - 完整内容 -->
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+
+            <!-- 第一层：情绪止血 -->
+            <div class="bg-gradient-to-br from-sky-50 to-teal-50 rounded-2xl border border-sky-100 p-6 md:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-white text-sky-500 flex items-center justify-center shadow-sm"><i class="fa-solid fa-heart"></i></div>
+                    <h3 class="text-lg font-bold text-slate-800">在查看结果之前</h3>
+                </div>
+                <div class="breathe-circle mb-3" id="resultBreathCircle"></div>
+                <p class="text-xs text-slate-500 text-center mb-4">再呼吸一次</p>
+                <div class="bg-white/70 rounded-xl p-4 text-sm text-slate-700 leading-relaxed space-y-2">
+                    <p>无论你即将看到什么数字，<strong class="text-sky-700">请先记住三句话：</strong></p>
+                    <p>1️⃣ 这不是诊断，不是判决书，只是一张<span class="text-sky-600 font-medium">"你目前需要多少支持"的地图</span>。</p>
+                    <p>2️⃣ 大脑的可塑性极强。今天的"困难"，在获得正确支持后，完全可以变成明天的"特点"。</p>
+                    <p>3️⃣ <strong>你已经很勇敢了。</strong>愿意了解自己，就是自我关怀的开始。</p>
+                </div>
+            </div>
+
+            <!-- 第二层：结果概览 -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
+                <div class="flex flex-col items-center mb-6">
+                    <div class="relative w-44 h-44 mb-4">
+                        <svg class="w-full h-full" viewBox="0 0 120 120">
+                            <circle cx="60" cy="60" r="54" fill="none" stroke="#f1f5f9" stroke-width="10"/>
+                            <circle id="scoreCircle" cx="60" cy="60" r="54" fill="none" stroke="url(#grad1)" stroke-width="10" 
+                                    stroke-dasharray="339.292" stroke-dashoffset="339.292" stroke-linecap="round" class="progress-ring-circle"/>
+                            <defs>
+                                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" style="stop-color:#38bdf8;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="scoreNum" class="text-4xl font-bold text-slate-800">--</span>
+                            <span class="text-xs text-slate-500 mt-1">支持需求指数</span>
+                        </div>
+                    </div>
+                    <div id="levelBadge" class="inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3 shadow-sm bg-teal-100 text-teal-700">
+                        支持需求较低
+                    </div>
+                    <h2 id="levelTitle" class="text-xl font-bold text-slate-800 mb-2 text-center">你的大脑工作风格相对稳健</h2>
+                    <p id="levelDesc" class="text-sm text-slate-600 text-center max-w-md leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- 第三层：六维细分 -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
+                <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-5 flex items-center gap-2"><i class="fa-solid fa-chart-line text-sky-500"></i>你的六维大脑地图</h3>
+                <div class="space-y-4" id="dimensionBars"></div>
+                <p class="text-xs text-slate-400 mt-4 text-center">分数越高 = 这个方面越需要外部支持或策略辅助</p>
+            </div>
+
+            <!-- 第四层：个性化建议 -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles text-sky-500"></i> 为你定制的支持策略
+                </h3>
+                <div id="adviceContent" class="space-y-4 text-sm text-slate-700 leading-relaxed"></div>
+            </div>
+
+            <!-- 第五层：生存脚本 -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+                    <i class="fa-solid fa-masks-theater text-rose-400"></i> 即拿即用的生存脚本
+                </h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h4 class="font-semibold text-slate-700 mb-2 text-sm">场景一：拖延到崩溃，完全动不了</h4>
+                        <div class="bg-sky-50 rounded-xl p-4 border-l-4 border-sky-400">
+                            <p class="text-sm text-slate-700 mb-2"><strong>5分钟欺骗法：</strong>告诉自己"我只做5分钟，做完立刻停"。大脑讨厌启动，但不讨厌继续。5分钟后你大概率会自然做下去。</p>
+                            <p class="text-sm text-slate-700"><strong>环境截肢法：</strong>把手机放到另一个房间，只留任务和水杯在桌上。减少一个干扰源，大脑就少一分逃避的理由。</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-slate-700 mb-2 text-sm">场景二：被别人说"懒"、"不上进"、"没毅力"</h4>
+                        <div class="bg-rose-50 rounded-xl p-4 border-l-4 border-rose-400">
+                            <p class="text-sm text-slate-700 mb-2 font-medium">温柔但坚定版：</p>
+                            <p class="text-sm text-slate-600 italic mb-3">"我知道我做事的方式和别人不太一样，我也在慢慢调整。我的节奏和别人不同，但我也在努力往前走，只是可能你看不到而已。"</p>
+                            <p class="text-sm text-slate-700 mb-2 font-medium">直接反弹版（对熟人）：</p>
+                            <p class="text-sm text-slate-600 italic">"如果你认为'懒'能解释一切，那说明你还没了解过执行功能。我不是不想做，是我的大脑启动机制需要不同的钥匙。你可以不理解，但请不要用这个字来概括我。"</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-slate-700 mb-2 text-sm">场景三：情绪突然爆炸，想摔东西/大哭</h4>
+                        <div class="bg-warm-50 rounded-xl p-4 border-l-4 border-warm-400">
+                            <p class="text-sm text-slate-700 mb-2"><strong>20-20-20 法则：</strong>离开现场，看20英尺（6米）外的物体20秒，做20次深呼吸。前额叶缺血时，物理降温（冷水洗脸）能最快恢复理智。</p>
+                            <p class="text-sm text-slate-700"><strong>话术暂停键：</strong>"我现在情绪有点激动，我们先暂停10分钟再聊，不然我会说出后悔的话。"</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-slate-700 mb-2 text-sm">场景四：社交伪装——对不同的人怎么解释</h4>
+                        <div class="grid md:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <div class="font-semibold text-slate-700 mb-1">对最信任的朋友</div>
+                                <p class="text-slate-600">"我最近发现自己大脑处理事情的方式和别人不太一样，不是态度问题。我需要你知道真实的我，哪怕我有时候看起来很'不靠谱'。"</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <div class="font-semibold text-slate-700 mb-1">对家人/长辈</div>
+                                <p class="text-slate-600">"医生说我大脑的执行功能需要更多外部提醒，不是我不想努力，是我现在真的需要不同的工作节奏。请多给我一点时间。"</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <div class="font-semibold text-slate-700 mb-1">对同事/同学</div>
+                                <p class="text-slate-600">"我时间观念不太好/容易分心，如果影响到你，直接提醒我就好。我正在用工具帮自己改善，需要一点时间。"</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <div class="font-semibold text-slate-700 mb-1">被追问时的边界</div>
+                                <p class="text-slate-600">"我不太想聊这个话题，我们说说别的吧。"（不需要解释，不需要道歉。）</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第六层：长期视角 -->
+            <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 md:p-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+                    <i class="fa-solid fa-seedling text-teal-500"></i> 从"幸存者"到"生活者"
+                </h3>
+                
+                <div class="bg-teal-50 rounded-xl p-4 mb-5">
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        很多人以为"只要我足够努力，就能和别人一样"。但现实是，你需要的不是<span class="line-through">更努力</span>，而是<strong class="text-teal-700">用适合自己大脑的方式生活</strong>。你不需要和别人的大脑比效率，你只需要和自己和解。
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0 font-bold text-sm">1</div>
+                        <div>
+                            <div class="font-semibold text-slate-800 text-sm">第一年：停止自我攻击</div>
+                            <p class="text-xs text-slate-600 mt-1">把"我怎么这么没用"改成"我的大脑在这个方面需要支持"。这是唯一的目标，不需要更高尚。</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0 font-bold text-sm">2</div>
+                        <div>
+                            <div class="font-semibold text-slate-800 text-sm">第二至三年：找到你的节奏</div>
+                            <p class="text-xs text-slate-600 mt-1">建立"我的标准"，而不是主流标准。适合你的工作方式、学习方式和生活方式，哪怕看起来"奇怪"。</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0 font-bold text-sm">3</div>
+                        <div>
+                            <div class="font-semibold text-slate-800 text-sm">第三至五年：与大脑合作</div>
+                            <p class="text-xs text-slate-600 mt-1">不再对抗自己的大脑，而是顺着它的特点来。知道自己早上效率低，就把重要的事放到下午；知道自己容易分心，就用番茄钟做外部脚手架。</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center flex-shrink-0 font-bold text-sm">4</div>
+                        <div>
+                            <div class="font-semibold text-slate-800 text-sm">第五年+：成为光（可选）</div>
+                            <p class="text-xs text-slate-600 mt-1">如果你愿意，可以帮助后来的人。但不是必须。你先把自己活好，就是对世界最大的贡献。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-gradient-to-r from-violet-50 to-fuchsia-50 rounded-xl p-5 border border-violet-100">
+                    <h4 class="font-bold text-violet-900 mb-2">如果你永远无法"像别人一样自律"，这也很好</h4>
+                    <p class="text-sm text-violet-800 leading-relaxed mb-2">
+                        有些人的最优解，就是接受自己的大脑状态，不强迫自己活成主流的样子。这不是懦弱，不是放弃，这是你在复杂现实中做出的<span class="font-bold">理性生存策略</span>。
+                    </p>
+                    <div class="bg-white/60 rounded-lg p-3 mt-3 text-center">
+                        <p class="text-violet-900 font-medium text-sm">完整性不需要通过和别人一样来达成。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第七层：求助资源 -->
+            <div class="bg-gradient-to-r from-rose-50 to-orange-50 rounded-2xl border border-rose-100 p-6">
+                <h3 class="text-lg font-bold text-rose-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-hand-holding-heart"></i> 当你需要专业支持时
+                </h3>
+                <div class="grid md:grid-cols-2 gap-3 text-sm">
+                    <div class="bg-white/70 rounded-lg p-3">
+                        <div class="font-semibold text-rose-700">ADHD 成人互助社群</div>
+                        <div class="text-slate-600 text-xs mt-1">公众号/豆瓣小组搜索"ADHD成人"、"注意力缺陷"，有大量经验分享和就医指南。</div>
+                    </div>
+                    <div class="bg-white/70 rounded-lg p-3">
+                        <div class="font-semibold text-rose-700">精神科就诊提示</div>
+                        <div class="text-slate-600 text-xs mt-1">长期被这些问题严重困扰，建议挂<strong>精神科/心理科</strong>（三甲医院），评估是否存在 ADHD、焦虑或抑郁。</div>
+                    </div>
+                    <div class="bg-white/70 rounded-lg p-3">
+                        <div class="font-semibold text-rose-700">心理咨询热线</div>
+                        <div class="text-slate-600 text-xs mt-1">各地 12355 青少年服务台；北京同志中心 400-011-9964（泛心理支持）</div>
+                    </div>
+                    <div class="bg-white/70 rounded-lg p-3">
+                        <div class="font-semibold text-rose-700">24小时心理援助</div>
+                        <div class="text-slate-600 text-xs mt-1"><strong>400-161-9995</strong>（希望24热线）</div>
+                    </div>
+                </div>
+                <p class="text-xs text-rose-600/70 mt-4">
+                    <i class="fa-solid fa-triangle-exclamation mr-1"></i>
+                    如果你近期有强烈的自伤或自杀念头，请立刻拨打 <strong>110</strong> 或 <strong>120</strong>，或前往最近医院的急诊科。
+                </p>
+            </div>
+
+            <!-- 底部操作 -->
+            <div class="flex flex-col sm:flex-row gap-3 justify-center pt-4">
+                <button onclick="window.restart()" class="px-6 py-3 rounded-xl border-2 border-slate-300 text-slate-600 font-medium hover:bg-white hover:border-sky-400 transition-all btn-primary">
+                    <i class="fa-solid fa-rotate-right mr-2"></i>重新探索
+                </button>
+                <button onclick="window.print()" class="px-6 py-3 rounded-xl bg-slate-800 text-white font-medium hover:bg-slate-900 transition-all shadow-md btn-primary">
+                    <i class="fa-solid fa-print mr-2"></i>保存/打印报告
+                </button>
+            </div>
+
+            <div class="text-center mt-6 text-xs text-slate-400 max-w-lg mx-auto leading-relaxed">
+                免责声明：本工具基于执行功能心理学原理设计，仅供自我探索参考，不构成医学诊断或治疗建议。
+                如果你正被严重的注意力、情绪或执行功能问题困扰，请务必寻求专业医生或心理咨询师的帮助。
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // ==================== 数据定义 ====================
+        const quickQuestions = [
+            { id: 1, category: "任务启动", text: "最近两周，你是否经常很难开始一项需要专注的任务，即使它很重要？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 2, category: "欲望刹车", text: "最近两周，你是否经常很难抑制冲动（比如冲动消费、打断别人、暴饮暴食）？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 3, category: "生活导航", text: "最近两周，你是否经常很难管理时间，比如总是迟到、拖延或忘记截止日期？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 4, category: "路口选择", text: "最近两周，你是否经常在做决定时感到困难，哪怕只是小事（如中午吃什么）？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 5, category: "情绪天气", text: "最近两周，你是否经常情绪波动很大，容易从平静突然变得烦躁或崩溃？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 6, category: "思维便签", text: "最近两周，你是否经常刚想到的事一转眼就忘，需要别人反复提醒？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 7, category: "任务启动", text: "最近两周，你是否经常制定了计划却几乎无法执行，最后陷入自责？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 8, category: "欲望刹车", text: "最近两周，你是否经常在情绪激动时说出让关系恶化的话，事后极度后悔？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 9, category: "生活导航", text: "最近两周，你是否经常把生活环境弄得很乱，并且很难整理/维持秩序？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 10, category: "思维便签", text: "最近两周，你是否经常感觉自己\"脑子转不动\"，无法处理稍微复杂的信息？", options: ["从不", "偶尔", "经常", "总是"] }
+        ];
+
+        const fullQuestions = [
+            { id: 1, category: "任务启动", text: "最近两周，你是否经常很难开始一项需要持续专注的任务，即使它很重要？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 2, category: "任务启动", text: "最近两周，你是否经常同时开很多任务，但一个都完成不了？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 3, category: "任务启动", text: "最近两周，你是否经常在做需要逻辑或计划的事情时感到大脑\"卡死\"？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 4, category: "任务启动", text: "最近两周，你是否经常按步骤完成任务时跳步、遗漏细节或搞错顺序？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 5, category: "任务启动", text: "最近两周，你是否经常判断不出事情的轻重缓急，把不重要的先做？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 6, category: "欲望刹车", text: "最近两周，你是否经常很难抑制冲动（比如冲动消费、打断别人、暴饮暴食）？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 7, category: "欲望刹车", text: "最近两周，你是否经常说话不经过大脑，事后极度后悔？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 8, category: "欲望刹车", text: "最近两周，你是否经常在情绪激动时做出破坏性行为（摔东西、拉黑、辞职）？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 9, category: "欲望刹车", text: "最近两周，你是否经常刷手机/玩游戏停不下来，明知该停却停不下来？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 10, category: "欲望刹车", text: "最近两周，你是否经常很难等待，排队或等回复时异常焦虑？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 11, category: "情绪天气", text: "最近两周，你是否经常情绪波动很大，从开心突然变低落或愤怒？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 12, category: "情绪天气", text: "最近两周，你是否经常因为小事发火，且很难自己平息？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 13, category: "情绪天气", text: "最近两周，你是否经常在情绪爆发后长时间无法恢复平静？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 14, category: "情绪天气", text: "最近两周，你是否经常觉得自己的情绪反应比别人更强烈、更持久？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 15, category: "情绪天气", text: "最近两周，你是否经常无法识别或描述自己当下的情绪？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 16, category: "生活导航", text: "最近两周，你是否经常很难制定计划，哪怕只是明天的简单安排？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 17, category: "生活导航", text: "最近两周，你是否经常制定了计划却无法执行，最后彻底放弃？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 18, category: "生活导航", text: "最近两周，你是否经常管理不好时间，迟到、拖延或错过截止日期？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 19, category: "生活导航", text: "最近两周，你是否经常忘记任务的截止日期或约定时间？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 20, category: "生活导航", text: "最近两周，你是否经常把生活空间弄得很乱，且很难维持整洁？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 21, category: "路口选择", text: "最近两周，你是否经常很难做决定，哪怕只是中午吃什么？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 22, category: "路口选择", text: "最近两周，你是否经常做决定时很冲动，不考虑后果？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 23, category: "路口选择", text: "最近两周，你是否经常重复犯同样的错误，无法从经验中学习？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 24, category: "路口选择", text: "最近两周，你是否经常很难预测自己行为的后果？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 25, category: "路口选择", text: "最近两周，你是否经常很容易相信别人，难以识别欺骗或风险？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 26, category: "思维便签", text: "最近两周，你是否经常很难记住别人刚说过的话，需要对方重复？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 27, category: "思维便签", text: "最近两周，你是否经常做事时突然忘记自己接下来要做什么？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 28, category: "思维便签", text: "最近两周，你是否经常同时记住几件事时感到大脑\"死机\"？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 29, category: "思维便签", text: "最近两周，你是否经常回忆不起最近发生事情的细节？", options: ["从不", "偶尔", "经常", "总是"] },
+            { id: 30, category: "思维便签", text: "最近两周，你是否经常需要别人反复提醒才能记住该做的事？", options: ["从不", "偶尔", "经常", "总是"] }
+        ];
+
+        const categoryMap = {
+            "任务启动": "🚀 任务启动能力（启动困难/持续专注）",
+            "欲望刹车": "🛑 欲望刹车系统（冲动控制/情绪抑制）",
+            "情绪天气": "🌤️ 情绪天气预报（情绪调节/恢复速度）",
+            "生活导航": "🧭 生活导航系统（计划/组织/时间管理）",
+            "路口选择": "🚦 路口选择能力（决策/判断/风险意识）",
+            "思维便签": "📝 思维便签功能（工作记忆/信息暂存）"
+        };
+
+        // ==================== 全局状态 ====================
+        let currentQuestions = [];
+        let currentIndex = 0;
+        let answers = [];
+        let isQuick = false;
+
+        // ==================== 呼吸引导 ====================
+        function initBreathing() {
+            const circles = document.querySelectorAll('.breathe-circle');
+            circles.forEach(circle => {
+                if (circle && !circle.hasAttribute('data-listener')) {
+                    circle.setAttribute('data-listener', 'true');
+                    let isBreathing = false;
+                    circle.addEventListener('click', () => {
+                        if (isBreathing) return;
+                        isBreathing = true;
+                        setTimeout(() => { isBreathing = false; }, 12000);
+                    });
+                }
+            });
+        }
+
+        // ==================== 测试逻辑 ====================
+        window.startTest = function(type) {
+            isQuick = type === 'quick';
+            currentQuestions = isQuick ? quickQuestions : fullQuestions;
+            currentIndex = 0;
+            answers = new Array(currentQuestions.length).fill(null);
+
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            
+            renderQuestion();
+            updateProgress();
+        };
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${categoryMap[q.category] || q.category}`;
+            document.getElementById('questionText').textContent = q.text;
+
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-4 bg-slate-50 text-sm font-medium text-slate-700 ${answers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-6 h-6 rounded-full border-2 ${answers[currentIndex] === idx ? 'border-sky-500 bg-sky-500' : 'border-slate-300 bg-white'} flex items-center justify-center flex-shrink-0 transition-all">
+                            ${answers[currentIndex] === idx ? '<div class="w-2 h-2 bg-white rounded-full"></div>' : ''}
+                        </div>
+                        <span>${opt}</span>
+                    </div>
+                `;
+                div.onclick = () => selectOption(idx);
+                container.appendChild(div);
+            });
+
+            updateNav();
+        }
+
+        function selectOption(idx) {
+            answers[currentIndex] = idx;
+            renderQuestion();
+        }
+
+        function updateNav() {
+            const hasAnswer = answers[currentIndex] !== null;
+            const nextBtn = document.getElementById('nextBtn');
+            if (nextBtn) nextBtn.disabled = !hasAnswer;
+            
+            const isLast = currentIndex === currentQuestions.length - 1;
+            if (nextBtn) {
+                nextBtn.innerHTML = isLast && hasAnswer ? '查看结果 <i class="fa-solid fa-check ml-2"></i>' : '下一题 <i class="fa-solid fa-arrow-right ml-2"></i>';
+            }
+
+            const prevBtn = document.getElementById('prevBtn');
+            if (prevBtn) prevBtn.style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateProgress() {
+            const pct = ((currentIndex + 1) / currentQuestions.length) * 100;
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) progressBar.style.width = pct + '%';
+            const stepLabel = document.getElementById('stepLabel');
+            if (stepLabel && currentQuestions[currentIndex]) {
+                stepLabel.innerHTML = `<i class="fa-regular fa-file-lines mr-1"></i> 第 ${currentIndex + 1}/${currentQuestions.length} 题 · ${currentQuestions[currentIndex].category}`;
+            }
+            const progressText = document.getElementById('progressText');
+            if (progressText) progressText.textContent = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() {
+            if (answers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+                updateProgress();
+            }
+        };
+
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+                updateProgress();
+            }
+        };
+
+        // 键盘支持
+        document.addEventListener('keydown', (e) => {
+            const testScreen = document.getElementById('testScreen');
+            if (!testScreen || testScreen.classList.contains('hidden')) return;
+            
+            const key = e.key;
+            if (['1','2','3','4'].includes(key) && currentQuestions[currentIndex]) {
+                const idx = parseInt(key) - 1;
+                if (idx < currentQuestions[currentIndex].options.length) {
+                    selectOption(idx);
+                }
+            } else if (key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+
+        // 结果计算与展示
+        function showResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            let totalScore = 0;
+            const dimScores = {};
+            const dimMax = {};
+
+            currentQuestions.forEach((q, i) => {
+                const score = answers[i] !== null ? answers[i] : 0;
+                totalScore += score;
+                if (!dimScores[q.category]) {
+                    dimScores[q.category] = 0;
+                    dimMax[q.category] = 0;
+                }
+                dimScores[q.category] += score;
+                dimMax[q.category] += 3;
+            });
+
+            const maxTotal = currentQuestions.length * 3;
+            const percentage = (totalScore / maxTotal) * 100;
+
+            const circumference = 2 * Math.PI * 54;
+            const offset = circumference - (percentage / 100) * circumference;
+            setTimeout(() => {
+                const circle = document.getElementById('scoreCircle');
+                if (circle) circle.style.strokeDashoffset = offset;
+            }, 100);
+
+            document.getElementById('scoreNum').textContent = Math.round(percentage);
+
+            let badgeClass, badgeText, title, desc, adviceHTML;
+            
+            if (percentage < 30) {
+                badgeClass = 'bg-teal-100 text-teal-700';
+                badgeText = '支持需求较低';
+                title = '你的大脑工作风格相对稳健';
+                desc = '你的执行功能目前运转良好，能够较好地管理日常任务、情绪和冲动。你或许偶尔有拖延或分心，但这在正常范围内。';
+                adviceHTML = `
+                    <div class="bg-teal-50 rounded-xl p-4 border-l-4 border-teal-400">
+                        <p class="font-semibold text-teal-800 mb-2">给你的小建议：</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li>继续保持规律作息和适度运动，这是前额叶最好的保养。</li>
+                            <li>如果你身边有执行功能困难的朋友，你的理解和支持对他们来说是光。</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (percentage < 55) {
+                badgeClass = 'bg-sky-100 text-sky-700';
+                badgeText = '支持需求中等';
+                title = '你的大脑偶尔需要外部脚手架';
+                desc = '你在某些方面会遇到一些波动，但还没有严重摧毁你的生活。你可能已经发展出了一些自己的"野路子"来应对。';
+                adviceHTML = `
+                    <div class="bg-sky-50 rounded-xl p-4 border-l-4 border-sky-400">
+                        <p class="font-semibold text-sky-800 mb-2">给你的支持策略：</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li>开始使用外部工具：日历App、番茄钟、待办清单，让工具代替大脑记住琐事。</li>
+                            <li>减少干扰源：手机调成专注模式，工作/学习时只留必要物品在桌上。</li>
+                            <li>当情绪波动时，先离开现场5分钟，不要逼自己"立刻平静下来"。</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (percentage < 75) {
+                badgeClass = 'bg-warm-100 text-warm-700';
+                badgeText = '支持需求较高';
+                title = '你的大脑正在发出求助信号';
+                desc = '你在多个执行功能维度上都遇到了明显的困难，这些问题已经开始影响你的生活。这些痛苦是真实的，但请记住：<strong>这不是性格缺陷，是大脑需要不同的支持方式。</strong>';
+                adviceHTML = `
+                    <div class="bg-warm-50 rounded-xl p-4 border-l-4 border-warm-400">
+                        <p class="font-semibold text-warm-800 mb-2">请优先做这三件事：</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li><strong>停止自我攻击。</strong>把"我怎么这么没用"改成"我的大脑需要支持"。</li>
+                            <li><strong>建立外部结构。</strong>用闹钟、日历、清单App、朋友提醒来帮你管理生活。</li>
+                            <li><strong>考虑专业评估。</strong>建议去三甲医院精神科或心理科就诊，评估是否存在 ADHD、焦虑或抑郁共病。</li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                badgeClass = 'bg-rose-100 text-rose-700';
+                badgeText = '支持需求很高';
+                title = '你需要立即为自己搭建安全网';
+                desc = '你的执行功能存在严重困难，已经极大地影响了你的日常生活。<strong>这不是你的错，也绝不是"懒"。</strong>';
+                adviceHTML = `
+                    <div class="bg-rose-50 rounded-xl p-4 border-l-4 border-rose-400">
+                        <p class="font-semibold text-rose-800 mb-2">紧急但温柔的建议：</p>
+                        <ul class="list-disc pl-5 space-y-1 text-slate-700">
+                            <li><strong>优先保障生存。</strong>先保证规律饮食、睡眠和基本卫生。</li>
+                            <li><strong>寻求专业医疗支持。</strong>尽快去三甲医院精神科就诊，评估 ADHD 或其他神经发育差异。</li>
+                            <li><strong>建立极简支持系统。</strong>请家人或朋友帮你处理复杂事务；不要逼自己用复杂的方法。</li>
+                            <li>如果你近期有自伤念头，请立刻拨打心理援助热线 <strong>400-161-9995</strong>。</li>
+                        </ul>
+                    </div>
+                `;
+            }
+
+            const badge = document.getElementById('levelBadge');
+            if (badge) {
+                badge.className = `inline-block px-4 py-1.5 rounded-full text-sm font-bold mb-3 shadow-sm ${badgeClass}`;
+                badge.textContent = badgeText;
+            }
+            document.getElementById('levelTitle').textContent = title;
+            document.getElementById('levelDesc').innerHTML = desc;
+            document.getElementById('adviceContent').innerHTML = adviceHTML;
+
+            // 维度条形图
+            const dimContainer = document.getElementById('dimensionBars');
+            if (dimContainer) {
+                dimContainer.innerHTML = '';
+                Object.keys(dimScores).forEach(cat => {
+                    const score = dimScores[cat];
+                    const max = dimMax[cat];
+                    const pct = (score / max) * 100;
+                    const label = categoryMap[cat] || cat;
+                    let color = 'bg-teal-400';
+                    if (pct > 70) color = 'bg-rose-400';
+                    else if (pct > 45) color = 'bg-warm-400';
+                    else if (pct > 25) color = 'bg-sky-400';
+                    
+                    const bar = document.createElement('div');
+                    bar.className = 'mb-3';
+                    bar.innerHTML = `
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="text-slate-600 font-medium">${label}</span>
+                            <span class="text-slate-500 text-xs">${Math.round(pct)}% 需要支持</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                            <div class="${color} h-2.5 rounded-full transition-all duration-1000" style="width:0%"></div>
+                        </div>
+                    `;
+                    dimContainer.appendChild(bar);
+                    setTimeout(() => {
+                        if (bar.children[1] && bar.children[1].children[0]) {
+                            bar.children[1].children[0].style.width = pct + '%';
+                        }
+                    }, 100);
+                });
+            }
+        }
+
+        window.restart = function() {
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+
+        // 初始化呼吸功能
+        document.addEventListener('DOMContentLoaded', () => {
+            initBreathing();
+        });
+    </script>
+</body>
+</html>
