@@ -68,6 +68,12 @@
             color: #1e293b;
             font-weight: bold;
         }
+        .era-odyssey { background: linear-gradient(135deg, #0ea5e9, #06b6d4); color: white; }
+        .era-orson { background: linear-gradient(135deg, #f97316, #f59e0b); color: white; }
+        .era-yituo { background: linear-gradient(135deg, #78716c, #57534e); color: white; }
+        .era-waterloo { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+        .era-depression { background: linear-gradient(135deg, #64748b, #475569); color: white; }
+        .era-cyber { background: linear-gradient(135deg, #10b981, #059669); color: white; }
     </style>
 </head>
 <body>
@@ -88,7 +94,7 @@
 
     <main class="max-w-2xl mx-auto px-4 py-8 pb-24">
 
-        <!-- 欢迎页：赛博蹦迪 -->
+        <!-- 欢迎页 -->
         <section id="welcomeScreen" class="fade-in">
             <div class="text-center py-6">
                 <div class="text-7xl mb-4 animate-bounce inline-block">🎭💥🤯</div>
@@ -99,7 +105,6 @@
                 </p>
                 <p class="text-xs text-purple-400 mb-8">✨ 纯幽默自测 · 博你一笑 · 如有雷同纯属命中注定 ✨</p>
 
-                <!-- 热梗沙雕卡 -->
                 <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto border border-chaos-300">
                     <div class="flex gap-3 items-start">
                         <div class="text-3xl">🍜</div>
@@ -115,7 +120,6 @@
                     </div>
                 </div>
 
-                <!-- 两个测试入口，名字也要整活 -->
                 <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
                     <button onclick="window.startTest('quick')" class="group p-5 bg-white rounded-2xl shadow-lg border-2 border-chaos-200 hover:border-cyber-400 hover:scale-[1.02] transition-all text-left">
                         <div class="w-10 h-10 rounded-full bg-chaos-100 text-chaos-600 flex items-center justify-center mb-3 group-hover:rotate-12 transition">
@@ -138,7 +142,7 @@
             </div>
         </section>
 
-        <!-- 测试页：风格狂野一点 -->
+        <!-- 测试页 -->
         <section id="testScreen" class="hidden fade-in">
             <div class="mb-6">
                 <div class="flex justify-between text-xs font-mono text-purple-600 mb-2">
@@ -171,10 +175,9 @@
             </p>
         </section>
 
-        <!-- 结果页：史诗级精神状态报告 -->
+        <!-- 结果页 -->
         <section id="resultScreen" class="hidden space-y-6 fade-in">
 
-            <!-- 情绪缓冲 但用幽默 -->
             <div class="glass-card rounded-2xl border border-chaos-300 p-6 text-center">
                 <div class="flex justify-center mb-3">
                     <div class="breathe-gif w-20 h-20" id="resultBreath"></div>
@@ -186,11 +189,10 @@
                 </div>
             </div>
 
-            <!-- 结果核心：赛博牌匾 -->
             <div class="bg-white/80 rounded-2xl shadow-2xl p-6 backdrop-blur-sm border-t-8 border-chaos-400">
                 <div class="flex flex-col items-center">
-                    <div id="eraIcon" class="text-7xl mb-2">🤡</div>
-                    <div id="eraBadge" class="hot-tag px-5 py-2 rounded-full text-sm font-black mb-4 shadow-md">奥德赛时期</div>
+                    <div id="eraIcon" class="text-7xl mb-2">⛵️</div>
+                    <div id="eraBadge" class="px-5 py-2 rounded-full text-sm font-black mb-4 shadow-md era-odyssey">奥德赛时期</div>
                     <h2 id="eraTitle" class="text-2xl font-black text-slate-800 mb-2 text-center">漂泊在寻找自我的海上</h2>
                     <p id="eraDesc" class="text-sm text-slate-600 text-center max-w-md leading-relaxed"></p>
                     <div class="mt-4 bg-slate-100 rounded-full px-4 py-1 text-xs font-mono">
@@ -199,28 +201,24 @@
                 </div>
             </div>
 
-            <!-- 维度雷达（整活版） -->
             <div class="glass-card rounded-2xl p-6">
                 <h3 class="font-black text-slate-800 mb-3 flex items-center gap-2"><i class="fa-solid fa-chart-simple"></i> 你的「发疯六边形」</h3>
                 <div class="space-y-3" id="dimensionBars"></div>
                 <p class="text-center text-[11px] text-slate-400 mt-3">数值越高，该属性越炸裂</p>
             </div>
 
-            <!-- 专属“梗”建议 -->
             <div class="bg-gradient-to-r from-fuchsia-100 to-orange-100 rounded-2xl p-6 border border-chaos-300">
                 <h3 class="font-black text-slate-800 mb-3 flex items-center gap-2"><i class="fa-solid fa-mask"></i> 给你的「赛博生存指南」</h3>
                 <div id="jokeAdvice" class="space-y-2 text-sm text-slate-700"></div>
                 <div class="mt-4 text-xs text-center text-purple-600">✨ 记住：发疯不是病，是互联网新时代的自我保护色 ✨</div>
             </div>
 
-            <!-- 热梗彩蛋库 -->
             <div class="bg-white rounded-2xl p-5 border border-sunset-200">
                 <h3 class="font-bold text-slate-800 flex items-center gap-2"><i class="fa-regular fa-newspaper"></i> 同时代病友金句</h3>
                 <div id="hotQuote" class="italic text-slate-500 text-sm bg-slate-50 p-3 rounded-xl mt-2">“感觉身体被掏空，但灵魂还在赛博蹦迪”</div>
                 <p class="text-right text-[10px] text-slate-400 mt-2">—— 来自同一纪元的网友</p>
             </div>
 
-            <!-- 紧急玩梗提醒 -->
             <div class="bg-yellow-50 border-l-8 border-yellow-400 p-4 rounded-2xl text-xs text-slate-600">
                 <i class="fa-regular fa-lightbulb"></i> 认真建议：如果最近情绪真的很糟糕，不要只靠玩梗撑着。该找朋友发疯就找朋友，该找心理咨询师就去找。赛博拥抱也是拥抱。
             </div>
@@ -274,9 +272,22 @@
             "发疯传染力": "📱 梗图传播指数",
             "最终审判": "🔮 精神状态熵值",
             "奥德赛": "🚢 奥德赛时期",
+            "乙驼祥": "🐫 乙驼祥时期",
+            "滑铁卢": "⚔️ 滑铁卢时期",
             "大萧条": "📉 大萧条指数",
             "赛博朋克": "🎮 赛博朋克2077化",
+            "奥尔良": "🍗 奥尔良信念",
             "电子羊": "🐏 仿生人迷思"
+        };
+
+        // 六种纪元的完整配置
+        const eras = {
+            odyssey: { name: "奥德赛时期", icon: "⛵️", desc: "你还在人生的海上漂流，寻找属于自己的伊萨卡岛。没关系，奥德赛走了十年，你可以走慢一点。你时而迷茫，时而清醒，但始终没有放弃向前划桨。", badgeClass: "era-odyssey", advice: "接受漂流的正当性，不是所有路都需要导航。每天做一件小事，不问意义，只管出发。", quote: "我不是迷路，我是在勘察人生的海岸线。" },
+            orson: { name: "奥尔良时期", icon: "🍗", desc: "热血尚未冷却，像刚出炉的奥尔良烤翅——焦香里带着甜蜜。抓住这股劲，你还能翻盘！你的体内还燃烧着不甘平庸的火苗。", badgeClass: "era-orson", advice: "趁热血还在，把最难的事放在早上做。建立「微行动」习惯，每天进步1%。", quote: "生活给我柠檬，我就做成奥尔良烤翅。" },
+            yituo: { name: "乙驼祥时期", icon: "🐫", desc: "努力拉车，却总感觉被时代的大雨淋湿。你不是不够拼，是这个赛道太颠簸。歇会儿，不丢人。你的疲惫是真实的，不是矫情。", badgeClass: "era-yituo", advice: "今天先休息，明天再拉车。允许自己暂停，但不允许自己消失。", quote: "我不是不想跑，是这路太泥泞了。" },
+            waterloo: { name: "滑铁卢时期", icon: "⚔️", desc: "刚经历了一场人生的滑铁卢，战马倒地，勋章生锈。但拿破仑滑铁卢之后还有百日王朝，你也还有大招没放。失败不是结局，是剧本的转折点。", badgeClass: "era-waterloo", advice: "去运动，把失败感摔出去。把这次失败写成故事，而不是刻成墓碑。", quote: "我倒下了，但我会带着新战术站起来。" },
+            depression: { name: "大萧条时期", icon: "📉", desc: "不想努力，只想躺着。精神GDP连续下滑。别怕，大萧条之后是罗斯福新政，你也可以给自己发救济金。允许自己先喘口气。", badgeClass: "era-depression", advice: "每天做一件小事，比如呼吸、吃饭、出门晒三分钟太阳。", quote: "我在休养生息，不是永久停业。" },
+            cyberpunk: { name: "赛博朋克2077时期", icon: "🦾", desc: "你的精神状态已经义体化了！在夜之城里一边发疯一边拯救世界。记住：有bug才是人生，随时可以读档重来。", badgeClass: "era-cyber glitch-text", advice: "换个义体（新爱好），或者直接睡一觉重置。把生活当成游戏，死了可以复活。", quote: "这个世界有bug，但我是玩家。" }
         };
 
         let currentQuestions = [];
@@ -284,7 +295,6 @@
         let answers = [];
         let isQuick = false;
 
-        // 呼吸动画（只是视觉）
         function bindCrazyCircle() {
             const circles = document.querySelectorAll('.breathe-gif');
             circles.forEach(c => {
@@ -360,13 +370,22 @@
             } else if(key === 'Enter') window.nextQuestion();
         });
 
-        // 结果计算 + 梗纪元分配
+        // ========== 修复后的结果判定逻辑 ==========
+        // 六种纪元均匀分布，奥德赛时期占比最大（覆盖中间段25%）
+        // 奥尔良: 0-15%    热血但清醒
+        // 乙驼祥: 15-30%   疲惫但坚持
+        // 奥德赛: 30-55%   漂泊探索中（占比25%，最大）
+        // 滑铁卢: 55-70%   失败受挫中
+        // 大萧条: 70-85%   低迷躺平中
+        // 赛博朋克: 85-100% 彻底发疯中
         function showResult() {
             document.getElementById('testScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
+            
             let total = 0;
             const dimMap = {};
             const dimMax = {};
+            
             currentQuestions.forEach((q,i) => {
                 let score = answers[i] ?? 0;
                 total += score;
@@ -375,27 +394,33 @@
                 dimMap[catKey] += score;
                 dimMax[catKey] += 3;
             });
+            
             const maxTotal = currentQuestions.length * 3;
             const percent = (total / maxTotal) * 100;
-            document.getElementById('scoreRing').innerHTML = `精神状态指数: ${Math.round(percent)}% · 浓度${percent>70?'爆表':percent>40?'微醺':'清醒'}`;
+            document.getElementById('scoreRing').innerHTML = `精神状态指数: ${Math.round(percent)}% · ${percent>85?'💀彻底发疯':percent>70?'📉大萧条中':percent>55?'⚔️滑铁卢ing':percent>30?'⛵️奥德赛漂流':percent>15?'🐫乙驼祥扛着':'🍗奥尔良热血'}`;
 
-            let era = { name:"奥德赛时期", icon:"⛵️", desc:"你还在人生的海上漂流，寻找属于自己的伊萨卡岛。没关系，奥德赛走了十年，你可以走慢一点。", badge:"bg-cyan-100 text-cyan-800" };
-            if(percent<20) era = { name:"奥尔良时期", icon:"🍗", desc:"热血尚未冷却，像刚出炉的奥尔良烤翅——焦香里带着甜蜜。抓住这股劲，你还能翻盘！", badge:"bg-sunset-100 text-sunset-800" };
-            else if(percent<40) era = { name:"乙驼祥时期", icon:"🐫", desc:"努力拉车，却总感觉被时代的大雨淋湿。你不是不够拼，是这个赛道太颠簸。歇会儿，不丢人。", badge:"bg-stone-100 text-stone-800" };
-            else if(percent<65) era = { name:"滑铁卢时期", icon:"⚔️", desc:"刚经历了一场人生的滑铁卢，战马倒地，勋章生锈。但拿破仑滑铁卢之后还有百日王朝，你也还有大招没放。", badge:"bg-amber-100 text-amber-800" };
-            else if(percent<85) era = { name:"大萧条时期", icon:"📉", desc:"不想努力，只想躺着。精神GDP连续下滑。别怕，大萧条之后是罗斯福新政，你也可以给自己发救济金。", badge:"bg-gray-200 text-gray-700" };
-            else era = { name:"赛博朋克2077时期", icon:"🦾", desc:"你的精神状态已经义体化了！在夜之城里一边发疯一边拯救世界。记住：有bug才是人生，随时可以读档重来。", badge:"bg-cyber-100 text-cyber-800 glitch-text" };
+            // 六纪元判定（奥德赛占比最大 30%-55%，即25%的区间）
+            let eraKey;
+            if (percent < 15) eraKey = 'orson';
+            else if (percent < 30) eraKey = 'yituo';
+            else if (percent < 55) eraKey = 'odyssey';
+            else if (percent < 70) eraKey = 'waterloo';
+            else if (percent < 85) eraKey = 'depression';
+            else eraKey = 'cyberpunk';
+            
+            const era = eras[eraKey];
             
             document.getElementById('eraIcon').innerText = era.icon;
-            let badgeDiv = document.getElementById('eraBadge');
-            badgeDiv.className = `hot-tag px-5 py-2 rounded-full text-sm font-black mb-4 shadow-md ${era.badge}`;
+            const badgeDiv = document.getElementById('eraBadge');
+            badgeDiv.className = `px-5 py-2 rounded-full text-sm font-black mb-4 shadow-md ${era.badgeClass}`;
             badgeDiv.innerText = era.name;
-            document.getElementById('eraTitle').innerText = era.name + " · " + (era.name.includes("2077")?"系统运行中":"正在加载");
+            document.getElementById('eraTitle').innerHTML = era.name + (eraKey === 'cyberpunk' ? ' · 系统运行中' : ' · 正在加载');
             document.getElementById('eraDesc').innerHTML = era.desc;
-            document.getElementById('jokeAdvice').innerHTML = `<p>✨ ${era.name}生存建议：${era.name==="奥德赛时期"?"多蹭饭少自责":era.name==="乙驼祥时期"?"今天先休息，明天再拉车":era.name==="赛博朋克2077时期"?"换个义体，或者直接睡一觉重置":era.name==="大萧条时期"?"每天做一件小事，比如呼吸":era.name==="滑铁卢时期"?"去运动，把失败感摔出去":"吃点好的，补补脑"} ✨</p>`;
-            document.getElementById('hotQuote').innerHTML = `“${['感觉身体被掏空，但灵魂还在赛博蹦迪','今天也是精致的废物','已经next level了，next to 棺材','允许自己做个人，哪怕是个NPC'][Math.floor(Math.random()*4)]}”`;
+            document.getElementById('jokeAdvice').innerHTML = `<p>✨ ${era.name}生存建议：${era.advice} ✨</p>`;
+            document.getElementById('hotQuote').innerHTML = `“${era.quote}”`;
+            
             // 条形图
-            let container = document.getElementById('dimensionBars');
+            const container = document.getElementById('dimensionBars');
             container.innerHTML = '';
             Object.keys(dimMap).slice(0,6).forEach(cat => {
                 let score = dimMap[cat];
@@ -408,6 +433,7 @@
             });
             window.scrollTo(0,0);
         }
+        
         window.restart = function() {
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('welcomeScreen').classList.remove('hidden');
