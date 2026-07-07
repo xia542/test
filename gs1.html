@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>考研数学一 · 高频易错测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f0f4f8 0%, #dbeafe 100%); min-height: 100vh; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #2563eb, #1d4ed8); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #bfdbfe; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #2563eb; background: #eff6ff; transform: translateX(5px); }
+        .option-card.selected { border-color: #2563eb; background: #dbeafe; box-shadow: 0 2px 12px rgba(37,99,235,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #bfdbfe; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .insight-card { transition: all 0.2s; }
+        .insight-card:hover { transform: translateY(-2px); }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-book-open mr-1"></i> 数一冲130+</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-blue-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-square-root-variable text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">考研数学一 · 高频易错</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-blue-200 text-blue-600">
+                <i class="fa-regular fa-fire mr-1"></i> 高数·线代·概率
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">📐🧮🚀</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">考研数学一 · 高频易错测试</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">高等数学 · 线性代数 · 概率统计<br>测测你的数一真实水平</p>
+                <p class="text-xs text-blue-500 mt-1 mb-6">✨ 全部题目改编自历年真题高频易错点 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，泰勒展开在等你</p>
+                            <div class="bg-blue-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 考研数学一 · 每题附带详细解析</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-blue-200 hover:border-blue-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快测</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 摸摸底</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-indigo-200 hover:border-indigo-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 检验真实力</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">50题 · 完整</h3>
+                        <p class="text-xs text-slate-400">15分钟 · 终极挑战</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 做完有详细分析 · 薄弱板块一目了然</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-blue-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-blue-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 高等数学</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-blue-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-blue-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的数一水平报告</h3>
+                <p class="text-sm text-slate-500">分数不是终点，吃透错题才是提分关键</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="scoreDisplay" class="text-6xl font-black text-blue-600 mb-2">--</div>
+                <div id="levelBadge" class="result-badge bg-slate-100 text-slate-700 mb-3">数一大神</div>
+                <h2 id="levelTitle" class="text-xl font-bold text-slate-800 mb-2">泰勒展开倒背如流</h2>
+                <p id="levelDesc" class="text-sm text-slate-600 max-w-sm mx-auto">你的数学水平已经超越大多数考研人</p>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scorePercent" class="text-xs text-slate-400 mt-2">正确率 · --%</p>
+            </div>
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-l-8 border-blue-400">
+                <h3 class="font-bold text-blue-800 flex gap-2"><i class="fa-regular fa-eye"></i> 薄弱板块分析</h3>
+                <div id="weaknessAnalysis" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 你的强项</h3>
+                    <div id="strengths" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 需要加练</h3>
+                    <div id="weaknesses" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <div class="bg-rose-50/60 p-5 rounded-2xl border border-rose-200">
+                <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 备考打气</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 针对性备考建议</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-blue-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“数学是考研的定海神针。” — 张宇</span>
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-blue-400 text-blue-700 font-medium hover:bg-blue-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+答案解析</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">考研数学一 · 历年真题高频易错改编</div>
+        </section>
+    </main>
+    <script>
+        const fullBank = [
+            // 高数 (1-20)
+            { cat: "高等数学", text: "lim_{x→0} (sin x)/x = ( )", opts: ["0", "1", "∞", "不存在"], ans: 1, exp: "重要极限，lim_{x→0} sin x / x = 1。" },
+            { cat: "高等数学", text: "函数 f(x)=|x| 在 x=0 处 ( )", opts: ["连续且可导", "连续但不可导", "不连续", "可导不连续"], ans: 1, exp: "|x|在0处连续，但左右导数分别为-1和1，不可导。" },
+            { cat: "高等数学", text: "d/dx (e^{2x}) = ( )", opts: ["2e^{2x}", "e^{2x}", "e^{2x}/2", "e^{x}"], ans: 0, exp: "复合函数求导，d/dx e^{2x}=2e^{2x}。" },
+            { cat: "高等数学", text: "∫ x^2 dx = ( )", opts: ["x^3/3 + C", "x^3 + C", "2x + C", "x^3/3"], ans: 0, exp: "幂函数积分，∫ x^2 dx = x^3/3 + C。" },
+            { cat: "高等数学", text: "函数 y = x^3 的拐点是 ( )", opts: ["(0,0)", "(1,1)", "(-1,-1)", "无拐点"], ans: 0, exp: "y''=6x，在x=0处变号，拐点为(0,0)。" },
+            { cat: "高等数学", text: "lim_{x→∞} (1+1/x)^x = ( )", opts: ["1", "e", "∞", "0"], ans: 1, exp: "重要极限，lim_{x→∞}(1+1/x)^x = e。" },
+            { cat: "高等数学", text: "函数 f(x)=ln x 的定义域是 ( )", opts: ["(0,+∞)", "[0,+∞)", "(-∞,+∞)", "(1,+∞)"], ans: 0, exp: "ln x 的定义域为 x>0。" },
+            { cat: "高等数学", text: "∫_0^1 x dx = ( )", opts: ["1/2", "1", "0", "2"], ans: 0, exp: "∫_0^1 x dx = [x^2/2]_0^1 = 1/2。" },
+            { cat: "高等数学", text: "曲线 y = x^2 在点 (1,1) 处的切线斜率为 ( )", opts: ["2", "1", "0", "-1"], ans: 0, exp: "y'=2x，在x=1处斜率为2。" },
+            { cat: "高等数学", text: "函数 f(x)=sin x 的周期为 ( )", opts: ["π", "2π", "π/2", "4π"], ans: 1, exp: "sin x 的基本周期为 2π。" },
+            { cat: "高等数学", text: "设 f(x)=x^3-3x，则 f'(x) = ( )", opts: ["3x^2-3", "3x^2", "x^2-3", "3x^2+3"], ans: 0, exp: "f'(x)=3x^2-3。" },
+            { cat: "高等数学", text: "∫ e^x dx = ( )", opts: ["e^x + C", "e^x", "e^x/x + C", "ln x + C"], ans: 0, exp: "∫ e^x dx = e^x + C。" },
+            { cat: "高等数学", text: "函数 f(x)=1/x 在 x=0 处 ( )", opts: ["连续", "可导", "不连续", "可导且连续"], ans: 2, exp: "1/x 在x=0处无定义，不连续。" },
+            { cat: "高等数学", text: "lim_{x→0} (1-cos x)/x = ( )", opts: ["0", "1", "1/2", "∞"], ans: 0, exp: "1-cos x ~ x^2/2，除以x得 x/2 → 0。" },
+            { cat: "高等数学", text: "曲线 y = ln x 的渐近线是 ( )", opts: ["x=0", "y=0", "x=1", "y=1"], ans: 0, exp: "ln x 在x→0+时趋于-∞，x=0为垂直渐近线。" },
+            { cat: "高等数学", text: "∫ sin x dx = ( )", opts: ["-cos x + C", "cos x + C", "sin x + C", "-sin x + C"], ans: 0, exp: "∫ sin x dx = -cos x + C。" },
+            { cat: "高等数学", text: "函数 f(x)=x^2 在区间 [0,2] 上的平均值为 ( )", opts: ["4/3", "2", "8/3", "1"], ans: 0, exp: "平均值 = (1/(2-0))∫_0^2 x^2 dx = (1/2)*(8/3)=4/3。" },
+            { cat: "高等数学", text: "d/dx (ln x) = ( )", opts: ["1/x", "x", "1", "ln x"], ans: 0, exp: "d/dx ln x = 1/x。" },
+            { cat: "高等数学", text: "级数 ∑_{n=1}∞ 1/n 的敛散性为 ( )", opts: ["收敛", "发散", "条件收敛", "绝对收敛"], ans: 1, exp: "调和级数 ∑1/n 发散。" },
+            { cat: "高等数学", text: "微分方程 y' = y 的通解为 ( )", opts: ["y = Ce^x", "y = Ce^{-x}", "y = Cx", "y = C"], ans: 0, exp: "dy/y = dx，ln|y| = x+C，y = Ce^x。" },
+            // 线性代数 (21-35)
+            { cat: "线性代数", text: "二阶行列式 |a b; c d| = ( )", opts: ["ad-bc", "ab-cd", "ac-bd", "ad+bc"], ans: 0, exp: "二阶行列式 ad-bc。" },
+            { cat: "线性代数", text: "矩阵 A = [[1,2],[3,4]] 的行列式 |A| = ( )", opts: ["-2", "2", "10", "-4"], ans: 0, exp: "|A| = 1*4-2*3 = 4-6 = -2。" },
+            { cat: "线性代数", text: "单位矩阵 I_n 的秩为 ( )", opts: ["n", "0", "1", "n-1"], ans: 0, exp: "单位矩阵满秩，秩为n。" },
+            { cat: "线性代数", text: "矩阵 A 可逆的充要条件是 ( )", opts: ["|A|≠0", "|A|=0", "A 为方阵", "A 为对称阵"], ans: 0, exp: "方阵可逆当且仅当行列式不为0。" },
+            { cat: "线性代数", text: "若 AB = I（单位矩阵），则 A 和 B 互为 ( )", opts: ["逆矩阵", "转置矩阵", "伴随矩阵", "零矩阵"], ans: 0, exp: "AB=I，则 B 是 A 的逆矩阵。" },
+            { cat: "线性代数", text: "线性方程组 Ax=0 有非零解的充要条件是 ( )", opts: ["r(A)<n", "r(A)=n", "|A|≠0", "A 满秩"], ans: 0, exp: "齐次方程有非零解当且仅当秩小于未知数个数。" },
+            { cat: "线性代数", text: "矩阵 A = [[1,0],[0,1]] 的特征值是 ( )", opts: ["1,1", "0,1", "0,0", "1,-1"], ans: 0, exp: "单位矩阵的特征值全为1。" },
+            { cat: "线性代数", text: "矩阵 A 的转置记为 ( )", opts: ["A^T", "A^{-1}", "A^*", "|A|"], ans: 0, exp: "转置记为 A^T。" },
+            { cat: "线性代数", text: "向量组 α1, α2, ..., αn 线性相关的条件是 ( )", opts: ["存在不全为零的系数使线性组合为0", "任意系数组合都不为0", "系数全为0", "不能确定"], ans: 0, exp: "线性相关定义：存在不全为零的系数使组合为0。" },
+            { cat: "线性代数", text: "矩阵 A 的秩 r(A) 等于 ( )", opts: ["A中非零子式的最高阶数", "A中元素个数", "A的行数", "A的列数"], ans: 0, exp: "秩定义为非零子式的最高阶数。" },
+            { cat: "线性代数", text: "对称矩阵 A 满足 ( )", opts: ["A^T = A", "A^T = -A", "|A|=0", "A^{-1}=A"], ans: 0, exp: "对称矩阵满足 A^T = A。" },
+            { cat: "线性代数", text: "矩阵乘法中，一般 ( ) 交换律", opts: ["不满足", "满足", "部分满足", "无法判断"], ans: 0, exp: "矩阵乘法不满足交换律，AB≠BA。" },
+            { cat: "线性代数", text: "行列式 |2A| = ( )，其中 A 为 n 阶方阵", opts: ["2^n |A|", "2|A|", "|A|^2", "n|A|"], ans: 0, exp: "数乘行列式：|kA|=k^n |A|。" },
+            { cat: "线性代数", text: "如果 A 和 B 是同阶可逆矩阵，则 (AB)^{-1} = ( )", opts: ["B^{-1}A^{-1}", "A^{-1}B^{-1}", "A^{-1}B", "BA^{-1}"], ans: 0, exp: "(AB)^{-1} = B^{-1}A^{-1}。" },
+            { cat: "线性代数", text: "特征值之和等于矩阵的 ( )", opts: ["迹", "行列式", "秩", "范数"], ans: 0, exp: "特征值之和等于矩阵的迹（主对角线元素之和）。" },
+            // 概率统计 (36-50)
+            { cat: "概率统计", text: "事件 A、B 互斥，则 P(A∪B) = ( )", opts: ["P(A)+P(B)", "P(A)P(B)", "P(A)-P(B)", "P(A)/P(B)"], ans: 0, exp: "互斥事件并的概率等于概率之和。" },
+            { cat: "概率统计", text: "正态分布 N(μ, σ^2) 的期望为 ( )", opts: ["μ", "σ", "σ^2", "0"], ans: 0, exp: "正态分布 N(μ, σ^2) 的期望为 μ。" },
+            { cat: "概率统计", text: "二项分布 X~B(n,p) 的方差为 ( )", opts: ["np(1-p)", "np", "p(1-p)", "n^2p"], ans: 0, exp: "二项分布方差为 np(1-p)。" },
+            { cat: "概率统计", text: "P(A|B) 表示 ( )", opts: ["在 B 发生的条件下 A 发生的概率", "A 和 B 同时发生", "A 或 B 发生", "B 发生的概率"], ans: 0, exp: "条件概率定义。" },
+            { cat: "概率统计", text: "随机变量 X 的期望 E(X) 也称为 ( )", opts: ["均值", "方差", "标准差", "协方差"], ans: 0, exp: "期望又称均值。" },
+            { cat: "概率统计", text: "如果 X 和 Y 独立，则 E(XY) = ( )", opts: ["E(X)E(Y)", "E(X)+E(Y)", "E(X)/E(Y)", "E(X)-E(Y)"], ans: 0, exp: "独立时，期望的乘积等于乘积的期望。" },
+            { cat: "概率统计", text: "标准正态分布的均值为 ( )", opts: ["0", "1", "2", "-1"], ans: 0, exp: "标准正态 N(0,1) 均值为0。" },
+            { cat: "概率统计", text: "全概率公式中，P(B) = ( )", opts: ["∑P(A_i)P(B|A_i)", "∑P(A_i)", "P(A)P(B)", "P(B|A)"], ans: 0, exp: "全概率公式：P(B)=∑P(A_i)P(B|A_i)。" },
+            { cat: "概率统计", text: "贝叶斯公式用于计算 ( )", opts: ["后验概率", "先验概率", "似然概率", "联合概率"], ans: 0, exp: "贝叶斯公式用于计算后验概率。" },
+            { cat: "概率统计", text: "切比雪夫不等式用于 ( )", opts: ["估计概率的上下界", "精确计算概率", "求期望", "求方差"], ans: 0, exp: "切比雪夫不等式给出概率的上下界估计。" },
+            { cat: "概率统计", text: "泊松分布 P(λ) 的参数 λ 等于 ( )", opts: ["均值", "方差", "均值与方差", "中位数"], ans: 2, exp: "泊松分布的均值和方差都等于 λ。" },
+            { cat: "概率统计", text: "大数定律说明 ( )", opts: ["频率稳定于概率", "概率稳定于频率", "方差趋于0", "期望为0"], ans: 0, exp: "大数定律：频率趋于概率。" },
+            { cat: "概率统计", text: "中心极限定理说明 ( )", opts: ["大量独立同分布随机变量之和近似正态分布", "任意随机变量都服从正态", "方差有限时均值趋于0", "概率趋于1"], ans: 0, exp: "中心极限定理：大量独立同分布变量之和近似正态。" },
+            { cat: "概率统计", text: "相关系数 ρ 的取值范围是 ( )", opts: ["[-1,1]", "[0,1]", "(-∞,+∞)", "(-1,1)"], ans: 0, exp: "相关系数范围[-1,1]。" },
+            { cat: "概率统计", text: "若 X~N(μ,σ^2)，则 Y = (X-μ)/σ 服从 ( )", opts: ["N(0,1)", "N(μ,σ)", "N(1,0)", "χ^2(1)"], ans: 0, exp: "标准化变换得到标准正态分布。" }
+        ];
+        const quickBank = fullBank.slice(0,10), mediumBank = fullBank.slice(0,25), fullBankUsed = fullBank;
+        let currentQuestions=[], currentAnswers=[], currentIndex=0, currentMode='full', answerPanelOpen=false;
+        const welcome=document.getElementById('welcomeScreen'), testScreen=document.getElementById('testScreen'), resultScreen=document.getElementById('resultScreen');
+        const toggleBtn=document.getElementById('toggleAllAnswer'), answerWrap=document.getElementById('allAnswerWrap'), arrowIcon=document.getElementById('arrowIcon'), answerListDom=document.getElementById('allAnswerList');
+        toggleBtn.addEventListener('click',()=>{ answerPanelOpen=!answerPanelOpen; if(answerPanelOpen){answerWrap.classList.remove('hidden');arrowIcon.style.transform='rotate(180deg)';}else{answerWrap.classList.add('hidden');arrowIcon.style.transform='rotate(0deg)';} });
+        window.startTest=function(mode){ currentMode=mode; currentQuestions=mode==='quick'?quickBank.slice():mode==='medium'?mediumBank.slice():fullBankUsed.slice(); shuffleArray(currentQuestions); currentAnswers=new Array(currentQuestions.length).fill(null); currentIndex=0; welcome.classList.add('hidden'); testScreen.classList.remove('hidden'); resultScreen.classList.add('hidden'); renderQuestion(); updateProgress(); };
+        function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+        function renderQuestion(){ const q=currentQuestions[currentIndex]; if(!q)return; document.getElementById('categoryLabel').innerHTML=`<i class="fa-regular fa-circle-question"></i> ${q.cat}`; document.getElementById('questionText').innerHTML=q.text; const container=document.getElementById('optionsContainer'); container.innerHTML=''; const labels=['A','B','C','D']; q.opts.forEach((opt,idx)=>{ const div=document.createElement('div'); div.className=`option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex]===idx?'selected':''}`; div.innerHTML=`<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx?'border-blue-500 bg-blue-500':'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx?'✓':labels[idx]}</span><span>${opt}</span></div>`; div.onclick=()=>{ currentAnswers[currentIndex]=idx; renderQuestion(); if(currentIndex<currentQuestions.length-1){ setTimeout(()=>window.nextQuestion(),250); } }; container.appendChild(div); }); const nextBtn=document.getElementById('nextBtn'); nextBtn.disabled=currentAnswers[currentIndex]===null; nextBtn.innerText=(currentIndex===currentQuestions.length-1)?(currentAnswers[currentIndex]!==null?"📊 查看结果":"查看结果"):"下一题 →"; document.getElementById('prevBtn').style.visibility=currentIndex>0?'visible':'hidden'; updateProgress(); }
+        function updateProgress(){ const total=currentQuestions.length; const done=currentAnswers.filter(a=>a!==null).length; const pct=total>0?(done/total)*100:0; document.getElementById('progressBar').style.width=pct+'%'; document.getElementById('stepLabel').innerHTML=`第 ${currentIndex+1}/${total} 题 · 已答 ${done}`; document.getElementById('progressText').innerText=`${Math.round(pct)}%`; }
+        window.nextQuestion=function(){ if(currentAnswers[currentIndex]===null)return; if(currentIndex===currentQuestions.length-1){ showResult(); }else{ currentIndex++; renderQuestion(); } };
+        window.prevQuestion=function(){ if(currentIndex>0){ currentIndex--; renderQuestion(); } };
+        document.addEventListener('keydown',(e)=>{ if(testScreen.classList.contains('hidden'))return; if(['1','2','3','4'].includes(e.key)){ const idx=parseInt(e.key)-1; if(idx<4&&currentQuestions[currentIndex]){ currentAnswers[currentIndex]=idx; renderQuestion(); if(currentIndex<currentQuestions.length-1){ setTimeout(()=>window.nextQuestion(),250); } } }else if(e.key==='Enter'){ window.nextQuestion(); } });
+        function showResult(){ testScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); let correct=0; const weakMap={}; const total=currentQuestions.length; currentQuestions.forEach((q,i)=>{ const ans=currentAnswers[i]; const isCorrect=(ans===q.ans); if(isCorrect)correct++; const cat=q.cat; if(!weakMap[cat]){ weakMap[cat]={correct:0,total:0}; } weakMap[cat].total++; if(isCorrect)weakMap[cat].correct++; }); const pct=Math.round((correct/total)*100); document.getElementById('scoreDisplay').innerHTML=`${correct}/${total}`; document.getElementById('scoreBar').style.width=pct+'%'; document.getElementById('scorePercent').innerHTML=`正确率 ${pct}% · 共 ${total} 题`; let level,badgeColor,title,desc,emotional,advice,quote; if(pct>=90){ level="数一大神"; badgeColor="bg-emerald-100 text-emerald-800"; title="泰勒展开倒背如流"; desc="你的数学基础极其扎实，冲140+不是梦！"; emotional="🎉 太强了！数一最难的级数、线代、概率你全部拿捏，保持刷题手感，目标145+！"; advice="每周一套完整数一真题，重点攻克证明题和复杂计算，目标140+。"; quote="“数学是考研的定海神针。” — 张宇"; }else if(pct>=70){ level="数一稳健选手"; badgeColor="bg-blue-100 text-blue-800"; title="基础扎实，个别知识盲区"; desc="核心知识点掌握良好，但某些难点仍需突破。"; emotional="💪 底子很好！把错题对应的知识点再复习一遍，多刷真题，120+可期。"; advice="整理错题本，重点关注级数、多元微积分、线代特征值等，每天3道大题。"; quote="“数学重在理解，不在刷题数量。”"; }else if(pct>=50){ level="基础待补强"; badgeColor="bg-amber-100 text-amber-800"; title="知识框架不牢固，漏洞较多"; desc="高数、线代、概率都需要系统梳理。"; emotional="😅 不用慌！数一内容多，现在开始梳理知识点，刷真题，100+完全来得及。"; advice="系统复习高数、线代、概率框架，每天精练20题，重点突破薄弱章节。"; quote="“基础不牢，地动山摇。”"; }else{ level="基础薄弱紧急补漏"; badgeColor="bg-rose-100 text-rose-800"; title="核心考点大面积缺失"; desc="基本概念、公式、定理掌握不足，需要从头系统复习。"; emotional="🚨 立刻启动基础复习！先过一遍教材和基础题，不要直接刷真题。"; advice="每天至少3小时数学，教材+基础题，重点攻克极限、导数、积分、矩阵运算。"; quote="“现在开始，一切都来得及。”"; } document.getElementById('levelBadge').className=`result-badge ${badgeColor} mb-3`; document.getElementById('levelBadge').innerText=level; document.getElementById('levelTitle').innerText=title; document.getElementById('levelDesc').innerText=desc; document.getElementById('emotionalBoost').innerHTML=`“${emotional}”`; document.getElementById('actionPlan').innerHTML=advice; document.getElementById('famousQuote').innerHTML=`“${quote}”`; let weakText='', strongText=''; const sortedCats=Object.keys(weakMap).sort((a,b)=>(weakMap[a].correct/weakMap[a].total)-(weakMap[b].correct/weakMap[b].total)); const weakest=sortedCats.slice(0,2); const strongest=sortedCats.slice(-2).reverse(); weakText=weakest.map(c=>{const stat=weakMap[c];const p=Math.round((stat.correct/stat.total)*100);return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;}).join('<br>'); strongText=strongest.map(c=>{const stat=weakMap[c];const p=Math.round((stat.correct/stat.total)*100);return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;}).join('<br>'); weakText=weakText||"暂无数据，继续加油！"; strongText=strongText||"暂无数据，继续加油！"; document.getElementById('weaknesses').innerHTML=weakText; document.getElementById('strengths').innerHTML=strongText; let analysisHTML=''; sortedCats.forEach(cat=>{const stat=weakMap[cat];const p=Math.round((stat.correct/stat.total)*100);const emoji=p>=70?"🟢":p>=50?"🟡":"🔴"; analysisHTML+=`<p>${emoji} <strong>${cat}</strong>：正确率 ${p}%（${stat.correct}/${stat.total}题）${p<60?" ⚠️ 需要重点突破":" ✅ 保持"}</p>`;}); document.getElementById('weaknessAnalysis').innerHTML=analysisHTML; answerListDom.innerHTML=''; currentQuestions.forEach((q,i)=>{ const userSel=currentAnswers[i]; const rightAns=q.ans; const labels=['A','B','C','D']; const isRight=userSel===rightAns; const userSelText=userSel!==null?`${labels[userSel]}. ${q.opts[userSel]}`:"未作答"; const rightSelText=`${labels[rightAns]}. ${q.opts[rightAns]}`; const itemWrap=document.createElement('div'); itemWrap.className=`rounded-xl p-4 border ${isRight?'border-emerald-300 bg-emerald-50':'border-red-300 bg-red-50'}`; itemWrap.innerHTML=`<div class="text-sm mb-2"><span class="font-bold text-slate-800">第${i+1}题【${q.cat}】</span><span class="ml-2 px-2 py-0.5 rounded text-xs ${isRight?'bg-emerald-200 text-emerald-800':'bg-red-200 text-red-800'}">${isRight?'回答正确':'回答错误'}</span></div><p class="text-slate-800 mb-3">${q.text}</p><div class="text-xs space-y-1 mb-2"><p>你的选择：${userSelText}</p><p class="text-emerald-700 font-medium">正确答案：${rightSelText}</p></div><div class="mt-2 pt-2 border-t border-slate-200"><p class="text-xs text-slate-700"><strong>解析：</strong>${q.exp}</p></div>`; answerListDom.appendChild(itemWrap); }); window.scrollTo(0,0); }
+        window.restart=function(){ resultScreen.classList.add('hidden'); welcome.classList.remove('hidden'); window.scrollTo(0,0); };
+        document.getElementById('breathCircle').addEventListener('click',function(){ this.style.animation='none'; setTimeout(()=>this.style.animation='floatGrad 5s infinite ease-in-out',10); });
+    </script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>考研政治肖·历年真题高频易错测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #fdf6f0 0%, #fce4d6 100%); min-height: 100vh; }
+        .breathe-grad {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #d97706, #b45309);
+            border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%;
+            animation: floatGrad 5s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        @keyframes floatGrad {
+            0%, 100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; }
+            50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #fcd34d;
+            background: white;
+            cursor: pointer;
+        }
+        .option-card:hover { border-color: #d97706; background: #fef3c7; transform: translateX(5px); }
+        .option-card.selected { border-color: #d97706; background: #fde68a; box-shadow: 0 2px 12px rgba(217,119,6,0.15); }
+        .glass-card { background: rgba(255,255,245,0.85); backdrop-filter: blur(8px); border: 1px solid #fcd34d; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .insight-card { transition: all 0.2s; }
+        .insight-card:hover { transform: translateY(-2px); }
+        .abandon-sticker {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #92400e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            animation: bounceSticker 2s infinite;
+        }
+        @keyframes bounceSticker {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker">
+        <i class="fa-regular fa-book-open mr-1"></i> 考研政治 · 肖秀荣
+    </div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-amber-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-flag text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-amber-700 to-orange-700 bg-clip-text text-transparent">考研政治 · 肖秀荣高频易错</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-amber-200 text-amber-600">
+                <i class="fa-regular fa-fire mr-1"></i> 历年真题 · 高频易错
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">📚📢🚩</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">考研政治 · 肖秀荣高频易错测试</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    马原 · 毛中特 · 史纲 · 思修 · 时政<br>
+                    测测你的政治选择题真实水平
+                </p>
+                <p class="text-xs text-amber-500 mt-1 mb-6">✨ 全部题目改编自肖秀荣历年真题高频易错点 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，相信你的政治素养</p>
+                            <div class="bg-amber-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">
+                                💡 考研政治 · 肖秀荣真题改编 · 每题附带详细解析
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-amber-200 hover:border-orange-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快测</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 摸摸底</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-orange-200 hover:border-orange-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 检验真实力</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-red-200 hover:border-red-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">50题 · 完整</h3>
+                        <p class="text-xs text-slate-400">15分钟 · 终极挑战</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 做完有详细分析 · 薄弱板块一目了然</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-amber-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-amber-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel">
+                    <i class="fa-regular fa-circle-question"></i> 马原
+                </div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-amber-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-amber-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的考研政治水平报告</h3>
+                <p class="text-sm text-slate-500">分数不是终点，吃透错题解析才是提分关键</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="scoreDisplay" class="text-6xl font-black text-amber-600 mb-2">--</div>
+                <div id="levelBadge" class="result-badge bg-slate-100 text-slate-700 mb-3">政治大神</div>
+                <h2 id="levelTitle" class="text-xl font-bold text-slate-800 mb-2">肖秀荣看了都说好</h2>
+                <p id="levelDesc" class="text-sm text-slate-600 max-w-sm mx-auto">你的政治水平已经超越大多数考研人</p>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scorePercent" class="text-xs text-slate-400 mt-2">正确率 · --%</p>
+            </div>
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border-l-8 border-amber-400">
+                <h3 class="font-bold text-amber-800 flex gap-2"><i class="fa-regular fa-eye"></i> 薄弱板块分析</h3>
+                <div id="weaknessAnalysis" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 你的强项</h3>
+                    <div id="strengths" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 需要加练</h3>
+                    <div id="weaknesses" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <div class="bg-rose-50/60 p-5 rounded-2xl border border-rose-200">
+                <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 备考打气</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 针对性备考建议</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-amber-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“考研政治，得选择题者得天下。” — 肖秀荣</span>
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-amber-400 text-amber-700 font-medium hover:bg-amber-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 shadow">保存报告</button>
+            </div>
+
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+答案解析</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+
+            <div class="text-center text-[10px] text-slate-400 pb-8">考研政治 · 肖秀荣历年真题高频易错改编</div>
+        </section>
+    </main>
+    <script>
+        // ============================================================
+        // 题库 · 50道高频易错政治单选题（马原、毛中特、史纲、思修、时政）
+        // ============================================================
+        const fullBank = [
+            // 马原 (1-10)
+            { cat: "马原", text: "马克思主义哲学认为，人类社会的根本矛盾是（　）", opts: ["生产力和生产关系的矛盾", "经济基础和上层建筑的矛盾", "阶级矛盾", "人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾"], ans: 0, exp: "马克思主义唯物史观指出，生产力和生产关系的矛盾、经济基础和上层建筑的矛盾是社会基本矛盾，但根本矛盾是生产力和生产关系的矛盾。D是新时代主要矛盾。" },
+            { cat: "马原", text: "剩余价值的源泉是（　）", opts: ["资本家的节俭", "工人的剩余劳动", "先进技术", "国际贸易"], ans: 1, exp: "剩余价值是由雇佣工人创造的、被资本家无偿占有的超过劳动力价值的那部分价值，其源泉是工人的剩余劳动。" },
+            { cat: "马原", text: "辩证唯物主义认识论首要的和基本的观点是（　）", opts: ["实践的观点", "发展的观点", "矛盾的观点", "联系的观点"], ans: 0, exp: "实践的观点是辩证唯物主义认识论的首要观点，它强调认识来源于实践，并受实践检验。" },
+            { cat: "马原", text: "“人不能两次踏进同一条河流”体现了（　）", opts: ["绝对运动", "相对静止", "绝对静止", "相对运动"], ans: 0, exp: "赫拉克利特的这句话强调事物是不断变化的，体现了绝对运动。同时也承认相对的静止（河流在某种程度上有同一性），但侧重运动。" },
+            { cat: "马原", text: "商品二因素中，决定商品交换价值的是（　）", opts: ["使用价值", "价值", "交换价值本身", "价格"], ans: 1, exp: "商品二因素：使用价值和价值。价值是交换价值的基础，交换价值是价值的表现形式。" },
+            { cat: "马原", text: "现代生产力发展的决定性因素是（　）", opts: ["劳动者的数量", "生产资料的规模", "科学技术", "自然资源"], ans: 2, exp: "科学技术是第一生产力，现代生产力发展的决定性因素就是科学技术。" },
+            { cat: "马原", text: "马克思主义关于人的本质的经典论断是（　）", opts: ["人的本质是自私的", "人的本质是自由自觉的活动", "在其现实性上，它是一切社会关系的总和", "人的本质是欲望"], ans: 2, exp: "马克思在《关于费尔巴哈的提纲》中指出：“人的本质不是单个人所固有的抽象物，在其现实性上，它是一切社会关系的总和。”" },
+            { cat: "马原", text: "价格围绕价值上下波动，这体现了（　）", opts: ["价值规律", "供求规律", "竞争规律", "市场规律"], ans: 0, exp: "价格围绕价值上下波动是价值规律的表现形式。" },
+            { cat: "马原", text: "唯物辩证法的实质和核心是（　）", opts: ["质量互变规律", "否定之否定规律", "矛盾规律", "因果规律"], ans: 2, exp: "对立统一规律即矛盾规律是唯物辩证法的实质和核心，因为它揭示了事物发展的动力和源泉。" },
+            { cat: "马原", text: "产业资本循环中，决定性的阶段是（　）", opts: ["购买阶段", "生产阶段", "售卖阶段", "流通阶段"], ans: 1, exp: "生产阶段是资本循环的决定性阶段，因为剩余价值是在生产过程中被创造出来的。" },
+            // 毛中特 (11-20)
+            { cat: "毛中特", text: "毛泽东思想活的灵魂是（　）", opts: ["实事求是、群众路线、独立自主", "武装斗争、统一战线、党的建设", "批评与自我批评", "理论联系实际"], ans: 0, exp: "毛泽东思想活的灵魂是实事求是、群众路线、独立自主。B是新民主主义革命的三大法宝。" },
+            { cat: "毛中特", text: "新民主主义革命的性质是（　）", opts: ["资产阶级民主主义革命", "无产阶级社会主义革命", "社会主义革命", "资产阶级社会主义革命"], ans: 0, exp: "新民主主义革命的性质仍然是资产阶级民主革命，但它是由无产阶级领导的，属于世界无产阶级革命的一部分。" },
+            { cat: "毛中特", text: "中国新民主主义革命的开端是（　）", opts: ["辛亥革命", "五四运动", "中国共产党成立", "新文化运动"], ans: 1, exp: "五四运动标志着中国新民主主义革命的开端。" },
+            { cat: "毛中特", text: "社会主义改造完成后，我国社会的主要矛盾是（　）", opts: ["无产阶级和资产阶级的矛盾", "人民对于建立先进工业国的要求同落后的农业国的现实之间的矛盾", "人民日益增长的物质文化需要同落后的社会生产之间的矛盾", "人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾"], ans: 1, exp: "党的八大指出，社会主义改造完成后，我国社会的主要矛盾是人民对于建立先进工业国的要求同落后的农业国的现实之间的矛盾。" },
+            { cat: "毛中特", text: "中国特色社会主义进入新时代，我国社会主要矛盾转化为（　）", opts: ["人民日益增长的物质文化需要同落后的社会生产之间的矛盾", "人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾", "生产力和生产关系的矛盾", "经济基础和上层建筑的矛盾"], ans: 1, exp: "十九大报告指出，中国特色社会主义进入新时代，我国社会主要矛盾已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。" },
+            { cat: "毛中特", text: "中国共产党的初心和使命是（　）", opts: ["全心全意为人民服务", "为中国人民谋幸福，为中华民族谋复兴", "实现共产主义", "解放和发展生产力"], ans: 1, exp: "党的初心和使命是为中国人民谋幸福，为中华民族谋复兴。" },
+            { cat: "毛中特", text: "改革开放以来党的全部理论和实践的主题是（　）", opts: ["建设什么样的党、怎样建设党", "实现什么样的发展、怎样发展", "中国特色社会主义", "中国梦"], ans: 2, exp: "中国特色社会主义是改革开放以来党的全部理论和实践的主题。" },
+            { cat: "毛中特", text: "新时代坚持和发展中国特色社会主义的总任务是（　）", opts: ["实现社会主义现代化和中华民族伟大复兴", "全面建成小康社会", "全面深化改革", "全面依法治国"], ans: 0, exp: "总任务是实现社会主义现代化和中华民族伟大复兴。" },
+            { cat: "毛中特", text: "社会主义市场经济体制中，市场在资源配置中起（　）", opts: ["基础性作用", "决定性作用", "辅助性作用", "主导性作用"], ans: 1, exp: "十八届三中全会提出，市场在资源配置中起决定性作用。" },
+            { cat: "毛中特", text: "我国的基本经济制度是（　）", opts: ["公有制为主体、多种所有制经济共同发展", "按劳分配为主体、多种分配方式并存", "社会主义市场经济体制", "公有制经济和非公有制经济并存"], ans: 0, exp: "我国的基本经济制度是公有制为主体、多种所有制经济共同发展。十九届四中全会将其与分配制度、市场经济体制并列为基本经济制度。" },
+            // 史纲 (21-30)
+            { cat: "史纲", text: "中国近代史的开端是（　）", opts: ["鸦片战争", "第二次鸦片战争", "甲午中日战争", "八国联军侵华"], ans: 0, exp: "鸦片战争是中国近代史的开端，使中国开始沦为半殖民地半封建社会。" },
+            { cat: "史纲", text: "太平天国运动的纲领性文件是（　）", opts: ["《天朝田亩制度》", "《资政新篇》", "《原道醒世训》", "《原道觉世训》"], ans: 0, exp: "《天朝田亩制度》是太平天国的纲领性文件，《资政新篇》是后期洪仁玕提出的改革方案。" },
+            { cat: "史纲", text: "洋务运动的口号是（　）", opts: ["自强、求富", "师夷长技以制夷", "变法维新", "民主、科学"], ans: 0, exp: "洋务运动前期自强，后期求富。" },
+            { cat: "史纲", text: "辛亥革命爆发的标志是（　）", opts: ["武昌起义", "保路运动", "广州起义", "同盟会成立"], ans: 0, exp: "武昌起义是辛亥革命爆发的标志。" },
+            { cat: "史纲", text: "中国新民主主义革命中，第一个农村革命根据地是（　）", opts: ["井冈山根据地", "中央根据地", "鄂豫皖根据地", "陕甘宁根据地"], ans: 0, exp: "1927年毛泽东率秋收起义部队到达井冈山，创建了第一个农村革命根据地。" },
+            { cat: "史纲", text: "抗日战争胜利的根本原因是（　）", opts: ["中国共产党的中流砥柱作用", "世界反法西斯力量的支持", "国共合作", "中国人民的民族觉醒"], ans: 0, exp: "抗战胜利的根本原因是中国共产党的中流砥柱作用。" },
+            { cat: "史纲", text: "解放战争时期，三大战役的顺序是（　）", opts: ["辽沈、淮海、平津", "淮海、辽沈、平津", "平津、辽沈、淮海", "辽沈、平津、淮海"], ans: 0, exp: "辽沈战役（1948.9-11）、淮海战役（1948.11-1949.1）、平津战役（1948.11-1949.1）" },
+            { cat: "史纲", text: "中华人民共和国成立的意义是（　）", opts: ["实现了民族独立和人民解放", "标志着社会主义制度建立", "标志着改革开放开始", "进入新时代"], ans: 0, exp: "新中国成立实现了民族独立和人民解放，但社会主义制度建立是1956年。" },
+            { cat: "史纲", text: "抗美援朝战争的直接结果是（　）", opts: ["美帝国主义被赶出朝鲜", "维护了亚洲和世界和平", "保障了我国安全", "以上都是"], ans: 3, exp: "抗美援朝胜利，美帝被赶出朝鲜，维护了和平，保障了我国安全。" },
+            { cat: "史纲", text: "《论十大关系》的核心思想是（　）", opts: ["调动一切积极因素为社会主义事业服务", "正确处理人民内部矛盾", "走自己的路", "进行改革开放"], ans: 0, exp: "《论十大关系》的核心思想是调动一切积极因素为社会主义事业服务。" },
+            // 思修 (31-40)
+            { cat: "思修", text: "社会主义核心价值观个人层面的内容是（　）", opts: ["爱国、敬业、诚信、友善", "富强、民主、文明、和谐", "自由、平等、公正、法治", "爱国、守法、明礼、诚信"], ans: 0, exp: "个人层面：爱国、敬业、诚信、友善。" },
+            { cat: "思修", text: "理想信念是（　）", opts: ["人的精神支柱", "人的物质基础", "人的社会地位", "人的生理需求"], ans: 0, exp: "理想信念是人的精神支柱，它给予人方向和动力。" },
+            { cat: "思修", text: "中华民族精神的核心是（　）", opts: ["爱国主义", "团结统一", "勤劳勇敢", "自强不息"], ans: 0, exp: "爱国主义是中华民族精神的核心。" },
+            { cat: "思修", text: "道德的本质是（　）", opts: ["一种社会意识", "一种法律规范", "一种政治制度", "一种经济形式"], ans: 0, exp: "道德是一种社会意识，由经济基础决定，并为经济基础服务。" },
+            { cat: "思修", text: "法律区别于其他社会规范的最重要特征是（　）", opts: ["国家强制性", "普遍约束力", "规范性", "阶级性"], ans: 0, exp: "法律由国家强制力保证实施，这是其最重要的特征。" },
+            { cat: "思修", text: "宪法规定，我国的根本制度是（　）", opts: ["社会主义制度", "人民代表大会制度", "中国共产党领导的多党合作和政治协商制度", "民族区域自治制度"], ans: 0, exp: "社会主义制度是我国的根本制度。" },
+            { cat: "思修", text: "道德与法律的关系是（　）", opts: ["相辅相成、相互促进", "对立排斥", "法律高于道德", "道德高于法律"], ans: 0, exp: "道德和法律都是规范社会行为的重要手段，两者相辅相成。" },
+            { cat: "思修", text: "个人理想与社会理想的关系是（　）", opts: ["个人理想服从社会理想", "社会理想服从个人理想", "相互依存、相互促进", "无关"], ans: 2, exp: "个人理想与社会理想是相互依存、相互促进的关系。" },
+            { cat: "思修", text: "社会主义道德建设的核心是（　）", opts: ["为人民服务", "集体主义", "爱国主义", "诚实守信"], ans: 0, exp: "社会主义道德建设的核心是为人民服务。" },
+            { cat: "思修", text: "法治思维的核心是（　）", opts: ["依法治国", "执法为民", "公平正义", "服务大局"], ans: 0, exp: "依法治国是法治思维的核心。" },
+            // 时政 (41-50)
+            { cat: "时政", text: "中国共产党第二十次全国代表大会的主题是（　）", opts: ["高举中国特色社会主义伟大旗帜，全面贯彻新时代中国特色社会主义思想", "不忘初心，牢记使命", "全面深化改革", "全面建成小康社会"], ans: 0, exp: "党的二十大主题：高举中国特色社会主义伟大旗帜，全面贯彻习近平新时代中国特色社会主义思想，弘扬伟大建党精神，自信自强、守正创新，踔厉奋发、勇毅前行，为全面建设社会主义现代化国家、全面推进中华民族伟大复兴而团结奋斗。" },
+            { cat: "时政", text: "中国式现代化的本质要求是（　）", opts: ["坚持中国共产党领导", "坚持中国特色社会主义", "实现高质量发展", "以上都是"], ans: 3, exp: "中国式现代化的本质要求包括坚持中国共产党领导、坚持中国特色社会主义、实现高质量发展、发展全过程人民民主、丰富人民精神世界、实现全体人民共同富裕、促进人与自然和谐共生、推动构建人类命运共同体、创造人类文明新形态。" },
+            { cat: "时政", text: "2023年中央经济工作会议强调，要（　）", opts: ["稳字当头、稳中求进", "全面深化改革", "扩大内需", "供给侧结构性改革"], ans: 0, exp: "2023年中央经济工作会议强调坚持稳字当头、稳中求进。" },
+            { cat: "时政", text: "新质生产力的核心要素是（　）", opts: ["科技创新", "劳动力", "资本", "土地"], ans: 0, exp: "新质生产力以科技创新为核心要素。" },
+            { cat: "时政", text: "我国发展进入战略机遇和风险挑战并存、不确定难预料因素增多的时期，必须增强（　）", opts: ["忧患意识", "大局意识", "核心意识", "看齐意识"], ans: 0, exp: "二十大报告指出，必须增强忧患意识，坚持底线思维，做到居安思危、未雨绸缪。" },
+            { cat: "时政", text: "推动高质量发展，要加快构建（　）", opts: ["国内国际双循环新发展格局", "高水平对外开放", "全国统一大市场", "高质量供给体系"], ans: 0, exp: "加快构建以国内大循环为主体、国内国际双循环相互促进的新发展格局。" },
+            { cat: "时政", text: "2024年政府工作报告提出，国内生产总值增长预期目标为（　）", opts: ["5%左右", "6%左右", "4%左右", "3%左右"], ans: 0, exp: "2024年GDP增长预期目标为5%左右。" },
+            { cat: "时政", text: "马克思主义中国化时代化最新成果是（　）", opts: ["毛泽东思想", "邓小平理论", "习近平新时代中国特色社会主义思想", "三个代表重要思想"], ans: 2, exp: "习近平新时代中国特色社会主义思想是马克思主义中国化时代化的最新成果。" },
+            { cat: "时政", text: "我国社会主义初级阶段的基本路线是（　）", opts: ["一个中心，两个基本点", "经济建设为中心", "坚持四项基本原则", "坚持改革开放"], ans: 0, exp: "社会主义初级阶段的基本路线是：领导和团结全国各族人民，以经济建设为中心，坚持四项基本原则，坚持改革开放，自力更生，艰苦创业，为把我国建设成为富强民主文明和谐美丽的社会主义现代化强国而奋斗。即“一个中心，两个基本点”。" },
+            { cat: "时政", text: "中国特色社会主义最本质的特征是（　）", opts: ["中国共产党领导", "人民民主专政", "人民代表大会制度", "公有制经济"], ans: 0, exp: "中国共产党领导是中国特色社会主义最本质的特征。" }
+        ];
+
+        // 提取不同版本
+        const quickBank = fullBank.slice(0, 10);
+        const mediumBank = fullBank.slice(0, 25);
+        const fullBankUsed = fullBank;
+
+        // 全局状态
+        let currentQuestions = [];
+        let currentAnswers = [];
+        let currentIndex = 0;
+        let currentMode = 'full';
+        let answerPanelOpen = false;
+
+        // DOM元素
+        const welcome = document.getElementById('welcomeScreen');
+        const testScreen = document.getElementById('testScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer');
+        const answerWrap = document.getElementById('allAnswerWrap');
+        const arrowIcon = document.getElementById('arrowIcon');
+        const answerListDom = document.getElementById('allAnswerList');
+
+        // 折叠面板点击事件
+        toggleBtn.addEventListener('click', () => {
+            answerPanelOpen = !answerPanelOpen;
+            if (answerPanelOpen) {
+                answerWrap.classList.remove('hidden');
+                arrowIcon.style.transform = 'rotate(180deg)';
+            } else {
+                answerWrap.classList.add('hidden');
+                arrowIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // ============================================================
+        // 测试启动
+        // ============================================================
+        window.startTest = function(mode) {
+            currentMode = mode;
+            if (mode === 'quick') currentQuestions = quickBank.slice();
+            else if (mode === 'medium') currentQuestions = mediumBank.slice();
+            else currentQuestions = fullBankUsed.slice();
+            currentQuestions = shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // ============================================================
+        // 渲染题目
+        // ============================================================
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${q.cat}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-amber-500 bg-amber-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length-1) ? (currentAnswers[currentIndex] !== null ? "📊 查看结果" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const done = currentAnswers.filter(a => a !== null).length;
+            const pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        // ============================================================
+        // 导航
+        // ============================================================
+        window.nextQuestion = function() {
+            if (currentAnswers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        };
+
+        // 键盘支持
+        document.addEventListener('keydown', (e) => {
+            if (testScreen.classList.contains('hidden')) return;
+            if (['1','2','3','4'].includes(e.key)) {
+                const idx = parseInt(e.key) - 1;
+                if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+
+        // ============================================================
+        // 结果展示
+        // ============================================================
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            let correct = 0;
+            const weakMap = {};
+            const total = currentQuestions.length;
+
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                const isCorrect = (ans === q.ans);
+                if (isCorrect) correct++;
+                const cat = q.cat;
+                if (!weakMap[cat]) { weakMap[cat] = { correct: 0, total: 0 }; }
+                weakMap[cat].total++;
+                if (isCorrect) weakMap[cat].correct++;
+            });
+
+            const pct = Math.round((correct / total) * 100);
+            document.getElementById('scoreDisplay').innerHTML = `${correct}/${total}`;
+            document.getElementById('scoreBar').style.width = pct + '%';
+            document.getElementById('scorePercent').innerHTML = `正确率 ${pct}% · 共 ${total} 题`;
+
+            // 等级判定
+            let level, badgeColor, title, desc, emotional, advice, quote;
+            if (pct >= 90) {
+                level = "政治大神";
+                badgeColor = "bg-emerald-100 text-emerald-800";
+                title = "肖秀荣看了都说好";
+                desc = "你的政治素养极高，选择题几乎无懈可击，冲80+稳了。";
+                emotional = "🎉 太强了！你已经是政治选择题王者，继续保持，分析题再练一下就是90+！";
+                advice = "每周一套完整真题选择题，重点练习时政和多选题的陷阱，目标85+。";
+                quote = "“得选择题者得天下，你已得天下。” — 肖秀荣";
+            } else if (pct >= 70) {
+                level = "政治稳健选手";
+                badgeColor = "bg-blue-100 text-blue-800";
+                title = "基础扎实，个别知识盲区";
+                desc = "大部分知识点掌握良好，但在某些易混淆概念上仍需加深理解。";
+                emotional = "💪 底子很棒！把错题对应的知识点再复习一遍，多刷肖1000题，75+可期。";
+                advice = "整理错题本，重点关注马原和毛中特中易混概念，每天花30分钟背诵时政。";
+                quote = "“考研政治，70+是底线，冲80+才是目标。”";
+            } else if (pct >= 50) {
+                level = "基础待补强";
+                badgeColor = "bg-amber-100 text-amber-800";
+                title = "知识框架不牢固，漏洞较多";
+                desc = "史纲时间线、马原原理、毛中特关键提法需要系统梳理。";
+                emotional = "😅 不用慌！政治是性价比最高的科目，现在开始刷肖1000题，背核心知识点，60+完全来得及。";
+                advice = "系统梳理马原、毛中特框架，史纲时间轴，每天精练50题，背诵冲刺手册。";
+                quote = "“政治复习，框架先行。”";
+            } else {
+                level = "基础薄弱紧急补漏";
+                badgeColor = "bg-rose-100 text-rose-800";
+                title = "核心考点大面积缺失";
+                desc = "基本概念、核心原理、重要时间点掌握不足，需要从头系统复习。";
+                emotional = "🚨 立刻启动基础复习！先过一遍肖秀荣精讲精练，配合1000题，打牢基础。";
+                advice = "每天至少2小时政治，精讲精练+1000题，重点攻克马原和毛中特，时政后期集中背。";
+                quote = "“基础不牢，地动山摇。现在开始，一切都来得及。”";
+            }
+
+            document.getElementById('levelBadge').className = `result-badge ${badgeColor} mb-3`;
+            document.getElementById('levelBadge').innerText = level;
+            document.getElementById('levelTitle').innerText = title;
+            document.getElementById('levelDesc').innerText = desc;
+            document.getElementById('emotionalBoost').innerHTML = `“${emotional}”`;
+            document.getElementById('actionPlan').innerHTML = advice;
+            document.getElementById('famousQuote').innerHTML = `“${quote}”`;
+
+            // 强弱板块
+            let weakText = '', strongText = '';
+            const sortedCats = Object.keys(weakMap).sort((a,b) => (weakMap[a].correct/weakMap[a].total) - (weakMap[b].correct/weakMap[b].total));
+            const weakest = sortedCats.slice(0, 2);
+            const strongest = sortedCats.slice(-2).reverse();
+
+            weakText = weakest.map(c => {
+                const stat = weakMap[c];
+                const p = Math.round((stat.correct/stat.total)*100);
+                return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;
+            }).join('<br>');
+
+            strongText = strongest.map(c => {
+                const stat = weakMap[c];
+                const p = Math.round((stat.correct/stat.total)*100);
+                return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;
+            }).join('<br>');
+
+            weakText = weakText || "暂无数据，继续加油！";
+            strongText = strongText || "暂无数据，继续加油！";
+            document.getElementById('weaknesses').innerHTML = weakText;
+            document.getElementById('strengths').innerHTML = strongText;
+
+            // 板块总分析
+            let analysisHTML = '';
+            sortedCats.forEach(cat => {
+                const stat = weakMap[cat];
+                const p = Math.round((stat.correct/stat.total)*100);
+                const emoji = p >= 70 ? "🟢" : p >= 50 ? "🟡" : "🔴";
+                analysisHTML += `<p>${emoji} <strong>${cat}</strong>：正确率 ${p}%（${stat.correct}/${stat.total}题）${p < 60 ? " ⚠️ 需要重点突破" : " ✅ 保持"}</p>`;
+            });
+            document.getElementById('weaknessAnalysis').innerHTML = analysisHTML;
+
+            // ========== 渲染全部题目+答案解析 ==========
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const rightAns = q.ans;
+                const labels = ['A','B','C','D'];
+                const isRight = userSel === rightAns;
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${q.opts[userSel]}` : "未作答";
+                const rightSelText = `${labels[rightAns]}. ${q.opts[rightAns]}`;
+
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border ${isRight ? 'border-emerald-300 bg-emerald-50' : 'border-red-300 bg-red-50'}`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2">
+                        <span class="font-bold text-slate-800">第${i+1}题【${q.cat}】</span>
+                        <span class="ml-2 px-2 py-0.5 rounded text-xs ${isRight ? 'bg-emerald-200 text-emerald-800' : 'bg-red-200 text-red-800'}">
+                            ${isRight ? '回答正确' : '回答错误'}
+                        </span>
+                    </div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs space-y-1 mb-2">
+                        <p>你的选择：${userSelText}</p>
+                        <p class="text-emerald-700 font-medium">正确答案：${rightSelText}</p>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-200">
+                        <p class="text-xs text-slate-700"><strong>解析：</strong>${q.exp}</p>
+                    </div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================================
+        // 重新开始
+        // ============================================================
+        window.restart = function() {
+            resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+
+        // 呼吸圈交互
+        document.getElementById('breathCircle').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10);
+        });
+    </script>
+</body>
+</html>

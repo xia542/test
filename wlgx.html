@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>物理光学 · 高频易错测试</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%); min-height: 100vh; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #7c3aed, #6d28d9); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #c4b5fd; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #7c3aed; background: #ede9fe; transform: translateX(5px); }
+        .option-card.selected { border-color: #7c3aed; background: #ddd6fe; box-shadow: 0 2px 12px rgba(124,58,237,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #c4b5fd; }
+        .fade-in { animation: fadePop 0.3s ease-out; } @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .insight-card { transition: all 0.2s; } .insight-card:hover { transform: translateY(-2px); }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-book-open mr-1"></i> 光速冲A+</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-purple-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-violet-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-lightbulb text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-purple-700 to-violet-700 bg-clip-text text-transparent">物理光学 · 高频易错</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-purple-200 text-purple-600">
+                <i class="fa-regular fa-fire mr-1"></i> 干涉·衍射·偏振
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🌐🔦📐</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">物理光学 · 高频易错测试</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">干涉 · 衍射 · 偏振 · 光的电磁理论<br>测测你的物理光学真实水平</p>
+                <p class="text-xs text-purple-500 mt-1 mb-6">✨ 全部题目改编自高频易错点 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，光在等你</p>
+                            <div class="bg-purple-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 物理光学 · 每题附带详细解析</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快测</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 摸摸底</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-violet-200 hover:border-violet-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 检验真实力</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-fuchsia-200 hover:border-fuchsia-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">50题 · 完整</h3>
+                        <p class="text-xs text-slate-400">15分钟 · 终极挑战</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 做完有详细分析 · 薄弱板块一目了然</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-purple-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-purple-500 to-violet-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-purple-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 干涉</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-purple-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-purple-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的物理光学水平报告</h3>
+                <p class="text-sm text-slate-500">分数不是终点，吃透错题才是提分关键</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="scoreDisplay" class="text-6xl font-black text-purple-600 mb-2">--</div>
+                <div id="levelBadge" class="result-badge bg-slate-100 text-slate-700 mb-3">物理光学大神</div>
+                <h2 id="levelTitle" class="text-xl font-bold text-slate-800 mb-2">杨氏双缝倒背如流</h2>
+                <p id="levelDesc" class="text-sm text-slate-600 max-w-sm mx-auto">你的光学水平已经超越大多数同学</p>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-purple-500 to-violet-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scorePercent" class="text-xs text-slate-400 mt-2">正确率 · --%</p>
+            </div>
+            <div class="bg-gradient-to-r from-purple-50 to-violet-50 rounded-2xl p-6 border-l-8 border-purple-400">
+                <h3 class="font-bold text-purple-800 flex gap-2"><i class="fa-regular fa-eye"></i> 薄弱板块分析</h3>
+                <div id="weaknessAnalysis" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 你的强项</h3>
+                    <div id="strengths" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 需要加练</h3>
+                    <div id="weaknesses" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <div class="bg-rose-50/60 p-5 rounded-2xl border border-rose-200">
+                <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 备考打气</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 针对性备考建议</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-purple-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“光既是一种波动，又是一种粒子。” — 爱因斯坦</span>
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-purple-400 text-purple-700 font-medium hover:bg-purple-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+答案解析</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">物理光学 · 高频易错改编</div>
+        </section>
+    </main>
+    <script>
+        const fullBank = [
+            { cat: "干涉", text: "杨氏双缝干涉实验中，相邻亮条纹间距 Δx = ( )", opts: ["λL/d", "λd/L", "L/λd", "dL/λ"], ans: 0, exp: "Δx = λL/d，其中λ波长，L缝屏距离，d双缝间距。" },
+            { cat: "干涉", text: "薄膜干涉中，反射光加强的条件是 ( )", opts: ["2nh = (2k+1)λ/2", "2nh = kλ", "2nh = (2k+1)λ", "nh = kλ"], ans: 0, exp: "反射光加强（干涉极大）：2nh = (2k+1)λ/2（考虑半波损失）。" },
+            { cat: "干涉", text: "迈克尔逊干涉仪中，移动一个反射镜，条纹移动N条，则镜移动距离为 ( )", opts: ["Nλ/2", "Nλ", "Nλ/4", "2Nλ"], ans: 0, exp: "迈克尔逊干涉仪中，镜移动距离 Δd = Nλ/2。" },
+            { cat: "干涉", text: "干涉条纹的可见度与 ( ) 有关", opts: ["两光束光强比", "波长", "光源大小", "观察屏距离"], ans: 0, exp: "可见度 V = 2√(I1I2)/(I1+I2)，与两光束光强比有关。" },
+            { cat: "干涉", text: "在双缝干涉中，若用白光光源，则中央条纹为 ( )", opts: ["白色", "红色", "蓝色", "彩色"], ans: 0, exp: "中央条纹各波长零级重合，为白色。" },
+            { cat: "干涉", text: "等厚干涉中，相邻条纹对应的厚度差为 ( )", opts: ["λ/2", "λ", "λ/4", "2λ"], ans: 0, exp: "等厚干涉中，相邻条纹对应厚度差 Δh = λ/2（反射）或 λ（透射）。" },
+            { cat: "干涉", text: "双缝干涉中，若增大缝间距d，则条纹间距 ( )", opts: ["减小", "增大", "不变", "先增后减"], ans: 0, exp: "Δx = λL/d，d增大，Δx减小。" },
+            { cat: "干涉", text: "干涉条件是两束光 ( )", opts: ["频率相同、振动方向相同、相位差恒定", "频率相同", "振幅相同", "传播方向相同"], ans: 0, exp: "相干条件：频率相同、振动方向相同、相位差恒定。" },
+            { cat: "干涉", text: "在干涉实验中，光程差与相位差的关系为 ( )", opts: ["Δφ = 2πΔ/λ", "Δφ = πΔ/λ", "Δφ = Δ/λ", "Δφ = 2Δ/λ"], ans: 0, exp: "相位差 Δφ = 2πΔ/λ。" },
+            { cat: "干涉", text: "迈克尔逊干涉仪主要用来测量 ( )", opts: ["微小位移和波长", "折射率", "温度", "压力"], ans: 0, exp: "迈克尔逊干涉仪可测量微小位移和光的波长。" },
+            { cat: "衍射", text: "单缝夫琅禾费衍射中，第一级暗纹满足的条件是 ( )", opts: ["a sinθ = λ", "a sinθ = 2λ", "a sinθ = λ/2", "a sinθ = 3λ/2"], ans: 0, exp: "第一级暗纹 a sinθ = λ。" },
+            { cat: "衍射", text: "光栅方程 d sinθ = ( )", opts: ["kλ", "λ", "kλ/2", "(2k+1)λ/2"], ans: 0, exp: "光栅主极大：d sinθ = kλ，k=0,1,2..." },
+            { cat: "衍射", text: "圆孔衍射中，第一级暗环满足的条件是 ( )", opts: ["a sinθ = 0.61λ", "a sinθ = λ", "a sinθ = 1.22λ", "a sinθ = 0.5λ"], ans: 0, exp: "圆孔衍射爱里斑第一级暗环：a sinθ = 0.61λ。" },
+            { cat: "衍射", text: "光栅分辨率 R = ( )", opts: ["kN", "N/k", "k/N", "N"], ans: 0, exp: "光栅分辨率 R = kN，k为级次，N为总缝数。" },
+            { cat: "衍射", text: "单缝衍射中央明纹的宽度是 ( )", opts: ["2λL/a", "λL/a", "λL/2a", "4λL/a"], ans: 0, exp: "中央明纹宽度 = 2λL/a，其中a为缝宽，L为屏距。" },
+            { cat: "衍射", text: "在衍射实验中，缝宽越小，中央条纹 ( )", opts: ["越宽", "越窄", "不变", "亮度越高"], ans: 0, exp: "缝宽a越小，中央明纹半角宽度 θ ≈ λ/a 越大，条纹越宽。" },
+            { cat: "衍射", text: "光栅中，谱线的缺级条件为 ( )", opts: ["d/a = 整数", "a = d", "d/a = 半整数", "a = kλ"], ans: 0, exp: "当 d/a = m（整数）时，第m级缺级。" },
+            { cat: "衍射", text: "菲涅耳衍射属于 ( )", opts: ["近场衍射", "远场衍射", "夫琅禾费衍射", "无规律"], ans: 0, exp: "菲涅耳衍射是近场衍射，夫琅禾费衍射是远场衍射。" },
+            { cat: "衍射", text: "波带片相当于一个 ( )", opts: ["透镜", "光栅", "棱镜", "偏振片"], ans: 0, exp: "菲涅耳波带片具有会聚作用，相当于一个透镜。" },
+            { cat: "衍射", text: "在单缝衍射中，缝宽a增大，则 ( )", opts: ["条纹变窄", "条纹变宽", "条纹不变", "亮度变化"], ans: 0, exp: "a增大，半角宽度 θ = λ/a 减小，条纹变窄。" },
+            { cat: "偏振", text: "自然光通过偏振片后，光强变为原来的 ( )", opts: ["1/2", "1/4", "1", "0"], ans: 0, exp: "自然光通过理想偏振片后，光强减为一半。" },
+            { cat: "偏振", text: "马吕斯定律：I = I0 ( )", opts: ["cos^2 θ", "sin^2 θ", "cos θ", "sin θ"], ans: 0, exp: "马吕斯定律：I = I0 cos^2 θ。" },
+            { cat: "偏振", text: "布儒斯特角满足的条件是 ( )", opts: ["tan i_B = n2/n1", "sin i_B = n2/n1", "tan i_B = n1/n2", "sin i_B = n1/n2"], ans: 0, exp: "布儒斯特定律：tan i_B = n2/n1。" },
+            { cat: "偏振", text: "在布儒斯特角入射时，反射光为 ( )", opts: ["线偏振光", "自然光", "圆偏振光", "椭圆偏振光"], ans: 0, exp: "在布儒斯特角入射时，反射光为完全偏振光（线偏振光）。" },
+            { cat: "偏振", text: "o光和e光在晶体中的传播速度 ( )", opts: ["不同", "相同", "不确定", "等于真空光速"], ans: 0, exp: "在双折射晶体中，o光和e光传播速度不同。" },
+            { cat: "偏振", text: "波片的作用是改变光的 ( )", opts: ["偏振态", "波长", "频率", "速度"], ans: 0, exp: "波片用于改变光的偏振态。" },
+            { cat: "偏振", text: "1/4波片使o光和e光的相位差为 ( )", opts: ["π/2", "π", "2π", "0"], ans: 0, exp: "1/4波片产生 π/2 的相位差。" },
+            { cat: "偏振", text: "圆偏振光通过1/4波片后变为 ( )", opts: ["线偏振光", "圆偏振光", "椭圆偏振光", "自然光"], ans: 0, exp: "圆偏振光通过1/4波片后变为线偏振光。" },
+            { cat: "光的电磁理论", text: "光是 ( )", opts: ["电磁波", "机械波", "纵波", "粒子流"], ans: 0, exp: "光是一种电磁波。" },
+            { cat: "光的电磁理论", text: "光速 c = ( )", opts: ["3×10^8 m/s", "3×10^6 m/s", "3×10^10 m/s", "3×10^4 m/s"], ans: 0, exp: "光在真空中速度约为 3×10^8 m/s。" },
+            { cat: "光的电磁理论", text: "光的频率由 ( ) 决定", opts: ["光源", "介质", "观察者", "传播速度"], ans: 0, exp: "光的频率由光源决定，与介质无关。" },
+            { cat: "光的电磁理论", text: "光在介质中的波长 ( ) 真空中的波长", opts: ["小于", "大于", "等于", "不确定"], ans: 0, exp: "n = λ0/λ，n>1，λ<λ0。" },
+            { cat: "光的电磁理论", text: "电磁波中，电场和磁场 ( )", opts: ["相互垂直且同相", "平行", "反相", "无关"], ans: 0, exp: "电磁波中电场和磁场相互垂直且同相。" },
+            { cat: "光的电磁理论", text: "光强的定义是 ( )", opts: ["单位面积上的光功率", "光的速度", "光的频率", "光的波长"], ans: 0, exp: "光强为单位面积上通过的光功率。" },
+            { cat: "光的电磁理论", text: "折射率 n = ( )", opts: ["c/v", "v/c", "c/v^2", "v^2/c"], ans: 0, exp: "折射率 n = c/v（光在真空速度与介质速度之比）。" },
+            { cat: "光的电磁理论", text: "光的色散是 ( )", opts: ["折射率随波长变化", "光速恒定", "频率不变", "偏振态变化"], ans: 0, exp: "色散是折射率随波长（频率）变化的现象。" },
+            { cat: "相干性", text: "时间相干性与 ( ) 有关", opts: ["光源的单色性", "光源的大小", "光源的强度", "传播距离"], ans: 0, exp: "时间相干性由光源的单色性（谱线宽度）决定。" },
+            { cat: "相干性", text: "空间相干性与 ( ) 有关", opts: ["光源的大小", "光源的颜色", "光的强度", "偏振态"], ans: 0, exp: "空间相干性与光源的大小（宽度）有关。" },
+            { cat: "相干性", text: "相干长度 L_c = ( )", opts: ["λ^2/Δλ", "λ/Δλ", "Δλ/λ^2", "λΔλ"], ans: 0, exp: "相干长度 L_c = λ^2/Δλ。" },
+            { cat: "相干性", text: "光程是 ( )", opts: ["几何路径与折射率的乘积", "几何路径", "折射率", "光速乘以时间"], ans: 0, exp: "光程 = 几何路径 × 折射率。" },
+            { cat: "傅里叶光学", text: "夫琅禾费衍射的远场条件为 ( )", opts: ["L >> a^2/λ", "L << a^2/λ", "L = a^2/λ", "L >> λ"], ans: 0, exp: "夫琅禾费衍射条件：观察屏距离 L >> a^2/λ。" },
+            { cat: "傅里叶光学", text: "衍射图样是光场分布的 ( )", opts: ["傅里叶变换", "拉普拉斯变换", "卷积", "相关"], ans: 0, exp: "衍射图样是光场分布的傅里叶变换。" },
+            { cat: "傅里叶光学", text: "空间频率与 ( ) 有关", opts: ["衍射角", "波长", "光强", "偏振"], ans: 0, exp: "空间频率 f_x = sinθ/λ，与衍射角有关。" },
+            { cat: "傅里叶光学", text: "阿贝成像理论中，频谱面位于 ( )", opts: ["透镜的后焦面", "透镜的前焦面", "物面", "像面"], ans: 0, exp: "阿贝成像理论：频谱面在透镜的后焦面。" },
+            { cat: "傅里叶光学", text: "空间滤波是在 ( ) 上进行", opts: ["频谱面", "物面", "像面", "光源面"], ans: 0, exp: "空间滤波在频谱面上进行。" },
+            { cat: "薄膜光学", text: "增透膜的作用是 ( )", opts: ["减少反射", "增加反射", "增加透过", "改变颜色"], ans: 0, exp: "增透膜通过干涉相消减少反射光，增加透射。" },
+            { cat: "薄膜光学", text: "增透膜的最小厚度为 ( )", opts: ["λ/4n", "λ/2n", "λ/n", "λ/4"], ans: 0, exp: "增透膜最小厚度为 λ/4n（考虑半波损失）。" },
+            { cat: "薄膜光学", text: "高反膜利用 ( )", opts: ["多光束干涉", "单光束干涉", "衍射", "偏振"], ans: 0, exp: "高反膜利用多光束干涉原理。" },
+            { cat: "薄膜光学", text: "光学薄膜的反射率随 ( ) 变化", opts: ["膜层厚度", "入射角", "波长", "以上都是"], ans: 3, exp: "薄膜反射率随膜层厚度、入射角和波长变化。" }
+        ];
+        const quickBank = fullBank.slice(0,10), mediumBank = fullBank.slice(0,25), fullBankUsed = fullBank;
+        let currentQuestions=[], currentAnswers=[], currentIndex=0, currentMode='full', answerPanelOpen=false;
+        const welcome=document.getElementById('welcomeScreen'), testScreen=document.getElementById('testScreen'), resultScreen=document.getElementById('resultScreen');
+        const toggleBtn=document.getElementById('toggleAllAnswer'), answerWrap=document.getElementById('allAnswerWrap'), arrowIcon=document.getElementById('arrowIcon'), answerListDom=document.getElementById('allAnswerList');
+        toggleBtn.addEventListener('click',()=>{ answerPanelOpen=!answerPanelOpen; if(answerPanelOpen){answerWrap.classList.remove('hidden');arrowIcon.style.transform='rotate(180deg)';}else{answerWrap.classList.add('hidden');arrowIcon.style.transform='rotate(0deg)';} });
+        window.startTest=function(mode){ currentMode=mode; currentQuestions=mode==='quick'?quickBank.slice():mode==='medium'?mediumBank.slice():fullBankUsed.slice(); shuffleArray(currentQuestions); currentAnswers=new Array(currentQuestions.length).fill(null); currentIndex=0; welcome.classList.add('hidden'); testScreen.classList.remove('hidden'); resultScreen.classList.add('hidden'); renderQuestion(); updateProgress(); };
+        function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+        function renderQuestion(){ const q=currentQuestions[currentIndex]; if(!q)return; document.getElementById('categoryLabel').innerHTML=`<i class="fa-regular fa-circle-question"></i> ${q.cat}`; document.getElementById('questionText').innerHTML=q.text; const container=document.getElementById('optionsContainer'); container.innerHTML=''; const labels=['A','B','C','D']; q.opts.forEach((opt,idx)=>{ const div=document.createElement('div'); div.className=`option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex]===idx?'selected':''}`; div.innerHTML=`<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx?'border-purple-500 bg-purple-500':'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx?'✓':labels[idx]}</span><span>${opt}</span></div>`; div.onclick=()=>{ currentAnswers[currentIndex]=idx; renderQuestion(); if(currentIndex<currentQuestions.length-1){ setTimeout(()=>window.nextQuestion(),250); } }; container.appendChild(div); }); const nextBtn=document.getElementById('nextBtn'); nextBtn.disabled=currentAnswers[currentIndex]===null; nextBtn.innerText=(currentIndex===currentQuestions.length-1)?(currentAnswers[currentIndex]!==null?"📊 查看结果":"查看结果"):"下一题 →"; document.getElementById('prevBtn').style.visibility=currentIndex>0?'visible':'hidden'; updateProgress(); }
+        function updateProgress(){ const total=currentQuestions.length; const done=currentAnswers.filter(a=>a!==null).length; const pct=total>0?(done/total)*100:0; document.getElementById('progressBar').style.width=pct+'%'; document.getElementById('stepLabel').innerHTML=`第 ${currentIndex+1}/${total} 题 · 已答 ${done}`; document.getElementById('progressText').innerText=`${Math.round(pct)}%`; }
+        window.nextQuestion=function(){ if(currentAnswers[currentIndex]===null)return; if(currentIndex===currentQuestions.length-1){ showResult(); }else{ currentIndex++; renderQuestion(); } };
+        window.prevQuestion=function(){ if(currentIndex>0){ currentIndex--; renderQuestion(); } };
+        document.addEventListener('keydown',(e)=>{ if(testScreen.classList.contains('hidden'))return; if(['1','2','3','4'].includes(e.key)){ const idx=parseInt(e.key)-1; if(idx<4&&currentQuestions[currentIndex]){ currentAnswers[currentIndex]=idx; renderQuestion(); if(currentIndex<currentQuestions.length-1){ setTimeout(()=>window.nextQuestion(),250); } } }else if(e.key==='Enter'){ window.nextQuestion(); } });
+        function showResult(){ testScreen.classList.add('hidden'); resultScreen.classList.remove('hidden'); let correct=0; const weakMap={}; const total=currentQuestions.length; currentQuestions.forEach((q,i)=>{ const ans=currentAnswers[i]; const isCorrect=(ans===q.ans); if(isCorrect)correct++; const cat=q.cat; if(!weakMap[cat]){ weakMap[cat]={correct:0,total:0}; } weakMap[cat].total++; if(isCorrect)weakMap[cat].correct++; }); const pct=Math.round((correct/total)*100); document.getElementById('scoreDisplay').innerHTML=`${correct}/${total}`; document.getElementById('scoreBar').style.width=pct+'%'; document.getElementById('scorePercent').innerHTML=`正确率 ${pct}% · 共 ${total} 题`; let level,badgeColor,title,desc,emotional,advice,quote; if(pct>=90){ level="物理光学大神"; badgeColor="bg-emerald-100 text-emerald-800"; title="干涉衍射偏振全拿捏"; desc="你的光学功底极其扎实，冲A+不是梦！"; emotional="🎉 太强了！干涉、衍射、偏振你全部掌握，保持手感，目标满分！"; advice="每周一套完整真题，重点攻克傅里叶光学和薄膜光学，目标A+。"; quote="“光既是一种波动，又是一种粒子。” — 爱因斯坦"; }else if(pct>=70){ level="光学稳健选手"; badgeColor="bg-purple-100 text-purple-800"; title="基础扎实，个别难点需突破"; desc="核心知识点掌握良好，但某些难点仍需加深理解。"; emotional="💪 底子很好！把错题对应的知识点再复习一遍，多做计算题，A可期。"; advice="整理错题本，重点关注衍射光栅、偏振计算、薄膜干涉。"; quote="“光学是物理中最美的分支之一。”"; }else if(pct>=50){ level="基础待补强"; badgeColor="bg-amber-100 text-amber-800"; title="知识框架不牢固，漏洞较多"; desc="干涉、衍射、偏振都需要系统梳理。"; emotional="😅 不用慌！现在开始梳理知识点，多做习题，B+以上完全来得及。"; advice="系统复习干涉、衍射、偏振三大部分，每天精练10题。"; quote="“基础不牢，地动山摇。”"; }else{ level="基础薄弱紧急补漏"; badgeColor="bg-rose-100 text-rose-800"; title="核心考点大面积缺失"; desc="基本概念和公式掌握不足，需要从头系统复习。"; emotional="🚨 立刻启动基础复习！先过一遍教材和基础题，不要直接刷难题。"; advice="每天至少2小时物理光学，教材+基础题，重点攻克干涉和衍射。"; quote="“现在开始，一切都来得及。”"; } document.getElementById('levelBadge').className=`result-badge ${badgeColor} mb-3`; document.getElementById('levelBadge').innerText=level; document.getElementById('levelTitle').innerText=title; document.getElementById('levelDesc').innerText=desc; document.getElementById('emotionalBoost').innerHTML=`“${emotional}”`; document.getElementById('actionPlan').innerHTML=advice; document.getElementById('famousQuote').innerHTML=`“${quote}”`; let weakText='', strongText=''; const sortedCats=Object.keys(weakMap).sort((a,b)=>(weakMap[a].correct/weakMap[a].total)-(weakMap[b].correct/weakMap[b].total)); const weakest=sortedCats.slice(0,2); const strongest=sortedCats.slice(-2).reverse(); weakText=weakest.map(c=>{const stat=weakMap[c];const p=Math.round((stat.correct/stat.total)*100);return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;}).join('<br>'); strongText=strongest.map(c=>{const stat=weakMap[c];const p=Math.round((stat.correct/stat.total)*100);return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;}).join('<br>'); weakText=weakText||"暂无数据，继续加油！"; strongText=strongText||"暂无数据，继续加油！"; document.getElementById('weaknesses').innerHTML=weakText; document.getElementById('strengths').innerHTML=strongText; let analysisHTML=''; sortedCats.forEach(cat=>{const stat=weakMap[cat];const p=Math.round((stat.correct/stat.total)*100);const emoji=p>=70?"🟢":p>=50?"🟡":"🔴"; analysisHTML+=`<p>${emoji} <strong>${cat}</strong>：正确率 ${p}%（${stat.correct}/${stat.total}题）${p<60?" ⚠️ 需要重点突破":" ✅ 保持"}</p>`;}); document.getElementById('weaknessAnalysis').innerHTML=analysisHTML; answerListDom.innerHTML=''; currentQuestions.forEach((q,i)=>{ const userSel=currentAnswers[i]; const rightAns=q.ans; const labels=['A','B','C','D']; const isRight=userSel===rightAns; const userSelText=userSel!==null?`${labels[userSel]}. ${q.opts[userSel]}`:"未作答"; const rightSelText=`${labels[rightAns]}. ${q.opts[rightAns]}`; const itemWrap=document.createElement('div'); itemWrap.className=`rounded-xl p-4 border ${isRight?'border-emerald-300 bg-emerald-50':'border-red-300 bg-red-50'}`; itemWrap.innerHTML=`<div class="text-sm mb-2"><span class="font-bold text-slate-800">第${i+1}题【${q.cat}】</span><span class="ml-2 px-2 py-0.5 rounded text-xs ${isRight?'bg-emerald-200 text-emerald-800':'bg-red-200 text-red-800'}">${isRight?'回答正确':'回答错误'}</span></div><p class="text-slate-800 mb-3">${q.text}</p><div class="text-xs space-y-1 mb-2"><p>你的选择：${userSelText}</p><p class="text-emerald-700 font-medium">正确答案：${rightSelText}</p></div><div class="mt-2 pt-2 border-t border-slate-200"><p class="text-xs text-slate-700"><strong>解析：</strong>${q.exp}</p></div>`; answerListDom.appendChild(itemWrap); }); window.scrollTo(0,0); }
+        window.restart=function(){ resultScreen.classList.add('hidden'); welcome.classList.remove('hidden'); window.scrollTo(0,0); };
+        document.getElementById('breathCircle').addEventListener('click',function(){ this.style.animation='none'; setTimeout(()=>this.style.animation='floatGrad 5s infinite ease-in-out',10); });
+    </script>
+</body>
+</html>

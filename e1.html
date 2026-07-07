@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>高频易错英一考研测试 · 你的英语水平有多野</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh; }
+        .breathe-grad {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #3b82f6, #1d4ed8);
+            border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%;
+            animation: floatGrad 5s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        @keyframes floatGrad {
+            0%, 100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; }
+            50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #bfdbfe;
+            background: white;
+            cursor: pointer;
+        }
+        .option-card:hover { border-color: #3b82f6; background: #eff6ff; transform: translateX(5px); }
+        .option-card.selected { border-color: #2563eb; background: #dbeafe; box-shadow: 0 2px 12px rgba(37,99,235,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #bfdbfe; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .insight-card { transition: all 0.2s; }
+        .insight-card:hover { transform: translateY(-2px); }
+        .abandon-sticker {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #92400e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            animation: bounceSticker 2s infinite;
+        }
+        @keyframes bounceSticker {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker">
+        <i class="fa-regular fa-book-open mr-1"></i> 考研人绝不认输
+    </div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-blue-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-pen-to-square text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">高频易错 · 英一考研测试</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-blue-200 text-blue-600">
+                <i class="fa-regular fa-fire mr-1"></i> 英一真题高频易错
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">📚🤯🚀</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">高频易错 · 英一考研测试</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    熟词僻义 · 长难语法 · 阅读逻辑坑 · 完形逻辑 · 翻译难点<br>
+                    测测你的考研英语一真实水平
+                </p>
+                <p class="text-xs text-blue-500 mt-1 mb-6">✨ 全部题目改编自历年考研英语一真题高频易错题 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，熟词僻义再也不踩坑</p>
+                            <div class="bg-blue-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">
+                                💡 考研英语一真题改编 · 每题附带完整翻译+逐项解析
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-blue-200 hover:border-blue-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快测</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 摸底检测</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-indigo-200 hover:border-indigo-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 模拟真实难度</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">50题 · 完整真题题库</h3>
+                        <p class="text-xs text-slate-400">15分钟 · 英一终极挑战</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 报告底部可展开全部题目、完整翻译、逐项深度解析</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-blue-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-blue-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel">
+                    <i class="fa-regular fa-circle-question"></i> 熟词僻义
+                </div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-blue-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-blue-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的考研英一水平报告</h3>
+                <p class="text-sm text-slate-500">分数不是终点，吃透错题翻译与解析才是提分关键</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="scoreDisplay" class="text-6xl font-black text-blue-600 mb-2">--</div>
+                <div id="levelBadge" class="result-badge bg-slate-100 text-slate-700 mb-3">英语一大神</div>
+                <h2 id="levelTitle" class="text-xl font-bold text-slate-800 mb-2">熟词僻义全拿捏</h2>
+                <p id="levelDesc" class="text-sm text-slate-600 max-w-sm mx-auto">你的英语水平已经超越绝大多数备考英一考生</p>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scorePercent" class="text-xs text-slate-400 mt-2">正确率 · --%</p>
+            </div>
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-l-8 border-blue-400">
+                <h3 class="font-bold text-blue-800 flex gap-2"><i class="fa-regular fa-eye"></i> 薄弱板块分析</h3>
+                <div id="weaknessAnalysis" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 你的强项</h3>
+                    <div id="strengths" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 需要加练</h3>
+                    <div id="weaknesses" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <div class="bg-rose-50/60 p-5 rounded-2xl border border-rose-200">
+                <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 备考打气</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 针对性备考建议</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-blue-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“The best time to start was yesterday. The next best time is now.”</span>
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-blue-400 text-blue-700 font-medium hover:bg-blue-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow">保存完整报告</button>
+            </div>
+
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>展开全部题目｜完整中文翻译｜逐项深度解析</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+
+            <div class="text-center text-[10px] text-slate-400 pb-8">考研英语一 · 历年真题改编高频易错题库</div>
+        </section>
+    </main>
+    <script>
+        // ============================================================
+        // 英一50道真题高频易错题库（完整保留英一数据）
+        // ============================================================
+        const fullBank = [
+            // 一、熟词僻义（1-10）
+            {
+                cat: "熟词僻义",
+                text: "The judge held that the evidence was inadmissible in court.",
+                transQ: "法官裁定这份证据在法庭上不予采信。",
+                opts: ["held", "grasped", "carried", "supported"],
+                transOpts: ["裁定；认为（僻义）", "抓住；紧握", "携带；搬运", "支持；支撑"],
+                ans: 0,
+                exp: "正确选项A：hold熟义“握住”，考研英一核心僻义（法律场景）表示“裁定、认定”，是阅读法律类文章高频考点。\nB错误：grasp仅表示物理上抓住，无法律判定含义；\nC错误：carry侧重携带物品，语义完全不匹配；\nD错误：support指支持观点，不能用于法官裁定证据。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "Industry is the parent of success in academic research.",
+                transQ: "勤勉是学术研究取得成果的根源。",
+                opts: ["parent", "mother", "source", "origin"],
+                transOpts: ["根源；母体（僻义）", "母亲", "来源", "起源"],
+                ans: 0,
+                exp: "正确选项A：parent熟义父母，英一真题僻义“根源、母体”，固定搭配the parent of sth …的根源；\nB错误：mother仅指母亲，书面比喻极少使用；\nC、D错误：source/origin虽语义接近，但无法和原句固定搭配匹配，真题固定短语优先选parent。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "The government drew fire for its loose economic regulation.",
+                transQ: "政府因宽松的经济监管政策遭到抨击。",
+                opts: ["drew fire", "drew attention", "drew strength", "drew conclusion"],
+                transOpts: ["遭到批评、抨击（固定僻义短语）", "吸引注意力", "汲取力量", "得出结论"],
+                ans: 0,
+                exp: "正确A：draw fire 考研阅读高频短语，意为“遭受抨击、引来指责”；\nB错：draw attention 吸引关注，无负面批评含义；\nC错：汲取力量，语义相反；D错：得出结论，语境完全不符。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "The young scientist has a sound grasp of economic theories.",
+                transQ: "这位青年科学家扎实掌握各类经济学理论。",
+                opts: ["sound", "loud", "noisy", "gentle"],
+                transOpts: ["扎实的；完善的（僻义）", "大声的", "吵闹的", "温和的"],
+                ans: 0,
+                exp: "A正确：sound熟义声音，形容词僻义“可靠的、扎实的、完善的”，英一完形高频；\nB/C/D均仅描述声音，无法修饰grasp（掌握程度）。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "The firm will lay off hundreds of staff amid revenue decline.",
+                transQ: "受营收下滑影响，这家企业将裁员数百人。",
+                opts: ["lay off", "lay down", "lay out", "lay aside"],
+                transOpts: ["裁员；解雇", "放下；制定（规则）", "布局；陈列", "搁置；储存"],
+                ans: 0,
+                exp: "A正确：lay off 经济类阅读必考短语，裁员；\nB：lay down rules 制定规则；C：layout 布局图纸；D：搁置分歧，均不匹配裁员语境。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "His argument does not hold water under rigorous scrutiny.",
+                transQ: "经过严密审查，他的论点站不住脚。",
+                opts: ["hold water", "hold back", "hold on", "hold out"],
+                transOpts: ["站得住脚；合乎逻辑", "抑制；退缩", "坚持；等一下", "维持；伸出"],
+                ans: 0,
+                exp: "hold water 议论文阅读高频，指观点合理可信；其余短语语义均和论点逻辑无关。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "The committee gave short shrift to grassroots suggestions.",
+                transQ: "委员会草草敷衍了基层群众的建议。",
+                opts: ["short shrift", "short time", "short notice", "short supply"],
+                transOpts: ["草率对待；敷衍", "短时间", "临时通知", "供应短缺"],
+                ans: 0,
+                exp: "固定搭配give short shrift to sth 忽视、敷衍某事，英一真题熟词僻义冷门高频；其余短语无“敷衍”含义。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "The new law will take effect starting next January.",
+                transQ: "新法案将于明年一月正式生效。",
+                opts: ["take effect", "take place", "take shape", "take turns"],
+                transOpts: ["生效；起作用", "发生", "成型；初具规模", "轮流"],
+                ans: 0,
+                exp: "法律类阅读必考take effect（生效）；B表事件发生；C表事物成型；D轮流，均不匹配法案语境。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "Researchers cast doubt on the widely accepted hypothesis.",
+                transQ: "研究人员对这一广为认可的假说提出质疑。",
+                opts: ["cast doubt on", "cast light on", "cast aside", "cast off"],
+                transOpts: ["对…提出质疑", "阐明；使清晰", "抛弃；丢弃", "摆脱；解开"],
+                ans: 0,
+                exp: "A：cast doubt on 议论文高频质疑表达；B是阐明问题；C抛弃事物；D摆脱束缚。"
+            },
+            {
+                cat: "熟词僻义",
+                text: "We should make allowance for his lack of relevant experience.",
+                transQ: "我们应当体谅他缺乏相关工作经验。",
+                opts: ["make allowance for", "make way for", "make room for", "make use of"],
+                transOpts: ["体谅；顾及", "为…让路", "腾出空间", "利用"],
+                ans: 0,
+                exp: "固定短语make allowance for 体谅、考虑到客观情况，完形填空高频考点。"
+            },
+            // 二、长难语法陷阱（11-20）
+            {
+                cat: "长难语法陷阱",
+                text: "____ from the remote village, the student struggled to adapt to urban campus life.",
+                transQ: "这名学生来自偏远乡村，难以适应城市校园生活。",
+                opts: ["Coming", "Came", "To come", "Having came"],
+                transOpts: ["现在分词作原因状语（正确）", "过去式谓语动词，语法冲突", "不定式表目的，逻辑不符", "时态变形错误，应为having come"],
+                ans: 0,
+                exp: "主句主语the student与come是主动关系，用现在分词coming作状语；\nB错误：一个句子不能双谓语；C不定式表目的，此处是原因；D having后需过去分词come，语法错误。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "It is high time that the government ____ concrete measures to curb inflation.",
+                transQ: "政府早该采取切实措施抑制通货膨胀了。",
+                opts: ["took", "takes", "will take", "take"],
+                transOpts: ["虚拟语气过去式（固定规则）", "一般现在时", "一般将来时", "动词原形"],
+                ans: 0,
+                exp: "It is high time + 从句，从句必须使用一般过去式表虚拟，是英一语法翻译题必考陷阱，其余时态均不符合语法规则。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "Hard ____ they tried, they failed to resolve the institutional contradiction.",
+                transQ: "尽管他们付出诸多努力，依旧没能解决制度层面的矛盾。",
+                opts: ["as", "although", "though", "while"],
+                transOpts: ["as引导让步倒装（唯一正确）", "although不能倒装", "though倒装极少用于形容词前置", "while无倒装用法"],
+                ans: 0,
+                exp: "形容词/副词前置+as+主语+谓语 是标准让步倒装结构；although/though/while引导让步从句均不可使用该倒装格式。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "By the time the conference concludes, scholars ____ three rounds of thematic discussion.",
+                transQ: "等到本次会议结束时，学者们将完成三轮主题研讨。",
+                opts: ["will have held", "will hold", "have held", "had held"],
+                transOpts: ["将来完成时（将来时间截止已完成）", "一般将来时，无完成含义", "现在完成时，时态时间不匹配", "过去完成时，指向过去截止点"],
+                ans: 0,
+                exp: "by the time + 将来动作，主句强制使用将来完成时will have done，表示未来某一时间点前已经完成的动作。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "If the researcher ____ more data, he would have published the paper last year.",
+                transQ: "如果这位研究员当时收集了更多数据，他去年就能发表论文了。",
+                opts: ["had collected", "collected", "collects", "would collect"],
+                transOpts: ["对过去虚拟，从句过去完成时", "一般过去式（现在虚拟格式）", "一般现在时", "过去将来时"],
+                ans: 0,
+                exp: "主句would have done 标志对过去事实虚拟，从句统一使用had done；B是与现在事实相反格式，时态不匹配。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "The expert ____ we consulted yesterday specializes in ecological protection.",
+                transQ: "我们昨天咨询的这位专家专攻生态保护领域。",
+                opts: ["whom", "which", "whose", "what"],
+                transOpts: ["先行词人，从句宾语用whom", "仅指代事物", "作定语表所属", "不能引导定语从句"],
+                ans: 0,
+                exp: "先行词the expert是人，关系代词在从句内作consulted的宾语，只能用whom；which指代物，whose表所属，what不引导定语从句。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "Not only ____ digital technology reshape daily life, but it also transforms industrial chains.",
+                transQ: "数字技术不仅重塑日常生活，更改造全产业链。",
+                opts: ["does", "is", "has", "did"],
+                transOpts: ["一般现在时部分倒装助动词does", "系动词，后接形容词", "现在完成时，缺少过去分词", "一般过去时，时态不符"],
+                ans: 0,
+                exp: "Not only置于句首主句部分倒装；句子谓语reshape是实义动词，一般现在时主语单数，加助动词does提前。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "I would rather you ____ silent about the controversial policy at the seminar tomorrow.",
+                transQ: "我宁愿你明天研讨会上对这项争议政策保持沉默。",
+                opts: ["kept", "keep", "will keep", "have kept"],
+                transOpts: ["would rather对将来虚拟用过去式", "动词原形", "将来时", "现在完成时"],
+                ans: 0,
+                exp: "would rather + 从句，无论将来/现在，从句谓语统一用一般过去式表虚拟，是翻译长难句高频考点。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "____ adequate financial support, the social project cannot be fully carried out.",
+                transQ: "若没有充足资金支持，这项社会项目无法全面落地。",
+                opts: ["Without", "Within", "Beyond", "Despite"],
+                transOpts: ["缺少；若无（条件逻辑）", "在…之内", "超出", "尽管（让步逻辑）"],
+                ans: 0,
+                exp: "句子前后为条件否定逻辑：没有资金就无法实施；despite表让步，语义逻辑完全相反。"
+            },
+            {
+                cat: "长难语法陷阱",
+                text: "The aim of the reform is ____ a fairer distribution of social resources.",
+                transQ: "本次改革的目标是实现社会资源更公平分配。",
+                opts: ["to achieve", "achieving", "achieved", "achieve"],
+                transOpts: ["不定式作表语表目标", "动名词表习惯性动作", "过去分词表被动完成", "动词原形语法错误"],
+                ans: 0,
+                exp: "主语为aim/goal/purpose（目标），表语固定使用不定式to do，说明目标具体内容。"
+            },
+            // 三、阅读逻辑坑（21-30）
+            {
+                cat: "阅读逻辑坑",
+                text: "What is the primary cause of the decline in traditional manufacturing?",
+                transQ: "传统制造业衰退的首要原因是什么？",
+                opts: ["Global supply chain restructuring", "Local labor shortage", "Raw material price fluctuation", "Domestic market shrinkage"],
+                transOpts: ["全球供应链重构（原文主因）", "本地劳动力短缺（次要干扰项）", "原材料价格波动（次要因素）", "国内市场萎缩（未提及）"],
+                ans: 0,
+                exp: "真题原文核心逻辑：全球供应链重构是制造业衰退根本诱因；劳动力、原料仅短期影响，国内市场萎缩文中完全未出现，典型阅读干扰项套路。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "The author's attitude toward tech monopolies can be described as ____.",
+                transQ: "作者对于科技垄断企业的态度可以概括为？",
+                opts: ["Critical", "Indifferent", "Supportive", "Neutral"],
+                transOpts: ["批判的", "漠不关心的", "支持的", "中立客观的"],
+                ans: 0,
+                exp: "全文大量负面词汇、弊端举例，明确持批判立场；indifferent冷漠是阅读高频错误选项，文中作者全程发表观点，不可能冷漠。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "It can be inferred from Paragraph 2 that environmental regulation ____.",
+                transQ: "从第二段可以推断出环境监管____。",
+                opts: ["Promotes long-term industrial upgrading", "Hinders short-term economic growth only", "Fails to restrict high-pollution firms", "Relies solely on administrative orders"],
+                transOpts: ["推动产业长期升级（正确推断）", "仅阻碍短期经济（片面绝对）", "无法约束高污染企业（与原文相反）", "只依靠行政命令（绝对化only错误）"],
+                ans: 0,
+                exp: "推理题避坑：含only/solely绝对词选项几乎全部错误；B片面只谈负面，忽略长期利好；C和原文措施有效内容冲突。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "The pronoun “that” in line 12 refers to ____.",
+                transQ: "第十二行代词that指代？",
+                opts: ["The imbalance between supply and demand", "The adjustment policy", "The industrial cycle", "The market supervision mechanism"],
+                transOpts: ["供需失衡（前文核心名词）", "调整政策（间隔太远）", "产业周期（无关名词）", "市场监管机制（后文概念）"],
+                ans: 0,
+                exp: "代词指代规则：就近向前找核心单数名词；其余选项距离代词过远或属于后文新提出概念，不满足指代逻辑。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "Which factor is NOT mentioned as a barrier to youth employment?",
+                transQ: "以下哪一项文中未提及青年就业阻碍因素？",
+                opts: ["Urban housing price surge", "Mismatch of education and market demand", "Age discrimination in recruitment", "Digital skill gap among graduates"],
+                transOpts: ["城市房价暴涨（未提及）", "教育与市场需求错配", "招聘年龄歧视", "毕业生数字技能短板"],
+                ans: 0,
+                exp: "细节排除题：原文依次提到供需错配、年龄歧视、数字技能不足；房价属于无中生有，典型阅读干扰项。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "The author cites the case of Nordic countries to ____.",
+                transQ: "作者引用北欧国家案例是为了？",
+                opts: ["Verify the feasibility of welfare reform", "Introduce the topic of aging population", "Summarize global pension crisis", "Question the value of social security"],
+                transOpts: ["验证福利改革可行性", "引出老龄化话题（开篇作用）", "总结全球养老金危机（结尾功能）", "质疑社保体系价值（相反态度）"],
+                ans: 0,
+                exp: "阅读举例题统一逻辑：举例用来佐证前文观点；本段前文论点为福利改革可行，北欧案例作为例证支撑。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "The central idea of the whole passage is ____.",
+                transQ: "全文主旨是？",
+                opts: ["Balanced development between economy and ecology", "The cost of environmental protection", "Conflicts between enterprises and regulators", "Technological innovation cuts pollution costs"],
+                transOpts: ["经济与生态协调发展", "环保付出的经济成本（片面）", "企业与监管者冲突（局部段落）", "科技创新降低治污成本（分论点）"],
+                ans: 0,
+                exp: "主旨题避坑：片面分论点、单一段落内容均为干扰项；只有A覆盖全文首尾核心讨论的平衡发展主题。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "The overall tone of the article is ____.",
+                transQ: "文章整体行文基调是？",
+                opts: ["Objective analytical", "Emotional persuasive", "Narrative descriptive", "Skeptical cynical"],
+                transOpts: ["客观分析型", "情绪化劝说型", "叙事描写型", "怀疑愤世嫉俗型"],
+                ans: 0,
+                exp: "文章罗列数据、正反利弊，无强烈主观情绪，属于客观学术分析类文章；无抒情叙事、无全盘否定质疑。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "What suggestion does the author put forward for future policy-making?",
+                transQ: "作者对未来政策制定提出什么建议？",
+                opts: ["Balance market freedom and government intervention", "Completely deregulate all industrial sectors", "Rely entirely on government subsidies", "Ban all high-carbon industries directly"],
+                transOpts: ["平衡市场自由与政府调控", "全面放开所有产业（绝对化错误）", "完全依靠政府补贴（极端片面）", "直接关停高碳产业（极端不现实）"],
+                ans: 0,
+                exp: "英一阅读专家观点极少走极端，completely/entirely/ban all等绝对表述几乎全部错误，中庸平衡表述为正确答案高频特征。"
+            },
+            {
+                cat: "阅读逻辑坑",
+                text: "The phrase “scale back” in line 20 most probably means ____.",
+                transQ: "第二十行短语scale back词义最接近？",
+                opts: ["Reduce", "Expand", "Maintain", "Cancel"],
+                transOpts: ["缩减、收缩", "扩张", "维持不变", "彻底取消"],
+                ans: 0,
+                exp: "scale作名词规模，back表后退，scale back 缩减规模；expand语义相反，maintain无变化，cancel程度过重，不符合原文温和调整语境。"
+            },
+            // 四、完形逻辑（31-40）
+            {
+                cat: "完形逻辑",
+                text: "Most postgraduates struggle to ____ their limited spare time efficiently amid heavy coursework.",
+                transQ: "课业繁重之下，多数研究生难以高效管理有限课余时间。",
+                opts: ["manage", "spend", "waste", "control"],
+                transOpts: ["管理（固定搭配manage time）", "花费", "浪费", "控制（不搭配时间）"],
+                ans: 0,
+                exp: "manage time 考研完形固定搭配，表时间规划；spend仅表示消耗时间，无合理规划含义，control不能搭配time。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "Scholars constantly ____ the necessity of cross-disciplinary academic communication.",
+                transQ: "学者们不断强调跨学科学术交流的必要性。",
+                opts: ["emphasized", "ignored", "doubted", "avoided"],
+                transOpts: ["强调", "忽视", "质疑", "回避"],
+                ans: 0,
+                exp: "全文逻辑推崇跨学科交流，语义正向；ignore/doubt/avoid均为负面词汇，与上下文情感逻辑冲突。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "____ digital tools simplify research, they cannot replace independent critical thinking.",
+                transQ: "尽管数字工具简化科研流程，却无法替代独立批判性思维。",
+                opts: ["Although", "Because", "Unless", "Since"],
+                transOpts: ["尽管（让步逻辑）", "因为（因果）", "除非（条件）", "既然（因果）"],
+                ans: 0,
+                exp: "前后半句一利一弊，明显让步转折逻辑；because/since表因果，unless反向条件，均不符合句子逻辑。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "Society should ____ valuable lessons from historical economic crises.",
+                transQ: "社会应当从历次经济危机中吸取宝贵经验。",
+                opts: ["learn", "teach", "forget", "ignore"],
+                transOpts: ["吸取（learn lessons固定搭配）", "传授", "遗忘", "忽视"],
+                ans: 0,
+                exp: "learn lessons from sth 从…吸取教训；teach主语应为主体施教，forget/ignore语义完全相反。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "Long-term social transformation ____ sustained institutional investment and policy support.",
+                transQ: "长期社会转型需要持续的制度投入与政策扶持。",
+                opts: ["requires", "requests", "acquires", "inquires"],
+                transOpts: ["客观需要（正式书面）", "请求（人发出）", "获得；习得", "询问"],
+                ans: 0,
+                exp: "require侧重事物客观需求；request是人主动请求；acquire获取资源；inquire咨询问题，均不匹配转型需要资源的语境。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "____ more objective data, researchers could have drawn more credible conclusions.",
+                transQ: "如果拥有更多客观数据，研究者本可以得出更可信的结论。",
+                opts: ["Given", "Giving", "To give", "Having given"],
+                transOpts: ["倘若拥有（独立主格条件状语）", "主动给予，逻辑主语冲突", "不定式表目的", "已给予，时态逻辑矛盾"],
+                ans: 0,
+                exp: "given + 名词 考研完形高频条件状语结构，表“倘若具备…”；其余分词逻辑主语与主句researchers冲突。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "Effective policy design ____ compromise between competing social groups.",
+                transQ: "有效的政策制定涉及不同社会群体之间的相互妥协。",
+                opts: ["involves", "contains", "includes", "consists"],
+                transOpts: ["涉及；必然包含（抽象层面）", "容纳实物", "包含具体条目", "由…组成（搭配of）"],
+                ans: 0,
+                exp: "involve用于抽象事物“涉及某种过程/条件”；contain/include多指实体包含，consist后必须搭配of。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "____ we optimize resource allocation immediately, the regional gap will keep widening.",
+                transQ: "除非我们立刻优化资源分配，否则区域差距将持续扩大。",
+                opts: ["Unless", "If", "As", "Once"],
+                transOpts: ["除非（if not）", "如果（正向条件）", "由于；当", "一旦"],
+                ans: 0,
+                exp: "后半句负面结果，逻辑为“不做某事就会产生坏结果”，unless=if not完全匹配；if/as/once均为正向条件，语义相反。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "Humans are ____ to overlook long-term risks when focusing on short-term gains.",
+                transQ: "人类在追逐短期收益时容易忽视长期风险。",
+                opts: ["likely", "possible", "probable", "feasible"],
+                transOpts: ["（人作主语）有可能的", "物作主语，不能用人", "主语多为事件", "可行的（形容方案）"],
+                ans: 0,
+                exp: "语法固定规则：likely主语可为人；possible/probable主语只能是it/事物；feasible形容计划可行，不能修饰人。"
+            },
+            {
+                cat: "完形逻辑",
+                text: "The new regulatory framework is ____ to the outdated industrial rules of the past.",
+                transQ: "全新监管框架优于过去落后的产业规章。",
+                opts: ["superior", "inferior", "equal", "parallel"],
+                transOpts: ["优于（superior to固定搭配）", "劣于", "等同于", "平行的"],
+                ans: 0,
+                exp: "superior to 固定比较搭配，本身含比较级，无需more；根据前文new新框架，逻辑优于旧规则，排除inferior。"
+            },
+            // 五、翻译难点（41-50）
+            {
+                cat: "翻译难点",
+                text: "Scholars have made remarkable ____ in interdisciplinary climate research over the decade.",
+                transQ: "十年间，学者们在跨学科气候研究领域取得了显著进展。",
+                opts: ["advances", "advices", "advantages", "adventures"],
+                transOpts: ["进展；突破（make advances固定搭配）", "建议（不可数，无复数）", "优势", "冒险经历"],
+                ans: 0,
+                exp: "make advances in 在…取得进展，翻译题高频短语；advice不可数不能加s，advantage优势语义不符，adventure冒险完全无关。"
+            },
+            {
+                cat: "翻译难点",
+                text: "The central government is ____ to narrowing the urban-rural income divide.",
+                transQ: "中央政府致力于缩小城乡收入差距。",
+                opts: ["committed", "dedicated", "contributed", "attributed"],
+                transOpts: ["be committed to 致力于（官方书面高频）", "专注于（多形容人）", "贡献", "归因于"],
+                ans: 0,
+                exp: "be committed to 政府政策类翻译标准搭配；dedicated多用于个人；contribute to贡献，attribute to归因，语义不匹配政策语境。"
+            },
+            {
+                cat: "翻译难点",
+                text: "It is widely ____ that green growth will become the core development path.",
+                transQ: "各界普遍预计绿色发展将成为核心发展路径。",
+                opts: ["expected", "assumed", "supposed", "presumed"],
+                transOpts: ["据预计（客观宏观表述）", "假定（主观假设）", "理应", "推定（法律场景）"],
+                ans: 0,
+                exp: "It is expected that 考研翻译宏观经济类标准句式；assume/presume侧重主观假定，缺少客观预测含义。"
+            },
+            {
+                cat: "翻译难点",
+                text: "Many traditional manufacturers ____ digital transformation to cut operational costs.",
+                transQ: "大量传统制造企业采取数字化转型以降低运营成本。",
+                opts: ["adopted", "adapted", "adjusted", "addressed"],
+                transOpts: ["采纳；推行（政策/方案）", "适应；改编", "调整", "解决（问题）"],
+                ans: 0,
+                exp: "adopt strategy/transformation 推行转型方案；adapt to适应环境；adjust微调参数；address后接问题，不能搭配转型。"
+            },
+            {
+                cat: "翻译难点",
+                text: "The professor delivered an ____ speech on sustainable urban construction.",
+                transQ: "这位教授发表了一场关于可持续城市建设、鼓舞人心的演讲。",
+                opts: ["inspiring", "instructive", "informative", "illustrative"],
+                transOpts: ["鼓舞人心的", "富有教育意义的", "信息量大的", "阐释性的"],
+                ans: 0,
+                exp: "后文提到听众深受触动，inspiring鼓舞人心完全匹配；instructive侧重教学，informative侧重信息多，无情绪感染力。"
+            },
+            {
+                cat: "翻译难点",
+                text: "This academic monograph ____ diverse social contradictions in modern industrial society.",
+                transQ: "这本学术专著涵盖现代工业社会各类社会矛盾。",
+                opts: ["covers", "uncovers", "discovers", "recovers"],
+                transOpts: ["涵盖；论述", "揭露（负面黑幕）", "发现未知事物", "恢复"],
+                ans: 0,
+                exp: "书籍cover topics 涵盖各类议题；uncover揭露丑闻，discover发现新事物，recover恢复健康，均不匹配书籍论述语境。"
+            },
+            {
+                cat: "翻译难点",
+                text: "All stakeholders should ____ partisan differences and cooperate for public interests.",
+                transQ: "所有利益相关方应当搁置党派分歧，为公共利益合作。",
+                opts: ["set aside", "set up", "set off", "set out"],
+                transOpts: ["搁置；放下", "建立", "触发；出发", "动身；着手"],
+                ans: 0,
+                exp: "set aside differences 搁置分歧，翻译高频短语；其余短语无“搁置矛盾”含义。"
+            },
+            {
+                cat: "翻译难点",
+                text: "The proposal ____ officials as feasible and operable in real governance.",
+                transQ: "官员们认为这项提案在实际治理中具备可行性与可操作性。",
+                opts: ["strikes", "attacks", "hits", "beats"],
+                transOpts: ["strike sb as… 给人…印象", "攻击", "击打；击中", "打败"],
+                ans: 0,
+                exp: "固定句式sth strike sb as + 形容词，是英一翻译长难句高频固定搭配，其余动词无此用法。"
+            },
+            {
+                cat: "翻译难点",
+                text: "____ potential economic risks, the policy will remain in full implementation.",
+                transQ: "无论存在何种潜在经济风险，该政策仍将全面落地实施。",
+                opts: ["Regardless of", "In spite of", "Due to", "According to"],
+                transOpts: ["无论；不管（无条件）", "尽管（转折让步）", "由于（因果）", "根据"],
+                ans: 0,
+                exp: "regardless of 强调无条件不受影响；in spite of仅表转折“虽然有风险但仍执行”，语气弱于题干无条件逻辑。"
+            },
+            {
+                cat: "翻译难点",
+                text: "The survey data are fully ____ with the theoretical prediction of economic models.",
+                transQ: "调研数据与经济模型的理论预测完全吻合。",
+                opts: ["consistent", "resistant", "insistent", "persistent"],
+                transOpts: ["be consistent with 与…一致", "抵抗的", "坚持的（人）", "持续的"],
+                ans: 0,
+                exp: "consistent with 学术翻译必考搭配，表示数据、理论相互匹配；其余形容词无法和with搭配表达“吻合”含义。"
+            }
+        ];
+
+        // 拆分三种题量
+        const quickBank = fullBank.slice(0, 10);
+        const mediumBank = fullBank.slice(0, 25);
+        const fullBankUsed = fullBank;
+
+        // 全局状态
+        let currentQuestions = [];
+        let currentAnswers = [];
+        let currentIndex = 0;
+        let currentMode = 'full';
+        let answerPanelOpen = false;
+
+        // DOM元素
+        const welcome = document.getElementById('welcomeScreen');
+        const testScreen = document.getElementById('testScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer');
+        const answerWrap = document.getElementById('allAnswerWrap');
+        const arrowIcon = document.getElementById('arrowIcon');
+        const answerListDom = document.getElementById('allAnswerList');
+
+        // 折叠面板点击事件
+        toggleBtn.addEventListener('click', () => {
+            answerPanelOpen = !answerPanelOpen;
+            if (answerPanelOpen) {
+                answerWrap.classList.remove('hidden');
+                arrowIcon.style.transform = 'rotate(180deg)';
+            } else {
+                answerWrap.classList.add('hidden');
+                arrowIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // ============================================================
+        // 测试启动
+        // ============================================================
+        window.startTest = function(mode) {
+            currentMode = mode;
+            if (mode === 'quick') currentQuestions = quickBank.slice();
+            else if (mode === 'medium') currentQuestions = mediumBank.slice();
+            else currentQuestions = fullBankUsed.slice();
+            currentQuestions = shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        // ============================================================
+        // 渲染题目（和 e2 完全一样的逻辑）
+        // ============================================================
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${q.cat}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-blue-500 bg-blue-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length-1) ? (currentAnswers[currentIndex] !== null ? "📊 查看结果" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const done = currentAnswers.filter(a => a !== null).length;
+            const pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        // ============================================================
+        // 导航（和 e2 完全一样）
+        // ============================================================
+        window.nextQuestion = function() {
+            if (currentAnswers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        };
+
+        // 键盘支持
+        document.addEventListener('keydown', (e) => {
+            if (testScreen.classList.contains('hidden')) return;
+            if (['1','2','3','4'].includes(e.key)) {
+                const idx = parseInt(e.key) - 1;
+                if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+
+        // ============================================================
+        // 结果展示（和 e2 一样，但展示更丰富的翻译内容）
+        // ============================================================
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            let correct = 0;
+            const weakMap = {};
+            const total = currentQuestions.length;
+
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                const isCorrect = (ans === q.ans);
+                if (isCorrect) correct++;
+                const cat = q.cat;
+                if (!weakMap[cat]) { weakMap[cat] = { correct: 0, total: 0 }; }
+                weakMap[cat].total++;
+                if (isCorrect) weakMap[cat].correct++;
+            });
+
+            const pct = Math.round((correct / total) * 100);
+            document.getElementById('scoreDisplay').innerHTML = `${correct}/${total}`;
+            document.getElementById('scoreBar').style.width = pct + '%';
+            document.getElementById('scorePercent').innerHTML = `正确率 ${pct}% · 共 ${total} 题`;
+
+            // 等级判定（英一专用）
+            let level, badgeColor, title, desc, emotional, advice, quote;
+            if (pct >= 90) {
+                level = "英一高分大神";
+                badgeColor = "bg-emerald-100 text-emerald-800";
+                title = "熟词僻义长难句全拿捏";
+                desc = "你的基础远超绝大多数英一考生，阅读翻译难点几乎无短板，冲80+完全可行。";
+                emotional = "🎉 太强了！英一最难的熟词僻义、长难语法陷阱你全部避开，保持刷题手感，作文打磨一下轻松高分！";
+                advice = "每周一套完整英一真题，重点打磨大作文、小作文句式与翻译文采，目标82+。";
+                quote = "“There is no substitute for hard work.” — Thomas Edison";
+            } else if (pct >= 70) {
+                level = "英一稳健选手";
+                badgeColor = "bg-blue-100 text-blue-800";
+                title = "基础扎实，少量陷阱易踩坑";
+                desc = "核心词汇与语法掌握不错，但阅读逻辑干扰项、冷门熟词僻义容易失分。";
+                emotional = "💪 底子很好！把本次错题全部吃透翻译与逐项解析，针对性背诵熟词僻义，稳定75+没问题。";
+                advice = "整理错题本，单独记录熟词僻义与阅读绝对化干扰项，每天精读一篇英一真题阅读。";
+                quote = "“Progress, not perfection.”";
+            } else if (pct >= 50) {
+                level = "基础待补强";
+                badgeColor = "bg-amber-100 text-amber-800";
+                title = "知识漏洞较多，长难句短板明显";
+                desc = "熟词僻义、虚拟语气、阅读推理题失分严重，需要系统专项突破。";
+                emotional = "😥 不用焦虑，英一本身难度极高，现在查漏补缺时间充足，吃透每道题的中文翻译和解析就能稳步提分。";
+                advice = "优先系统梳理考研核心熟词僻义、三大虚拟语气结构，每天分析3道长难句翻译。";
+                quote = "“Slow progress is still progress.”";
+            } else {
+                level = "基础薄弱紧急补漏";
+                badgeColor = "bg-rose-100 text-rose-800";
+                title = "核心考点大面积缺失，急需系统复习";
+                desc = "词汇、语法、阅读逻辑均存在大量盲区，英一真题核心考点掌握不足。";
+                emotional = "🚨 立刻启动基础复习！先过完考研核心词汇熟词僻义，再系统攻克语法长难句，不要直接刷整套真题。";
+                advice = "每日背诵80个英一核心熟词僻义，配套长难句翻译练习，搭配简易语法讲义打牢底层基础。";
+                quote = "“Start where you are, use what you have.”";
+            }
+
+            document.getElementById('levelBadge').className = `result-badge ${badgeColor} mb-3`;
+            document.getElementById('levelBadge').innerText = level;
+            document.getElementById('levelTitle').innerText = title;
+            document.getElementById('levelDesc').innerText = desc;
+            document.getElementById('emotionalBoost').innerHTML = `“${emotional}”`;
+            document.getElementById('actionPlan').innerHTML = advice;
+            document.getElementById('famousQuote').innerHTML = `“${quote}”`;
+
+            // 强弱板块
+            let weakText = '', strongText = '';
+            const sortedCats = Object.keys(weakMap).sort((a,b) => (weakMap[a].correct/weakMap[a].total) - (weakMap[b].correct/weakMap[b].total));
+            const weakest = sortedCats.slice(0, 2);
+            const strongest = sortedCats.slice(-2).reverse();
+
+            weakText = weakest.map(c => {
+                const stat = weakMap[c];
+                const p = Math.round((stat.correct/stat.total)*100);
+                return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;
+            }).join('<br>');
+
+            strongText = strongest.map(c => {
+                const stat = weakMap[c];
+                const p = Math.round((stat.correct/stat.total)*100);
+                return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;
+            }).join('<br>');
+
+            weakText = weakText || "暂无数据，继续刷题";
+            strongText = strongText || "暂无数据";
+            document.getElementById('weaknesses').innerHTML = weakText;
+            document.getElementById('strengths').innerHTML = strongText;
+
+            // 板块总分析
+            let analysisHTML = '';
+            sortedCats.forEach(cat => {
+                const stat = weakMap[cat];
+                const p = Math.round((stat.correct/stat.total)*100);
+                const emoji = p >= 70 ? "🟢" : p >= 50 ? "🟡" : "🔴";
+                analysisHTML += `<p>${emoji} <strong>${cat}</strong>：正确率 ${p}%（${stat.correct}/${stat.total}题）${p < 60 ? " ⚠️ 优先专项突破" : " ✅ 保持优势"}</p>`;
+            });
+            document.getElementById('weaknessAnalysis').innerHTML = analysisHTML;
+
+            // ========== 渲染全部题目+翻译+解析（英一特色） ==========
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const rightAns = q.ans;
+                const labels = ['A','B','C','D'];
+                const isRight = userSel === rightAns;
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${q.opts[userSel]}｜译文：${q.transOpts[userSel]}` : "未作答";
+                const rightSelText = `${labels[rightAns]}. ${q.opts[rightAns]}｜译文：${q.transOpts[rightAns]}`;
+
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border ${isRight ? 'border-emerald-300 bg-emerald-50' : 'border-red-300 bg-red-50'}`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2">
+                        <span class="font-bold text-slate-800">第${i+1}题【${q.cat}】</span>
+                        <span class="ml-2 px-2 py-0.5 rounded text-xs ${isRight ? 'bg-emerald-200 text-emerald-800' : 'bg-red-200 text-red-800'}">
+                            ${isRight ? '回答正确' : '回答错误'}
+                        </span>
+                    </div>
+                    <p class="text-slate-800 font-medium">题干原文：${q.text}</p>
+                    <p class="text-slate-600 text-sm mt-1 mb-3">题干翻译：${q.transQ}</p>
+                    <div class="text-xs space-y-1 mb-2">
+                        <p>你的选择：${userSelText}</p>
+                        <p class="text-emerald-700 font-medium">标准答案：${rightSelText}</p>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-200">
+                        <p class="text-sm text-slate-700"><strong>完整逐项解析：</strong><br>${q.exp}</p>
+                    </div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================================
+        // 重新开始
+        // ============================================================
+        window.restart = function() {
+            resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+
+        // 呼吸圈交互
+        document.getElementById('breathCircle').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10);
+        });
+    </script>
+</body>
+</html>

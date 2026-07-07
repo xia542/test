@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MBTI人格深度测试 | 16型人格完整解码</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mbti-analyst': '#e0e7ff',
+                        'mbti-diplomat': '#d1fae5',
+                        'mbti-sentinel': '#fef3c7',
+                        'mbti-explorer': '#ffe4e6',
+                    },
+                    fontFamily: { sans: ['Noto Sans SC', 'system-ui', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%); color: #1e293b; }
+        .breathe-mbti {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #6366f1, #818cf8);
+            border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%;
+            animation: gentleFlow 5s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+            box-shadow: 0 8px 25px -5px rgba(99,102,241,0.3);
+        }
+        @keyframes gentleFlow {
+            0%, 100% { transform: scale(1) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; }
+            50% { transform: scale(1.08) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #cbd5e1;
+            background: white;
+        }
+        .option-card:hover { border-color: #6366f1; background: #eef2ff; transform: translateX(5px); }
+        .option-card.selected { border-color: #4f46e5; background: #e0e7ff; box-shadow: 0 2px 12px rgba(79,70,229,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #cbd5e1; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .type-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 1.35rem;
+            letter-spacing: 2px;
+        }
+        .insight-card { transition: all 0.2s; }
+        .insight-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+
+    <nav class="sticky top-0 z-50 glass-card border-b border-indigo-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-chart-scatter text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-indigo-700 to-purple-700 bg-clip-text text-transparent">MBTI人格深度测试 · 完整解码</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-indigo-200 text-indigo-600">
+                <i class="fa-regular fa-star mr-1"></i> 16型人格 · 全面分析
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-pulse">🔮✨🧩</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">MBTI人格测试 · 发现你的天生代码</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    外向E-内向I · 实感S-直觉N · 思考T-情感F · 判断J-感知P<br>
+                    四个字母，解码你的思维、情感与行为模式
+                </p>
+                <p class="text-xs text-indigo-500 mt-1 mb-6">✨ 全球应用最广泛的人格工具 · 深度版报告包含职业/关系/成长全维度 ✨</p>
+
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🧘</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测试前准备</h3>
+                            <div class="breathe-mbti my-3" id="mbtiBreath"></div>
+                            <p class="text-xs text-center text-slate-500 mb-2">呼吸3次，放松心情，凭第一直觉作答</p>
+                            <div class="bg-indigo-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">
+                                💡 MBTI描述的是“偏好”，不是能力。没有好坏之分，只有不同。请选择最接近你日常状态的选项。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 max-w-lg mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-5 rounded-2xl shadow-md border border-indigo-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2">📋</div>
+                        <h3 class="font-bold text-slate-800">14题 · 快测版</h3>
+                        <p class="text-xs text-slate-400">3分钟，快速了解你的四字母类型</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-5 rounded-2xl shadow-md border border-purple-200 hover:border-indigo-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">🔍</div>
+                        <h3 class="font-bold text-slate-800">28题 · 标准版</h3>
+                        <p class="text-xs text-slate-400">8分钟，经典MBTI完整版+深度报告</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 基于荣格心理类型理论 · 16种人格各具天赋</p>
+            </div>
+        </section>
+
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-indigo-600 mb-1">
+                    <span id="stepLabel">第 1 题 · E/I 维度</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-indigo-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-message"></i> MBTI维度</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-indigo-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-indigo-400">
+                <div class="breathe-mbti w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">🔮 你的MBTI人格类型</h3>
+                <p class="text-sm text-slate-500">每种类型都有独特的天赋、成长路径与人生使命</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="typeCode" class="type-badge bg-indigo-100 text-indigo-800 mb-3">INTJ</div>
+                <h2 id="typeName" class="text-xl font-bold text-slate-800 mb-2">建筑师 · 战略家</h2>
+                <p id="typeDesc" class="text-sm text-slate-600 max-w-sm mx-auto">富有想象力和战略性的思想家，一切皆在计划中。</p>
+                <div class="mt-3 flex flex-wrap justify-center gap-2 text-xs text-slate-500">
+                    <span id="eiScore" class="bg-slate-100 px-3 py-1 rounded-full">E/I: --</span>
+                    <span id="snScore" class="bg-slate-100 px-3 py-1 rounded-full">S/N: --</span>
+                    <span id="tfScore" class="bg-slate-100 px-3 py-1 rounded-full">T/F: --</span>
+                    <span id="jpScore" class="bg-slate-100 px-3 py-1 rounded-full">J/P: --</span>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border-l-8 border-indigo-400">
+                <h3 class="font-bold text-indigo-800 flex gap-2"><i class="fa-regular fa-eye"></i> 人格深度解读</h3>
+                <div id="typeDetail" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 天赋优势</h3>
+                    <div id="strengths" class="text-sm text-slate-600 mt-2 space-y-1"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 成长建议</h3>
+                    <div id="growthTips" class="text-sm text-slate-600 mt-2 space-y-1"></div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                <h3 class="font-bold text-slate-700 flex gap-2"><i class="fa-regular fa-briefcase"></i> 职业生涯探索</h3>
+                <div id="careerPaths" class="text-sm text-slate-600 mt-2 space-y-1"></div>
+            </div>
+
+            <div class="bg-indigo-50/60 rounded-2xl p-5 border border-indigo-200">
+                <h3 class="font-bold text-indigo-700 flex gap-2"><i class="fa-regular fa-calendar-alt"></i> 未来规划方向</h3>
+                <div id="futurePlan" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-rose-600 flex gap-2"><i class="fa-regular fa-heart"></i> 适合的伴侣/朋友</h3>
+                    <div id="compatible" class="text-sm text-slate-600 mt-2 font-medium"></div>
+                    <div id="compatibleReason" class="text-xs text-slate-400 mt-1"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-cyan-600 flex gap-2"><i class="fa-regular fa-hand-peace"></i> 关系中的挑战</h3>
+                    <div id="relationshipChallenge" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+
+            <div class="bg-teal-50/60 rounded-2xl p-5 border border-teal-200">
+                <h3 class="font-bold text-teal-700 flex gap-2"><i class="fa-regular fa-flag-checkered"></i> 自我认同点 · 请永远记得</h3>
+                <div id="selfAffirmation" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+            </div>
+
+            <div class="bg-amber-50/60 rounded-2xl p-5 border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-message"></i> 给这个类型的共情话术</h3>
+                <div id="empathyMessage" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 本周可执行的1个小行动</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-indigo-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic"></span>
+            </div>
+
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-indigo-400 text-indigo-700 font-medium hover:bg-indigo-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 shadow">保存报告</button>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">MBTI Myers-Briggs Type Indicator · 基于荣格心理类型理论</div>
+        </section>
+    </main>
+
+    <script>
+        // 题库
+        const fullQuestions = [
+            { dim: "EI", text: "参加聚会后，你通常感觉精力充沛还是需要独处充电？", opts: ["参加聚会让我充满能量", "不确定", "独处才能恢复能量", "完全不想参加聚会"] },
+            { dim: "EI", text: "你更喜欢成为人群的焦点，还是保持低调？", opts: ["喜欢被关注", "偶尔可以", "更喜欢幕后", "讨厌被注意"] },
+            { dim: "EI", text: "你更享受广泛的社交圈，还是少数几个深交的朋友？", opts: ["广泛社交", "中等圈子", "几个密友", "最好只跟一两个人"] },
+            { dim: "EI", text: "遇到问题时，你更倾向于先自己思考还是找人讨论？", opts: ["先找人聊", "看情况", "先自己想", "坚决自己解决"] },
+            { dim: "EI", text: "在团队中，你通常是发言较多的那个人吗？", opts: ["经常发言", "偶尔发言", "很少发言", "几乎不发言"] },
+            { dim: "EI", text: "你更喜欢热闹的咖啡馆还是安静的书房？", opts: ["热闹的咖啡馆", "中等氛围", "安静的书房", "完全安静的空间"] },
+            { dim: "EI", text: "周末你更愿意参加派对还是宅家看书？", opts: ["派对", "小型聚会", "宅家看书", "独自发呆"] },
+            { dim: "SN", text: "你更关注具体的细节还是整体的概念？", opts: ["具体细节", "两者都重要", "整体概念", "只关心大局"] },
+            { dim: "SN", text: "你更喜欢按部就班的工作，还是充满创新的挑战？", opts: ["按部就班", "可以接受", "喜欢创新", "讨厌重复"] },
+            { dim: "SN", text: "你更相信实践经验还是理论推演？", opts: ["实践经验", "两者结合", "理论推演", "只相信理论"] },
+            { dim: "SN", text: "你更擅长记住事实细节，还是理解抽象模式？", opts: ["事实细节", "一般", "抽象模式", "完全抓不住细节"] },
+            { dim: "SN", text: "你更喜欢学习实用技能还是哲学思想？", opts: ["实用技能", "都行", "哲学思想", "只喜欢深度思考"] },
+            { dim: "SN", text: "你更相信过去的经验，还是未来的可能性？", opts: ["相信经验", "看情况", "相信可能性", "只相信未来"] },
+            { dim: "SN", text: "你更容易被眼前现实吸引，还是被想象世界吸引？", opts: ["现实世界", "有时会想象", "想象世界", "活在想象中"] },
+            { dim: "TF", text: "做决定时，你更依赖逻辑分析还是个人感受？", opts: ["逻辑分析", "两者平衡", "个人感受", "只凭感觉"] },
+            { dim: "TF", text: "你更看重公平还是和谐？", opts: ["公平公正", "视情况", "人际关系和谐", "只在乎感受"] },
+            { dim: "TF", text: "你更容易被数据说服还是被情感打动？", opts: ["数据事实", "两者都可", "情感故事", "只被情感影响"] },
+            { dim: "TF", text: "批评别人时，你更直接指出问题还是照顾情绪？", opts: ["直接指出", "看关系", "委婉表达", "不忍心批评"] },
+            { dim: "TF", text: "你更擅长理性分析还是共情他人？", opts: ["理性分析", "都可以", "共情他人", "只擅长共情"] },
+            { dim: "TF", text: "在冲突中，你更坚持对错还是维持关系？", opts: ["坚持对错", "看重要性", "维持关系", "害怕冲突"] },
+            { dim: "TF", text: "你更欣赏聪明的人还是善良的人？", opts: ["聪明", "都欣赏", "善良", "只喜欢善良"] },
+            { dim: "JP", text: "你更喜欢提前计划还是随机应变？", opts: ["详细计划", "大致计划", "随机应变", "讨厌计划"] },
+            { dim: "JP", text: "你更享受完成任务的过程还是截止日期的紧迫？", opts: ["按步骤完成", "都可以", "最后冲刺", "只在deadline工作"] },
+            { dim: "JP", text: "你的桌面/房间通常是整洁的还是凌乱的？", opts: ["非常整洁", "一般", "有点乱", "非常凌乱"] },
+            { dim: "JP", text: "你更喜欢规律的生活还是充满变化的生活？", opts: ["规律稳定", "适度变化", "充满变化", "讨厌规律"] },
+            { dim: "JP", text: "你更习惯列出待办清单还是随性安排？", opts: ["必须列清单", "有时列", "从不列清单", "厌恶清单"] },
+            { dim: "JP", text: "你更容易觉得时间充裕还是紧迫？", opts: ["时间充裕", "正常", "时间紧迫", "总是来不及"] },
+            { dim: "JP", text: "你更喜欢确定性的结果还是开放性的可能？", opts: ["确定性", "都可以", "开放性", "讨厌确定"] }
+        ];
+        const quickQuestions = fullQuestions.filter((_, i) => i % 2 === 0).slice(0, 14);
+
+        // ==================== 16型人格完整数据 ====================
+        const typeData = {
+            // ----- 分析家 (Analysts) -----
+            "INTJ": { name: "建筑师 · 战略家", icon: "🏛️", color: "bg-indigo-100 text-indigo-800",
+                desc: "富有想象力和战略性的思想家，一切皆在计划中。",
+                detail: "INTJ是理性、战略性的策划者。他们善于看到大局，制定长期规划，并且对自己的判断非常自信。他们追求效率和完美，常常被认为是冷静而独立的思考者。他们可能不擅长社交，但在专业领域极具洞察力。他们习惯提前预演所有可能，因此很少被意外打乱节奏。",
+                strengths: "▸ 战略思维 · 高瞻远瞩，能看到别人忽略的趋势\n▸ 独立思考 · 不受外界干扰，坚持自己的判断\n▸ 逻辑严谨 · 分析问题一针见血\n▸ 执行力强 · 一旦确定目标，会坚定推进\n▸ 危机预判 · 总能提前想到Plan B",
+                growth: "▸ 适当关注他人情绪，不只为效率而冷漠\n▸ 接受不完美，世界上没有绝对最优解\n▸ 学会表达情感，让别人走进你的世界\n▸ 放慢节奏，给团队和自己喘息空间\n▸ 别把“我早就说过”挂在嘴边",
+                careers: "▸ 战略顾问 · 系统架构师 · 科学家/研究员\n▸ 投资分析师 · 律师 · 工程师/产品经理\n▸ 创业者 · 数据分析师 · 大学教授\n▸ 金融分析师 · 人工智能研究员",
+                future: "未来3-5年，你的成长关键词是「落地」与「连接」。你已经有了很好的战略头脑，下一步需要把宏大的想法拆解成可执行的小步骤，并学会与不同思维模式的人协作。建议：每年学习一个非理性领域的技能（如即兴戏剧、情感沟通），平衡你的理性。",
+                compatible: "ENFP / ENTP / INFJ",
+                compatibleReason: "ENFP和ENTP能带给你新鲜视角和情感温度，INFJ则能理解你的深度同时补足情感表达。他们能让你感受到被理解，同时不会过度索取情绪。",
+                relationshipChallenge: "▸ 容易显得冷漠或傲慢，不擅长日常情感交流\n▸ 对“低效”的人缺乏耐心，容易批判\n▸ 不善于表达爱意，伴侣可能感到被忽视\n▸ 容易把辩论带入亲密关系",
+                selfAffirmation: "你的冷静不是冷漠，你的独立不是孤僻。你只是用不同的方式关心世界——通过创造更好的系统、更优的方案。你不需要变成热情奔放的人，你的价值在于深度和远见。",
+                empathyMessage: "“我知道你不喜欢废话，也知道你心里其实有很多想法。你不是冷漠，你只是把能量留给了真正重要的事。我欣赏你的清醒和远见。”",
+                actionPlan: "主动约一位你认为“感性”的朋友喝咖啡，专注听他/她说15分钟，期间不打断、不分析、不给建议，只说“我听到了，这很难/很好”。",
+                quote: "不是梦想家，而是把梦想变成计划的人。" },
+                
+            "INTP": { name: "逻辑学家 · 思考者", icon: "🔬", color: "bg-indigo-100 text-indigo-800",
+                desc: "极具创造力的发明家，对知识有着无尽的渴望。",
+                detail: "INTP是典型的思想家。他们痴迷于理解世界的底层逻辑，喜欢挑战假设，寻找理论漏洞。他们可能是最聪明但也最容易拖延的一类人，因为总想找到“最优解”。他们享受独处，在思维的世界里自由翱翔。",
+                strengths: "▸ 分析能力强 · 逻辑严密，善于找到漏洞\n▸ 创造性思维 · 不落俗套，总能提出新角度\n▸ 知识广博 · 好奇心强，跨领域学习能力强\n▸ 客观公正 · 不偏不倚，不易被情绪影响\n▸ 善于建模 · 能把复杂问题抽象化",
+                growth: "▸ 把思考转化为行动，不陷入无限分析中\n▸ 注意人际关系维护，不要太冷漠疏离\n▸ 完成比完美重要，先做完再优化\n▸ 建立日常规律，减少“只思考不动手”\n▸ 接受模糊地带，不是所有问题都有标准答案",
+                careers: "▸ 程序员/架构师 · 数学/物理学家 · 哲学家/理论研究者\n▸ 数据分析师 · 系统分析师 · 自由职业创作者\n▸ 学术研究员 · 人工智能工程师 · 专利分析师",
+                future: "你的天赋在「解构」与「重构」。未来几年，尝试把理论落地——写出来、做出来、分享出去。找到一位执行力强的伙伴（如ESTJ/ENTJ），帮你把想法变成现实。不要陷入“无限准备”的陷阱。",
+                compatible: "ENTJ / ENFJ / INFJ",
+                compatibleReason: "ENTJ能推动你把想法落地，ENFJ/INFJ能帮你连接情感维度，他们能理解你的思维方式，同时补足你缺失的行动力。",
+                relationshipChallenge: "▸ 沉迷思考时忽略身边人\n▸ 辩论上瘾，让人感到被攻击\n▸ 难以表达情感，显得疏离\n▸ 对日常琐事缺乏兴趣和参与感",
+                selfAffirmation: "你不是不关心人，你只是关心世界的方式不同——你相信更好的思想能改变世界。你不需要变成社交蝴蝶，你的价值在于你的思考。",
+                empathyMessage: "“我懂你脑子里那个不停运转的引擎。你不需要时刻表达，但当你愿意分享时，我会认真听。”",
+                actionPlan: "选一个你思考了很久但未行动的想法，本周内完成最小的可行版本（比如写一篇文章、做一个简单的原型）。",
+                quote: "世界是一道待解的方程，我是解题的人。" },
+                
+            "ENTJ": { name: "指挥官 · 领导者", icon: "👑", color: "bg-indigo-100 text-indigo-800",
+                desc: "天生的领导者，善于发现机会并带领团队实现目标。",
+                detail: "ENTJ是天生的统帅。他们目标明确，决策果断，擅长组织资源达成目标。他们有强大的执行力，但也可能因过于强势而忽略他人感受。他们享受挑战，越困难的任务越能激发他们的斗志。",
+                strengths: "▸ 领导能力 · 号召力强，能凝聚团队\n▸ 战略眼光 · 善于发现机会和趋势\n▸ 果断决策 · 不畏风险，敢于拍板\n▸ 高效执行 · 推动变革，说到做到\n▸ 抗压能力强 · 压力下反而更清醒",
+                growth: "▸ 放慢节奏，给团队成长空间\n▸ 注意倾听，不打断别人说话\n▸ 承认脆弱，不需要永远完美\n▸ 关注过程，不只是结果\n▸ 学会赞美，不只看缺点",
+                careers: "▸ CEO/高管 · 项目经理 · 律师/法官\n▸ 投资银行家 · 管理顾问 · 企业家\n▸ 军队指挥官 · 政治人物 · 体育教练",
+                future: "你的成长关键词是「共情」与「放权」。你已经很会做事，下一步是学会带领别人一起做事。培养耐心，给团队成员犯错和成长的机会。真正的领袖不是控制一切，而是让每个人发挥所长。",
+                compatible: "INTP / ENFP / ISTP",
+                compatibleReason: "INTP能提供深度思考和战略建议，ENFP带来创意和灵活性，ISTP提供实践支持。他们既能欣赏你的领导力，又不会被你的强势压垮。",
+                relationshipChallenge: "▸ 容易显得专制，不听他人意见\n▸ 工作狂倾向，忽视伴侣需求\n▸ 批评过于直接，伤人而不自知\n▸ 难以示弱，不善于求助",
+                selfAffirmation: "你的果断不是霸道，是想带领大家走得更远。你有能力承担责任，这是很多人没有的勇气。偶尔放慢脚步，不是软弱，是为了走更远。",
+                empathyMessage: "“你的能量感染了很多人，你的果断让大家有了方向。偶尔休息也是勇气，你不需要永远在前面冲锋。”",
+                actionPlan: "本周，在做一个决定前，先问三个团队成员的意见，然后再说出你的结论。",
+                quote: "不是等待机会，而是创造机会。" },
+                
+            "ENTP": { name: "辩论家 · 发明家", icon: "🎭", color: "bg-indigo-100 text-indigo-800",
+                desc: "聪明好奇的思考者，喜欢挑战传统观点和现有框架。",
+                detail: "ENTP是思想的探险家。他们享受智力挑战，擅长从不同角度看问题。他们喜欢辩论不是为了赢，而是为了探索可能性。他们思维敏捷，口才出众，总能发现别人忽略的漏洞。",
+                strengths: "▸ 创造力强 · 点子多，思维活跃\n▸ 口才出众 · 善于说服和辩论\n▸ 适应力强 · 拥抱变化，随机应变\n▸ 抗压能力强 · 压力下反而更有创造力\n▸ 善于发现机会 · 总能找到新角度",
+                growth: "▸ 聚焦完成一个项目，不三心二意\n▸ 注意言辞，辩论不等于攻击\n▸ 尊重约定，不随意改变计划\n▸ 完成比开始重要\n▸ 学会倾听，不只是表达",
+                careers: "▸ 创业者 · 市场策划 · 广告创意总监\n▸ 律师 · 公关专家 · 产品经理\n▸ 脱口秀演员 · 编剧 · 发明家",
+                future: "你的天赋是「发散」与「连接」。未来几年，学会聚焦能量——把最多的精力放在最有潜力的一个方向上。找一个执行力强的搭档，帮你把想法落地。你不需要改变自己的创造力，只需要学会筛选。",
+                compatible: "INTJ / INFJ / ESTJ",
+                compatibleReason: "INTJ/INFJ能帮你把想法系统化，ESTJ能督促你完成任务。他们欣赏你的创意，同时提供你缺少的结构感。",
+                relationshipChallenge: "▸ 容易让人感觉在抬杠\n▸ 三分钟热度，难以坚持承诺\n▸ 忽视日常情感维护\n▸ 逃避责任和琐事",
+                selfAffirmation: "你的发散思维不是不专注，是你在探索更多可能性。你不需要像别人一样按部就班，你的价值在于创新。",
+                empathyMessage: "“我知道你脑子里有无数个想法在打架。不用急着全都实现，选一个你最有感觉的，我和你一起试试。”",
+                actionPlan: "选一个你开了三个头但没完成的项目，本周强制自己把它做完——无论多烂，先完成再完美。",
+                quote: "规则是用来打破的，但不是为了打破而打破。" },
+                
+            // ----- 外交家 (Diplomats) -----
+            "INFJ": { name: "提倡者 · 引路人", icon: "🕯️", color: "bg-teal-100 text-teal-800",
+                desc: "富有理想主义和同情心的倡导者，追求深刻的意义。",
+                detail: "INFJ是神秘的理想主义者。他们深刻共情他人，同时保持独立的内在世界。他们追求意义远超于成功，是天生的疗愈者和引路人。他们能看透人心，却很少被人看透。",
+                strengths: "▸ 深度共情 · 善解人意，能感受他人情绪\n▸ 洞察力强 · 预见趋势，看透本质\n▸ 理想主义 · 推动改变，追求更好世界\n▸ 创造力与灵性兼备 · 艺术与哲学思维\n▸ 坚定信念 · 为了相信的事可以坚持很久",
+                growth: "▸ 保护自己的能量，不过度付出\n▸ 现实比理想更重要，落地执行\n▸ 允许自己不完美，不背负他人命运\n▸ 表达需求，不总是默默承担\n▸ 建立边界，学会拒绝",
+                careers: "▸ 心理咨询师 · 作家/诗人 · 社会工作者\n▸ 非营利组织负责人 · 教师/教授\n▸ 人力资源顾问 · 艺术治疗师 · 宗教人士",
+                future: "你的成长关键词是「边界」与「落地」。你已经很会为别人着想，下一步是学会为自己着想。把宏大的理想拆解成可执行的小项目。找到一个能理解你的圈子，不要独自燃烧。",
+                compatible: "ENFP / ENTP / INTJ",
+                compatibleReason: "ENFP/ENTP能带给你灵感和社交连接，INTJ能和你深度交流战略和意义。他们能理解你的复杂性和深度，不会让你感到孤独。",
+                relationshipChallenge: "▸ 过度付出，容易耗尽能量\n▸ 理想化伴侣，容易失望\n▸ 不善于表达不满，积压情绪\n▸ 容易陷入拯救者角色",
+                selfAffirmation: "你不是必须拯救所有人。你已经做得足够多了。把一部分温柔留给自己，不是自私，是为了能走更远。",
+                empathyMessage: "“我知道你总是把别人的感受放在第一位。今天换我来照顾你。你不需要总是坚强，可以脆弱，我在。”",
+                actionPlan: "本周，对一个人说“不”。可以是拒绝一个不必要的邀约，或者告诉别人“我今天需要独处”。",
+                quote: "我想改变世界，先从改变一个人开始。" },
+                
+            "INFP": { name: "调停者 · 理想家", icon: "🦋", color: "bg-teal-100 text-teal-800",
+                desc: "诗意善良的利他主义者，忠于自己的价值观。",
+                detail: "INFP是柔软的理想主义者。他们重视内心世界的和谐与真实，追求自我实现。他们敏感而富有创造力，常常在艺术和人文领域发光。他们的核心价值观是不可妥协的。",
+                strengths: "▸ 价值观坚定 · 忠于自我，不随波逐流\n▸ 创造力丰富 · 想象力强，艺术天赋\n▸ 共情力强 · 善解人意，包容多元\n▸ 适应力强 · 能理解不同立场\n▸ 真诚朴实 · 不虚伪做作",
+                growth: "▸ 不要逃避冲突，适当表达不满\n▸ 把理想落地，从小目标开始\n▸ 建立边界，不被他人的情绪淹没\n▸ 接受现实的不完美\n▸ 培养执行力，不只是梦想",
+                careers: "▸ 作家/诗人 · 艺术创作者 · 心理咨询师\n▸ 非营利组织工作者 · 教师\n▸ 音乐家 · 摄影师 · 图书管理员",
+                future: "你的成长关键词是「执行」与「边界」。你的内心世界很丰富，下一步是让这个世界被更多人看到。每天完成一个小任务，用行动证明你的价值。同时学会保护自己的能量。",
+                compatible: "ENFJ / ENTJ / ESTJ",
+                compatibleReason: "ENFJ能理解你的理想主义并提供引导，ENTJ/ESTJ能帮你把梦想落地。他们欣赏你的真诚，同时提供你缺少的结构和执行。",
+                relationshipChallenge: "▸ 容易逃避冲突，压抑不满\n▸ 理想化关系，容易失望\n▸ 不善于拒绝，过度妥协\n▸ 敏感易受伤，容易自我怀疑",
+                selfAffirmation: "你的敏感不是脆弱，是你能感受到别人感受不到的美好。你的理想主义不是天真，是你在坚持自己的价值观。继续做你自己。",
+                empathyMessage: "“我懂你心里的那团火。世界可能不理解你，但我看到你的坚持和真诚。你不需要改变，你只需要被看见。”",
+                actionPlan: "本周，完成一个搁置已久的创作项目（画画、写诗、写歌等），不需要完美，只需要完成。",
+                quote: "世界不完美，但我依然相信美好。" },
+                
+            "ENFJ": { name: "主人公 · 教育家", icon: "🌟", color: "bg-teal-100 text-teal-800",
+                desc: "富有魅力的鼓舞者，善于帮助他人成长。",
+                detail: "ENFJ是天生的教育家。他们善于发现他人潜能，并能激励他人变得更好。他们有极强的社交直觉，是天生的团队凝聚者。他们在帮助他人的过程中获得能量。",
+                strengths: "▸ 领导力 · 激励他人，鼓舞士气\n▸ 沟通能力强 · 善于表达，有感染力\n▸ 共情力强 · 人际关系好，善解人意\n▸ 责任感强 · 可靠，说到做到\n▸ 远见卓识 · 能看到他人的潜力",
+                growth: "▸ 关注自己的需求，不只是为他人\n▸ 接受无法改变所有人，放手也是一种爱\n▸ 学会拒绝，不必讨好每个人\n▸ 独处充电，不总是社交\n▸ 接受批评，不把别人的评价过度放在心上",
+                careers: "▸ 教师/教授 · 人力资源总监 · 公关专员\n▸ 非营利组织负责人 · 牧师/顾问\n▸ 销售总监 · 活动策划 · 政治人物",
+                future: "你的成长关键词是「自我关怀」与「放手」。你已经很擅长照顾他人，下一步是学会照顾自己。你不需要对所有人的幸福负责。接受有些人会选择不同的路，那不是你的失败。",
+                compatible: "INFP / ISFP / INTP",
+                compatibleReason: "INFP/ISFP能理解你的付出和关怀，INTP能提供理性平衡。他们欣赏你的热情，同时不会过度索取你的能量。",
+                relationshipChallenge: "▸ 过度付出，耗尽自己\n▸ 希望控制他人，以求“为你好”\n▸ 难以接受批评，容易受伤\n▸ 忽视自己的需求",
+                selfAffirmation: "你的付出不是讨好，是你真的关心他人。但你也值得被同样对待。给自己同样的温柔，你不需要燃烧自己照亮别人。",
+                empathyMessage: "“你总是把别人的需求放在第一位，今天换我照顾你。告诉我你需要什么，哪怕只是安静的陪伴。”",
+                actionPlan: "本周，做一件只为自己开心的事，不需要告诉任何人，不需要考虑别人怎么看。",
+                quote: "我成功是因为我让身边的人成功。" },
+                
+            "ENFP": { name: "竞选者 · 冒险家", icon: "🎨", color: "bg-teal-100 text-teal-800",
+                desc: "热情洋溢的创意家，总能看到无限可能性。",
+                detail: "ENFP是自由的灵魂。他们热情、好奇、充满想象力，喜欢探索新事物。他们能在任何地方找到乐趣，但也容易三分钟热度。他们热爱人类，也热爱可能性。",
+                strengths: "▸ 热情开朗 · 感染力强，让人感到温暖\n▸ 创意丰富 · 点子多，思维活跃\n▸ 适应力强 · 拥抱变化，随机应变\n▸ 共情力强 · 善于连接，理解他人\n▸ 乐观向上 · 总能找到积极面",
+                growth: "▸ 专注力训练，完成已开始的事\n▸ 注意承诺，不随意放鸽子\n▸ 独处充电，不总是寻求刺激\n▸ 学会筛选，不是所有机会都要抓住\n▸ 接受平淡，不是每一天都要精彩",
+                careers: "▸ 创意总监 · 市场专员 · 公关专家\n▸ 心理咨询师 · 职业规划师 · 演员\n▸ 记者 · 旅行作家 · 创业者",
+                future: "你的成长关键词是「聚焦」与「完成」。你已经有了无数好点子，下一步是选一个深耕。找到一个能帮你落地的搭档，不要让天赋浪费在分散注意力的路上。同时学会享受安静的独处时光。",
+                compatible: "INTJ / INFJ / ISTJ",
+                compatibleReason: "INTJ/INFJ能帮你在混乱中找到方向，ISTJ能提供稳定和结构。他们欣赏你的热情，同时提供你缺少的稳定性和执行力。",
+                relationshipChallenge: "▸ 容易三分钟热度，难以坚持\n▸ 情绪波动大，难以预测\n▸ 承诺容易，兑现难\n▸ 逃避日常琐事和责任",
+                selfAffirmation: "你不是不靠谱，你是对太多事感兴趣。你的热情是天赋，学会聚焦不是限制，是为了让天赋更有力量。",
+                empathyMessage: "“你的热情像阳光，靠近你的人都觉得温暖。不用急着抓住所有机会，选那个你最有感觉的，我陪你一起深耕。”",
+                actionPlan: "选一个你开了头但没完成的项目，本周做完它。无论结果如何，完成本身就是胜利。",
+                quote: "生活是一场冒险，而我正在写剧本。" },
+                
+            // ----- 守护者 (Sentinels) -----
+            "ISTJ": { name: "物流师 · 检查员", icon: "📋", color: "bg-amber-100 text-amber-800",
+                desc: "务实细致的执行者，可靠而严谨。",
+                detail: "ISTJ是秩序的守护者。他们注重细节，遵守规则，做事踏实可靠。他们是社会运转的基石，值得信赖的团队成员。他们相信努力和因果，不喜欢投机取巧。",
+                strengths: "▸ 执行力强 · 说到做到，靠谱\n▸ 注重细节 · 准确率高，严谨\n▸ 责任感强 · 负责到底，可靠\n▸ 逻辑清晰 · 有条理，有计划\n▸ 记忆力好 · 善于记录和回顾",
+                growth: "▸ 适当灵活，不固守规则\n▸ 尝试新事物，走出舒适区\n▸ 表达情感，不把所有情绪埋在心里\n▸ 接受改变，不是所有变化都是坏事\n▸ 学会放松，不总是紧绷",
+                careers: "▸ 会计师 · 审计师 · 数据分析师\n▸ 律师助理 · 项目经理 · 数据库管理员\n▸ 公务员 · 图书馆员 · 质量控制专家",
+                future: "你的成长关键词是「灵活性」与「情感表达」。你已经很擅长执行和细节，下一步是学会应对变化。尝试每周做一件打破常规的小事，训练自己的适应力。同时，学会表达感受，不要让身边的人猜测你的想法。",
+                compatible: "ESTJ / ESFJ / ISTP",
+                compatibleReason: "ESTJ/ESFJ能理解你的责任感和秩序感，ISTP能带来灵活性和新视角。他们欣赏你的可靠，同时补足你缺少的灵活性。",
+                relationshipChallenge: "▸ 过于死板，难以接受变化\n▸ 不善于表达情感，显得冷漠\n▸ 容易挑剔，对细节要求过高\n▸ 不喜欢惊喜和意外",
+                selfAffirmation: "你的可靠是别人最珍贵的礼物。世界需要你这样的人来维持运转。同时，允许自己偶尔不完美，那才是真实的人。",
+                empathyMessage: "“我知道你习惯把所有事都扛在肩上。偶尔放下，世界不会塌。我会陪你一起分担。”",
+                actionPlan: "本周，改变一个日常习惯——比如换条路回家，或者尝试一道没吃过的菜。",
+                quote: "可靠，是我给出的最大承诺。" },
+                
+            "ISFJ": { name: "守护者 · 照顾者", icon: "🛡️", color: "bg-amber-100 text-amber-800",
+                desc: "温柔体贴的保护者，默默付出不求回报。",
+                detail: "ISFJ是沉默的守护者。他们默默照顾身边的人，记住别人的喜好和需求。他们不善于表达，但行动力极强。他们重视传统和忠诚，是可靠的朋友和家人。",
+                strengths: "▸ 细心体贴 · 善于照顾他人\n▸ 记忆力好 · 注重细节，记得住小事\n▸ 忠诚可靠 · 值得信赖，从不食言\n▸ 责任感强 · 任劳任怨，默默付出\n▸ 务实踏实 · 善于执行",
+                growth: "▸ 学会拒绝，不过度牺牲自己\n▸ 表达需求，不等着别人发现\n▸ 接受变化，不害怕未知\n▸ 关注自己的感受，不只为他人而活\n▸ 接受赞美，不总是贬低自己",
+                careers: "▸ 护士/医生 · 教师 · 行政助理\n▸ 图书管理员 · 社工 · 家庭主妇/夫\n▸ 客服专员 · 幼儿园老师 · 会计",
+                future: "你的成长关键词是「自我关怀」与「表达需求」。你已经很会照顾他人，下一步是学会照顾自己。你的需求同样重要。尝试每周为自己做一件事，不需要向任何人解释。同时，练习直接表达你想要的，而不是等着别人猜。",
+                compatible: "ESTJ / ESFJ / INFP",
+                compatibleReason: "ESTJ/ESFJ能理解你的责任感和付出，INFP能带来理想主义和情感深度。他们欣赏你的温柔，同时不会过度索取。",
+                relationshipChallenge: "▸ 过度付出，耗尽自己\n▸ 不善于表达不满，容易积压情绪\n▸ 害怕变化，难以接受新事物\n▸ 容易自我否定，低估自己的价值",
+                selfAffirmation: "你的付出不是理所当然，你的温柔不是软弱。你值得被同样温柔对待。你的需求很重要，不要总是把自己放在最后。",
+                empathyMessage: "“我知道你总是默默做很多事，从来不要求回报。今天让我来照顾你。你不必永远坚强，可以靠在我肩上。”",
+                actionPlan: "本周，对一个人直接说出你的需求——比如“我需要你帮我……”或“我今天不想做饭，我们点外卖吧”。",
+                quote: "你不需要成为世界的主角，但你可以成为某人的全世界。" },
+                
+            "ESTJ": { name: "总经理 · 监督者", icon: "🏢", color: "bg-amber-100 text-amber-800",
+                desc: "高效务实的管理者，擅长组织和执行。",
+                detail: "ESTJ是天生的管理者。他们注重效率，擅长制定规则和执行标准。他们是传统的捍卫者，也是团队的定海神针。他们相信秩序和努力，是可靠的领导者。",
+                strengths: "▸ 管理能力 · 善于组织和协调\n▸ 执行力强 · 说到做到，高效\n▸ 决策果断 · 不畏压力，敢于拍板\n▸ 责任感强 · 敢于担当，负责到底\n▸ 务实可靠 · 脚踏实地",
+                growth: "▸ 开放心态，接受不同的做事方式\n▸ 注意共情，不只看效率\n▸ 适当放松，不把工作带回家\n▸ 学会倾听，不总是下指令\n▸ 接受失败，不是所有事都要赢",
+                careers: "▸ 企业高管 · 项目经理 · 法官\n▸ 警察局长 · 军队指挥官 · 财务总监\n▸ 校长 · 医院行政主管",
+                future: "你的成长关键词是「共情」与「灵活性」。你已经很擅长管理和执行，下一步是学会理解不同的人。不是所有人都用你的方式做事，但这不意味着他们错了。尝试每周和不同思维模式的人交流，理解他们的逻辑。",
+                compatible: "ISTJ / ISFJ / INTP",
+                compatibleReason: "ISTJ/ISFJ能理解你的责任感和秩序感，INTP能带来创新思维和理论深度。他们欣赏你的执行力，同时补足你缺少的灵活性。",
+                relationshipChallenge: "▸ 容易显得专制，不听他人意见\n▸ 工作狂倾向，忽视家庭和伴侣\n▸ 批评过于直接，伤人而不自知\n▸ 难以接受改变和不确定性",
+                selfAffirmation: "你的效率和管理能力让很多人受益。但同时，你也有权利停下来休息。你不需要永远在工作模式。",
+                empathyMessage: "“你的组织能力让一切井井有条，这是很多人做不到的。但偶尔也可以放松一下，我会帮你兜底。”",
+                actionPlan: "本周，在做一个决定前，先暂停一分钟，问自己：这个决定有没有考虑到每个人的感受？",
+                quote: "规矩不是限制，是效率的保障。" },
+                
+            "ESFJ": { name: "执政官 · 关怀者", icon: "🤝", color: "bg-amber-100 text-amber-800",
+                desc: "热心友善的合作者，善于营造和谐氛围。",
+                detail: "ESFJ是社交的润滑剂。他们热心、友善，善于照顾他人感受。他们是传统和秩序的拥护者，也善于营造温暖的社群氛围。他们在帮助他人的过程中获得满足感。",
+                strengths: "▸ 社交能力 · 人缘好，善于连接\n▸ 共情力强 · 善于照顾他人情绪\n▸ 责任感强 · 可靠，说到做到\n▸ 组织能力 · 善于协调和安排\n▸ 务实可靠 · 脚踏实地",
+                growth: "▸ 关注自己的需求，不总是取悦他人\n▸ 接受批评，不用别人的评价定义自己\n▸ 独处充电，不总泡在社交里\n▸ 学会拒绝，不必讨好每个人\n▸ 接受变化，不是所有事都要按计划",
+                careers: "▸ 人力资源经理 · 行政主管 · 护士长\n▸ 销售经理 · 客户关系总监 · 教师\n▸ 活动策划 · 公关专员 · 社会工作者",
+                future: "你的成长关键词是「自我关怀」与「接受批评」。你已经很擅长照顾别人，下一步是学会照顾自己。你的价值不取决于别人是否喜欢你。接受不是每个人都会欣赏你的付出，那不是你的错。",
+                compatible: "ISFJ / ISTJ / INFP",
+                compatibleReason: "ISFJ/ISTJ能理解你的责任感和付出，INFP能带来理想主义和不同的视角。他们欣赏你的热情，同时不会过度索取。",
+                relationshipChallenge: "▸ 过度付出，耗尽自己\n▸ 在意他人评价，容易受伤\n▸ 难以拒绝，被人利用\n▸ 害怕冲突，压抑不满",
+                selfAffirmation: "你的善良不是软弱，你的付出不是理所当然。你值得被同样善待。你的感受和需求同样重要。",
+                empathyMessage: "“你总是让每个人感到被欢迎，但你自己也需要被欢迎。今天，欢迎你进入你自己的舒适区。”",
+                actionPlan: "本周，拒绝一个你不想参加的邀约，不需要解释理由，只需要说“这次不去了”。",
+                quote: "让每个人都感到被欢迎，是我最擅长的事。" },
+                
+            // ----- 探险家 (Explorers) -----
+            "ISTP": { name: "鉴赏家 · 工匠", icon: "🔧", color: "bg-rose-100 text-rose-800",
+                desc: "勇敢的实用主义者，擅长动手解决问题。",
+                detail: "ISTP是冷静的实干家。他们喜欢动手，擅长修理和操作工具。他们独立、务实，危机时刻往往是最冷静的人。他们享受挑战和冒险，不喜欢被束缚。",
+                strengths: "▸ 动手能力强 · 技术精湛，善于操作\n▸ 冷静果断 · 临危不乱，善于解决危机\n▸ 独立自主 · 不依赖，自给自足\n▸ 解决问题能力强 · 务实高效\n▸ 适应力强 · 随机应变",
+                growth: "▸ 表达情感，不把所有感受藏起来\n▸ 长期规划，不只是解决眼前问题\n▸ 信任他人，不什么都自己做\n▸ 关注关系维护，不总是独来独往\n▸ 接受规则，不是所有规则都要打破",
+                careers: "▸ 工程师 · 飞行员 · 机械师\n▸ 外科医生 · 程序员 · 赛车手\n▸ 消防员 · 警探 · 自由职业者",
+                future: "你的成长关键词是「情感表达」与「长期规划」。你已经很擅长解决眼前的问题，下一步是学会为未来做打算。同时，试着表达你的感受，不要把所有情绪都压在心底。信任别人，不是所有事都要自己扛。",
+                compatible: "ESTP / ENTJ / ISTJ",
+                compatibleReason: "ESTP能理解你的冒险精神，ENTJ能帮你规划未来，ISTJ能提供稳定和结构。他们欣赏你的能力，同时补足你缺少的规划力。",
+                relationshipChallenge: "▸ 不善于表达情感，显得冷漠\n▸ 过于独立，难以依赖他人\n▸ 容易冒险，不考虑后果\n▸ 逃避承诺和责任",
+                selfAffirmation: "你的动手能力和冷静是天赋。你不是冷漠，你只是用行动而不是语言来表达关心。允许自己偶尔依赖别人，那不是软弱。",
+                empathyMessage: "“我知道你不喜欢说太多，你的行动已经说明了一切。如果你想说，我会听；如果你想一个人待着，我会给你空间。”",
+                actionPlan: "本周，修理一件坏掉的小东西（或学习一项新技能），完成后拍照记录。",
+                quote: "我不说，我直接做给你看。" },
+                
+            "ISFP": { name: "探险家 · 艺术家", icon: "🎨", color: "bg-rose-100 text-rose-800",
+                desc: "敏感的艺术家，活在当下的体验者。",
+                detail: "ISFP是美的追寻者。他们敏感、艺术、活在当下，喜欢通过感官体验世界。他们不喜欢冲突，也不喜欢被束缚。他们追求自由和真实，善于通过艺术表达自我。",
+                strengths: "▸ 艺术天赋 · 审美敏锐，善于创作\n▸ 共情力强 · 善解人意，包容\n▸ 适应力强 · 随遇而安，灵活\n▸ 真诚朴实 · 不虚伪，做自己\n▸ 活在当下 · 享受此刻",
+                growth: "▸ 长期规划，不只是享受当下\n▸ 面对冲突，不总是逃避\n▸ 表达想法，不把话都留在心里\n▸ 接受批评，不把评价太当回事\n▸ 建立结构，不完全是随性",
+                careers: "▸ 艺术家/画家 · 音乐家 · 摄影师\n▸ 花艺师 · 化妆师 · 设计师\n▸ 兽医 · 理疗师 · 厨师",
+                future: "你的成长关键词是「长期规划」与「面对冲突」。你已经很擅长享受当下和体验美，下一步是学会为未来做准备。同时，不要害怕冲突，表达你的真实想法，那不是破坏关系，是建立更真实的关系。",
+                compatible: "ENFJ / ESFJ / ESTJ",
+                compatibleReason: "ENFJ/ESFJ能理解你的敏感和艺术气质，ESTJ能帮你建立结构和规划。他们欣赏你的真诚，同时提供你缺少的稳定性。",
+                relationshipChallenge: "▸ 容易逃避冲突，压抑不满\n▸ 过于随性，难以做长期承诺\n▸ 敏感易受伤，容易自我怀疑\n▸ 不善于表达需求",
+                selfAffirmation: "你的敏感是天赋，让你能感受到别人忽略的美和情感。你不是太脆弱，你只是感受得更深。允许自己有时需要独处，那不是孤僻，是充电。",
+                empathyMessage: "“你的世界很美，我很喜欢。不用为了迎合别人改变自己。你的与众不同正是你的魅力。”",
+                actionPlan: "本周，创作一件小作品（画画、拍照、做手工），不需要完美，只是表达此刻的心情。",
+                quote: "美不在眼里，美在体验里。" },
+                
+            "ESTP": { name: "企业家 · 冒险家", icon: "🚀", color: "bg-rose-100 text-rose-800",
+                desc: "精力充沛的实干家，善于随机应变。",
+                detail: "ESTP是行动的冒险家。他们精力旺盛，善于抓住机会，敢于冒险。他们在危机中往往表现得最出色，但也容易冲动。他们是行动派，不是思想家。",
+                strengths: "▸ 反应快 · 随机应变，善于应对突发状况\n▸ 说服力强 · 善于谈判，口才好\n▸ 精力充沛 · 行动力强，敢于冒险\n▸ 乐观开朗 · 感染力强，让人放松\n▸ 务实高效 · 善于解决实际问题",
+                growth: "▸ 三思而后行，不想清楚就行动\n▸ 长期投资，不只是眼前利益\n▸ 关心他人感受，不过于自我\n▸ 坚持到底，不半途而废\n▸ 承担责任，不逃避后果",
+                careers: "▸ 企业家 · 销售总监 · 谈判专家\n▸ 运动员 · 军警 · 急诊医生\n▸ 房地产经纪人 · 项目经理",
+                future: "你的成长关键词是「反思」与「坚持」。你已经很擅长行动和冒险，下一步是学会在行动前思考。不是所有机会都要抓住，学会筛选。同时，培养坚持到底的能力，半途而废的冒险等于零。",
+                compatible: "ISTJ / INTJ / ESFJ",
+                compatibleReason: "ISTJ/INTJ能帮你冷静思考和规划，ESFJ能带来情感温度和人际连接。他们欣赏你的行动力，同时补足你缺少的深思熟虑。",
+                relationshipChallenge: "▸ 冲动行事，不考虑后果\n▸ 难以坚持长期承诺\n▸ 忽视细节和他人感受\n▸ 逃避情感深度",
+                selfAffirmation: "你的行动力是很多人羡慕的。不用觉得自己肤浅，世界上需要你这样的人来推动事情发生。同时，偶尔停下来思考，不是软弱，是智慧。",
+                empathyMessage: "“你的能量让人振奋，你的行动力让事情有进展。如果需要停下来思考，我会陪你一起。”",
+                actionPlan: "本周，在做一个重要决定前，强制自己等24小时再行动。",
+                quote: "风险和机会是同一枚硬币的两面。" },
+                
+            "ESFP": { name: "表演者 · 娱乐家", icon: "🎪", color: "bg-rose-100 text-rose-800",
+                desc: "自发热情的表演者，享受当下的每一刻。",
+                detail: "ESFP是聚会的灵魂。他们热情、幽默、爱玩，喜欢成为注意力的焦点。他们是享乐主义的代表，喜欢新鲜刺激的体验。他们活在当下，享受每一个瞬间。",
+                strengths: "▸ 社交能力强 · 人见人爱，善于活跃气氛\n▸ 乐观开朗 · 感染力强，让人开心\n▸ 适应力强 · 拥抱变化，灵活\n▸ 实践能力强 · 善于动手，解决问题\n▸ 真诚热情 · 不虚伪，做自己",
+                growth: "▸ 长期规划，不只是享受当下\n▸ 独处充电，不总需要他人陪伴\n▸ 面对深层问题，不总是逃避\n▸ 学会坚持，不总是三分钟热度\n▸ 关注他人感受，不只顾自己开心",
+                careers: "▸ 演员 · 主持人 · 销售人员\n▸ 活动策划 · 导游 · 儿童教育工作者\n▸ 公关专员 · 健身教练 · 音乐人",
+                future: "你的成长关键词是「深度」与「坚持」。你已经很擅长活在当下和感染他人，下一步是学会偶尔独处，感受自己的内心。同时，培养坚持的能力，不是所有美好的体验都是短暂的，长期的关系和项目也有独特的快乐。",
+                compatible: "ISTJ / INTJ / INFJ",
+                compatibleReason: "ISTJ/INTJ能帮你建立结构和规划，INFJ能带来情感深度和意义感。他们欣赏你的热情，同时提供你缺少的稳定和深度。",
+                relationshipChallenge: "▸ 容易三分钟热度，难以坚持\n▸ 逃避深度情感和承诺\n▸ 过度关注自己，忽略他人感受\n▸ 害怕独处，总需要陪伴",
+                selfAffirmation: "你的快乐感染力让周围的人感到轻松。你不是肤浅，你只是选择用快乐面对世界。同时，允许自己偶尔安静下来，那不是无聊，是另一种丰富。",
+                empathyMessage: "“你的笑容很有感染力，和你在一起很开心。如果你哪天不想笑，也没关系，安静待着也很好。”",
+                actionPlan: "本周，花一小时独处，不看手机，不做任何事，只是和自己待着。",
+                quote: "人生苦短，先快乐再说。" }
+        };
+
+        let currentQuestions = [], currentIndex = 0, answers = [], isQuick = false;
+
+        window.startTest = function(type) {
+            isQuick = type === 'quick';
+            currentQuestions = isQuick ? quickQuestions : fullQuestions;
+            currentIndex = 0;
+            answers = new Array(currentQuestions.length).fill(null);
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('testScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            const dimMap = { "EI": "⚡ E/I · 能量来源", "SN": "👁️ S/N · 信息获取", "TF": "⚖️ T/F · 决策方式", "JP": "📅 J/P · 生活态度" };
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${dimMap[q.dim] || q.dim}`;
+            document.getElementById('questionText').innerText = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${answers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3"><span class="w-5 h-5 rounded-full border-2 ${answers[currentIndex]===idx ? 'border-indigo-500 bg-indigo-500' : 'border-slate-300'} inline-block text-center text-white text-xs">${answers[currentIndex]===idx?'✓':''}</span><span>${opt}</span></div>`;
+                div.onclick = () => { answers[currentIndex]=idx; renderQuestion(); };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = answers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length-1) ? (answers[currentIndex] !== null ? "🔮 揭秘我的人格 🔮" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+        }
+
+        function updateProgress() {
+            const pct = ((currentIndex+1)/currentQuestions.length)*100;
+            document.getElementById('progressBar').style.width = pct+'%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${currentQuestions.length} 题 · MBTI维度`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = () => {
+            if(answers[currentIndex] === null) return;
+            if(currentIndex === currentQuestions.length-1) showResult();
+            else { currentIndex++; renderQuestion(); updateProgress(); }
+        };
+        window.prevQuestion = () => { if(currentIndex>0) { currentIndex--; renderQuestion(); updateProgress(); }};
+
+        document.addEventListener('keydown', (e) => {
+            if(document.getElementById('testScreen').classList.contains('hidden')) return;
+            if(['1','2','3','4'].includes(e.key)){
+                let idx = parseInt(e.key)-1;
+                if(idx < 4) { answers[currentIndex]=idx; renderQuestion(); }
+            } else if(e.key === 'Enter') window.nextQuestion();
+        });
+
+        function showResult() {
+            document.getElementById('testScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            let eiScore=0, snScore=0, tfScore=0, jpScore=0;
+            let eiCount=0, snCount=0, tfCount=0, jpCount=0;
+            currentQuestions.forEach((q, i) => {
+                let score = answers[i] !== null ? answers[i] : 0;
+                if(q.dim === 'EI') { eiScore += score; eiCount++; }
+                else if(q.dim === 'SN') { snScore += score; snCount++; }
+                else if(q.dim === 'TF') { tfScore += score; tfCount++; }
+                else { jpScore += score; jpCount++; }
+            });
+            let eiAvg = eiCount ? (eiScore/eiCount) : 1.5;
+            let snAvg = snCount ? (snScore/snCount) : 1.5;
+            let tfAvg = tfCount ? (tfScore/tfCount) : 1.5;
+            let jpAvg = jpCount ? (jpScore/jpCount) : 1.5;
+            const type = (eiAvg < 1.5 ? 'I' : 'E') + (snAvg < 1.5 ? 'N' : 'S') + (tfAvg < 1.5 ? 'T' : 'F') + (jpAvg < 1.5 ? 'P' : 'J');
+            const data = typeData[type] || typeData["INTJ"];
+            
+            document.getElementById('typeCode').innerHTML = type;
+            document.getElementById('typeCode').className = `type-badge ${data.color} mb-3`;
+            document.getElementById('typeName').innerHTML = `${data.icon} ${data.name}`;
+            document.getElementById('typeDesc').innerHTML = data.desc;
+            document.getElementById('typeDetail').innerHTML = `<p>${data.detail}</p>`;
+            document.getElementById('strengths').innerHTML = data.strengths.split('\n').map(s => `<p>${s}</p>`).join('');
+            document.getElementById('growthTips').innerHTML = data.growth.split('\n').map(s => `<p>${s}</p>`).join('');
+            document.getElementById('careerPaths').innerHTML = data.careers.split('\n').map(s => `<p>${s}</p>`).join('');
+            document.getElementById('futurePlan').innerHTML = `<p>${data.future}</p>`;
+            document.getElementById('compatible').innerHTML = data.compatible;
+            document.getElementById('compatibleReason').innerHTML = data.compatibleReason;
+            document.getElementById('relationshipChallenge').innerHTML = data.relationshipChallenge.split('\n').map(s => `<p>${s}</p>`).join('');
+            document.getElementById('selfAffirmation').innerHTML = `<p>${data.selfAffirmation}</p>`;
+            document.getElementById('empathyMessage').innerHTML = `“${data.empathyMessage}”`;
+            document.getElementById('actionPlan').innerHTML = data.actionPlan;
+            document.getElementById('famousQuote').innerHTML = `“${data.quote}”`;
+            document.getElementById('eiScore').innerHTML = `${eiAvg < 1.5 ? 'I' : 'E'} 倾向 ${Math.round(Math.abs(eiAvg-1.5)*66.6)}%`;
+            document.getElementById('snScore').innerHTML = `${snAvg < 1.5 ? 'N' : 'S'} 倾向 ${Math.round(Math.abs(snAvg-1.5)*66.6)}%`;
+            document.getElementById('tfScore').innerHTML = `${tfAvg < 1.5 ? 'T' : 'F'} 倾向 ${Math.round(Math.abs(tfAvg-1.5)*66.6)}%`;
+            document.getElementById('jpScore').innerHTML = `${jpAvg < 1.5 ? 'P' : 'J'} 倾向 ${Math.round(Math.abs(jpAvg-1.5)*66.6)}%`;
+            window.scrollTo(0,0);
+        }
+        window.restart = () => location.reload();
+    </script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>高频易错英二考研测试 · 你的英语水平有多野</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh; }
+        .breathe-grad {
+            width: 100px; height: 100px;
+            background: radial-gradient(circle, #3b82f6, #1d4ed8);
+            border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%;
+            animation: floatGrad 5s infinite ease-in-out;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        @keyframes floatGrad {
+            0%, 100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; }
+            50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; }
+        }
+        .option-card {
+            transition: all 0.2s;
+            border: 1.5px solid #bfdbfe;
+            background: white;
+            cursor: pointer;
+        }
+        .option-card:hover { border-color: #3b82f6; background: #eff6ff; transform: translateX(5px); }
+        .option-card.selected { border-color: #2563eb; background: #dbeafe; box-shadow: 0 2px 12px rgba(37,99,235,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #bfdbfe; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .correct-answer { background: #d1fae5; border-color: #10b981; }
+        .wrong-answer { background: #fee2e2; border-color: #ef4444; }
+        .insight-card { transition: all 0.2s; }
+        .insight-card:hover { transform: translateY(-2px); }
+        .abandon-sticker {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 30px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #92400e;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            animation: bounceSticker 2s infinite;
+        }
+        @keyframes bounceSticker {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 考研梗浮窗 -->
+    <div class="abandon-sticker">
+        <i class="fa-regular fa-book-open mr-1"></i> 考研人绝不认输
+    </div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-blue-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-pen-to-square text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">高频易错 · 英二考研测试</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-blue-200 text-blue-600">
+                <i class="fa-regular fa-fire mr-1"></i> 近年高频易错
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">📚🤯🚀</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">高频易错 · 英二考研测试</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
+                    词汇陷阱 · 语法刺客 · 阅读挖坑 · 完形玄机<br>
+                    测测你的考研英语二真实水平
+                </p>
+                <p class="text-xs text-blue-500 mt-1 mb-6">✨ 全部题目来自近年考研英二高频易错题 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，告诉自己：abandon 不是第一个词了</p>
+                            <div class="bg-blue-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">
+                                💡 考研英语二 · 近年高频易错 · 做完记得看解析
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-blue-200 hover:border-blue-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快测</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 摸摸底</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-indigo-200 hover:border-indigo-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 真实力</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">50题 · 完整</h3>
+                        <p class="text-xs text-slate-400">15分钟 · 终极挑战</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 做完有详细分析 · 薄弱板块一目了然</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-blue-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-blue-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel">
+                    <i class="fa-regular fa-circle-question"></i> 词汇辨析
+                </div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-blue-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-blue-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的考研英二水平报告</h3>
+                <p class="text-sm text-slate-500">分数不是终点，知道弱点才是真收获</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div id="scoreDisplay" class="text-6xl font-black text-blue-600 mb-2">--</div>
+                <div id="levelBadge" class="result-badge bg-slate-100 text-slate-700 mb-3">英语二大神</div>
+                <h2 id="levelTitle" class="text-xl font-bold text-slate-800 mb-2">你让abandon都感动了</h2>
+                <p id="levelDesc" class="text-sm text-slate-600 max-w-sm mx-auto">你的英语水平已经超越了大多数考研人</p>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-2">
+                    <div id="scoreBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="scorePercent" class="text-xs text-slate-400 mt-2">正确率 · --%</p>
+            </div>
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-l-8 border-blue-400">
+                <h3 class="font-bold text-blue-800 flex gap-2"><i class="fa-regular fa-eye"></i> 薄弱板块分析</h3>
+                <div id="weaknessAnalysis" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 你的强项</h3>
+                    <div id="strengths" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-chart-line"></i> 需要加练</h3>
+                    <div id="weaknesses" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <div class="bg-rose-50/60 p-5 rounded-2xl border border-rose-200">
+                <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 情绪价值 · 给你的话</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 备考建议</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-blue-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“The best time to start was yesterday. The next best time is now.”</span>
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-blue-400 text-blue-700 font-medium hover:bg-blue-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow">保存报告</button>
+            </div>
+
+            <!-- 新增：全部题目答案解析折叠面板 -->
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+答案解析</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+
+            <div class="text-center text-[10px] text-slate-400 pb-8">高频易错 · 考研英语二 · 近年真题改编</div>
+        </section>
+    </main>
+    <script>
+        // ============================================================
+        // 题库 · 50道高频易错英二题（词汇、语法、阅读、完形、翻译）
+        // ============================================================
+        const fullBank = [
+            // 词汇辨析 (1-10)
+            { cat: "词汇辨析", text: "The company's new policy will ____ the way we work.", opts: ["affect", "effect", "impact", "influence"], ans: 0,
+                exp: "affect 作动词表示‘影响’；effect 作名词，impact/influence 常接 on。此处用 affect 最合适。" },
+            { cat: "词汇辨析", text: "She was ____ to find that her proposal had been rejected.", opts: ["appalled", "delighted", "confused", "surprised"], ans: 0,
+                exp: "appalled 表示‘震惊/厌恶’，符合被拒绝后的负面情绪。" },
+            { cat: "词汇辨析", text: "The government should take ____ measures to protect the environment.", opts: ["effective", "efficient", "affective", "defective"], ans: 0,
+                exp: "effective 表示‘有效的’；efficient 表示‘高效的’。此处强调效果，选 effective。" },
+            { cat: "词汇辨析", text: "His explanation was so ____ that nobody could understand it.", opts: ["vague", "obvious", "clear", "precise"], ans: 0,
+                exp: "vague 表示‘含糊的’，符合‘没人能理解’的语境。" },
+            { cat: "词汇辨析", text: "The ____ of the research will be published next month.", opts: ["findings", "discoveries", "inventions", "creations"], ans: 0,
+                exp: "findings 表示‘研究结果’；discoveries 指‘发现’，inventions 指‘发明’。研究结果用 findings。" },
+            { cat: "词汇辨析", text: "She is ____ about getting the job done on time.", opts: ["optimistic", "pessimistic", "skeptical", "anxious"], ans: 0,
+                exp: "optimistic 表示‘乐观的’，符合按时完成的积极预期。" },
+            { cat: "词汇辨析", text: "The two theories are ____ different from each other.", opts: ["fundamentally", "slightly", "rarely", "accidentally"], ans: 0,
+                exp: "fundamentally 表示‘根本地’，强调差异大。" },
+            { cat: "词汇辨析", text: "He ____ his success to hard work and determination.", opts: ["attributed", "contributed", "distributed", "tributed"], ans: 0,
+                exp: "attribute ... to ... 表示‘把…归因于’；contribute 表示‘贡献’。" },
+            { cat: "词汇辨析", text: "The new policy will ____ a lot of changes in the company.", opts: ["bring about", "bring out", "bring up", "bring in"], ans: 0,
+                exp: "bring about 表示‘引起/带来’变化；bring out 表示‘出版/使显现’。" },
+            { cat: "词汇辨析", text: "She has a ____ understanding of the complex issue.", opts: ["profound", "shallow", "superficial", "vague"], ans: 0,
+                exp: "profound 表示‘深刻的’，符合对复杂问题的理解。" },
+            // 语法 (11-20)
+            { cat: "语法陷阱", text: "If I ____ you, I would accept the offer.", opts: ["were", "was", "am", "had been"], ans: 0,
+                exp: "虚拟语气中，与现在事实相反，be 动词一律用 were。" },
+            { cat: "语法陷阱", text: "The book ____ on the table for days.", opts: ["has been lying", "has been laying", "has laid", "was lying"], ans: 0,
+                exp: "lie 表示‘躺’，过去分词 lain，现在完成进行时用 has been lying。" },
+            { cat: "语法陷阱", text: "____ he tried, he couldn't open the door.", opts: ["Hard as", "Hard though", "Hard although", "Hard despite"], ans: 0,
+                exp: "as 引导让步状语从句时用倒装：Hard as he tried = Although he tried hard。" },
+            { cat: "语法陷阱", text: "The man ____ is standing there is my uncle.", opts: ["who", "whom", "which", "whose"], ans: 0,
+                exp: "先行词是人，在从句中作主语，用 who。" },
+            { cat: "语法陷阱", text: "By the time you arrive, I ____ the work.", opts: ["will have finished", "will finish", "have finished", "had finished"], ans: 0,
+                exp: "by the time + 将来时间，主句用将来完成时 will have finished。" },
+            { cat: "语法陷阱", text: "I would rather you ____ here yesterday.", opts: ["had been", "were", "have been", "are"], ans: 0,
+                exp: "would rather + 从句，表示过去的时间用过去完成时 had been。" },
+            { cat: "语法陷阱", text: "____ from the top of the mountain, the city looks beautiful.", opts: ["Seen", "Seeing", "To see", "Having seen"], ans: 0,
+                exp: "分词作状语，city 与 see 是被动关系，用过去分词 Seen。" },
+            { cat: "语法陷阱", text: "Not only ____ to the concert, but he also played the piano.", opts: ["did he go", "he went", "had he gone", "he had gone"], ans: 0,
+                exp: "Not only 位于句首，部分倒装，且时态为过去时，用 did he go。" },
+            { cat: "语法陷阱", text: "It's high time we ____ to bed.", opts: ["went", "go", "have gone", "will go"], ans: 0,
+                exp: "It's high time + 从句，谓语用过去式 (虚拟语气)。" },
+            { cat: "语法陷阱", text: "She is ____ a singer than a dancer.", opts: ["more", "rather", "less", "sooner"], ans: 0,
+                exp: "more ... than ... 表示‘与其说…不如说…’。She is more a singer than a dancer." },
+            // 阅读逻辑陷阱 (21-30)
+            { cat: "阅读挖坑", text: "According to the passage, the main reason for the decline is ______.", opts: ["economic factors", "social changes", "technological advances", "policy failures"], ans: 0,
+                exp: "原文明确提到 economic factors 是主因，其余为干扰项。" },
+            { cat: "阅读挖坑", text: "The author's attitude towards the new policy is ______.", opts: ["supportive", "critical", "neutral", "indifferent"], ans: 0,
+                exp: "作者使用 positive 词汇评价新政策，态度为 supportive。" },
+            { cat: "阅读挖坑", text: "What can be inferred from the first paragraph?", opts: ["The situation is improving", "The situation is worsening", "The situation is stable", "The situation is unpredictable"], ans: 1,
+                exp: "第一段描述下降趋势，推断情况在恶化。" },
+            { cat: "阅读挖坑", text: "The word 'it' in line 5 refers to ______.", opts: ["the process", "the problem", "the solution", "the theory"], ans: 0,
+                exp: "根据上下文，it 指代前文的 the process。" },
+            { cat: "阅读挖坑", text: "Which of the following is NOT mentioned as a cause?", opts: ["pollution", "overpopulation", "climate change", "deforestation"], ans: 1,
+                exp: "文中提到了污染、气候变化、森林砍伐，未提到 overpopulation。" },
+            { cat: "阅读挖坑", text: "The author cites the example to ______.", opts: ["illustrate a point", "introduce a topic", "summarize the argument", "question the theory"], ans: 0,
+                exp: "举例通常是为了说明观点 (illustrate a point)。" },
+            { cat: "阅读挖坑", text: "What is the main idea of the passage?", opts: ["Technology has advanced rapidly", "Environmental issues are urgent", "Economic growth is slowing", "Social media is changing society"], ans: 1,
+                exp: "全文围绕环境问题的紧迫性展开。" },
+            { cat: "阅读挖坑", text: "The tone of the passage is ______.", opts: ["persuasive", "descriptive", "narrative", "informative"], ans: 0,
+                exp: "文章使用劝诫性语言，旨在说服读者采取行动。" },
+            { cat: "阅读挖坑", text: "What does the author suggest about the future?", opts: ["It will be worse", "It will be better", "It depends on action", "It is uncertain"], ans: 2,
+                exp: "作者强调未来取决于现在采取的行动。" },
+            { cat: "阅读挖坑", text: "The phrase 'break through' in line 8 means ______.", opts: ["overcome", "enter", "destroy", "construct"], ans: 0,
+                exp: "break through 意为‘突破/克服’，此处选 overcome。" },
+            // 完形逻辑 (31-40)
+            { cat: "完形玄机", text: "Many students find it difficult to ____ their time effectively.", opts: ["manage", "spend", "waste", "control"], ans: 0,
+                exp: "manage time 是固定搭配，表示‘管理时间’。" },
+            { cat: "完形玄机", text: "The teacher ____ the importance of practice.", opts: ["emphasized", "ignored", "reduced", "avoided"], ans: 0,
+                exp: "emphasized 表示‘强调’，符合老师强调练习的语境。" },
+            { cat: "完形玄机", text: "____ she is young, she is very experienced.", opts: ["Although", "Because", "Unless", "Since"], ans: 0,
+                exp: "Although 表示‘虽然’，引导让步状语从句。" },
+            { cat: "完形玄机", text: "We should ____ the lessons from the past.", opts: ["learn", "teach", "forget", "ignore"], ans: 0,
+                exp: "learn from the past 表示‘从过去吸取教训’。" },
+            { cat: "完形玄机", text: "The project ____ funding to continue.", opts: ["requires", "requests", "acquires", "inquires"], ans: 0,
+                exp: "requires 表示‘需要’，符合项目需要资金继续的语境。" },
+            { cat: "完形玄机", text: "____ more time, I could have done it better.", opts: ["Given", "Giving", "To give", "Having given"], ans: 0,
+                exp: "Given 表示‘假如有’，作条件状语。" },
+            { cat: "完形玄机", text: "The solution ____ a compromise between the two sides.", opts: ["involved", "included", "contained", "consisted"], ans: 0,
+                exp: "involved 表示‘涉及/需要’；included/contained 表示‘包含’。" },
+            { cat: "完形玄机", text: "____ we start now, we'll be late.", opts: ["Unless", "If", "Because", "Although"], ans: 0,
+                exp: "Unless = If not，表示‘除非’。除非现在开始，否则会迟到。" },
+            { cat: "完形玄机", text: "She is ____ to make mistakes when tired.", opts: ["likely", "possible", "probable", "able"], ans: 0,
+                exp: "likely 表示‘有可能的’，主语为人。possible/probable 主语通常为物。" },
+            { cat: "完形玄机", text: "The new system is ____ to the old one.", opts: ["superior", "inferior", "equal", "similar"], ans: 0,
+                exp: "superior to 表示‘优于’；inferior to 表示‘劣于’。" },
+            // 翻译常见错误 (41-50)
+            { cat: "翻译陷阱", text: "Scientists have made great ____ in genetics research.", opts: ["advances", "advices", "advantages", "adventures"], ans: 0,
+                exp: "advances 表示‘进展’；make great advances 为固定搭配。" },
+            { cat: "翻译陷阱", text: "The government is ____ to reduce pollution.", opts: ["committed", "dedicated", "contributed", "attributed"], ans: 0,
+                exp: "be committed to 表示‘致力于’；dedicated 也正确，但 committed 更常用于官方语境。" },
+            { cat: "翻译陷阱", text: "It is ____ that the economy will recover soon.", opts: ["expected", "assumed", "hoped", "wished"], ans: 0,
+                exp: "It is expected that... 表示‘据预计’；assumed 表示‘假设’。" },
+            { cat: "翻译陷阱", text: "The company ____ a new marketing strategy.", opts: ["adopted", "adapted", "adjusted", "addressed"], ans: 0,
+                exp: "adopt 表示‘采纳’；adapt 表示‘适应/改编’。" },
+            { cat: "翻译陷阱", text: "His speech was so ____ that everyone was moved.", opts: ["inspiring", "instructive", "informative", "interactive"], ans: 0,
+                exp: "inspiring 表示‘鼓舞人心的’；instructive 表示‘有教育意义的’。" },
+            { cat: "翻译陷阱", text: "The book ____ a wide range of topics.", opts: ["covers", "uncovers", "discovers", "recovers"], ans: 0,
+                exp: "covers 表示‘涵盖’；uncover 表示‘揭露’。" },
+            { cat: "翻译陷阱", text: "We should ____ our differences and work together.", opts: ["set aside", "set up", "set off", "set out"], ans: 0,
+                exp: "set aside 表示‘搁置’；set up 表示‘建立’。" },
+            { cat: "翻译陷阱", text: "The idea ____ me as very practical.", opts: ["strikes", "attacks", "hits", "beats"], ans: 0,
+                exp: "strike sb as... 表示‘给某人留下…印象’。" },
+            { cat: "翻译陷阱", text: "____ the weather, the event will be held outdoors.", opts: ["Regardless of", "According to", "In spite of", "Due to"], ans: 0,
+                exp: "Regardless of 表示‘不管’；In spite of 表示‘尽管’但语气不如 Regardless of 强。" },
+            { cat: "翻译陷阱", text: "The results are ____ with our expectations.", opts: ["consistent", "resistant", "insistent", "persistent"], ans: 0,
+                exp: "consistent with 表示‘与…一致’；resistant 表示‘抵抗的’。" }
+        ];
+        // 提取不同版本
+        const quickBank = fullBank.slice(0, 10);
+        const mediumBank = fullBank.slice(0, 25);
+        const fullBankUsed = fullBank;
+        // 状态
+        let currentQuestions = [];
+        let currentAnswers = [];
+        let currentIndex = 0;
+        let currentMode = 'full'; // quick, medium, full
+        let answerPanelOpen = false; // 解析面板折叠状态
+        // 页面元素
+        const welcome = document.getElementById('welcomeScreen');
+        const testScreen = document.getElementById('testScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer');
+        const answerWrap = document.getElementById('allAnswerWrap');
+        const arrowIcon = document.getElementById('arrowIcon');
+        const answerListDom = document.getElementById('allAnswerList');
+
+        // 折叠面板点击事件
+        toggleBtn.addEventListener('click', () => {
+            answerPanelOpen = !answerPanelOpen;
+            if (answerPanelOpen) {
+                answerWrap.classList.remove('hidden');
+                arrowIcon.style.transform = 'rotate(180deg)';
+            } else {
+                answerWrap.classList.add('hidden');
+                arrowIcon.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // ============================================================
+        // 测试启动
+        // ============================================================
+        window.startTest = function(mode) {
+            currentMode = mode;
+            if (mode === 'quick') currentQuestions = quickBank.slice();
+            else if (mode === 'medium') currentQuestions = mediumBank.slice();
+            else currentQuestions = fullBankUsed.slice();
+            // 打乱顺序
+            currentQuestions = shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+        // ============================================================
+        // 渲染题目
+        // ============================================================
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${q.cat}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-blue-500 bg-blue-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length-1) ? (currentAnswers[currentIndex] !== null ? "📊 查看结果" : "查看结果") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            // 更新进度
+            updateProgress();
+        }
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const done = currentAnswers.filter(a => a !== null).length;
+            const pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+        // ============================================================
+        // 导航
+        // ============================================================
+        window.nextQuestion = function() {
+            if (currentAnswers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        };
+        // 键盘支持
+        document.addEventListener('keydown', (e) => {
+            if (testScreen.classList.contains('hidden')) return;
+            if (['1','2','3','4'].includes(e.key)) {
+                const idx = parseInt(e.key) - 1;
+                if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+        // ============================================================
+        // 结果展示
+        // ============================================================
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            let correct = 0;
+            const weakMap = {};
+            const strongMap = {};
+            const total = currentQuestions.length;
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                const isCorrect = (ans === q.ans);
+                if (isCorrect) correct++;
+                const cat = q.cat;
+                if (!weakMap[cat]) { weakMap[cat] = { correct: 0, total: 0 }; }
+                weakMap[cat].total++;
+                if (isCorrect) weakMap[cat].correct++;
+            });
+            const pct = Math.round((correct / total) * 100);
+            document.getElementById('scoreDisplay').innerHTML = `${correct}/${total}`;
+            document.getElementById('scoreBar').style.width = pct + '%';
+            document.getElementById('scorePercent').innerHTML = `正确率 ${pct}% · 共 ${total} 题`;
+            // 等级判定
+            let level, badgeColor, title, desc, emotional, advice, quote;
+            if (pct >= 90) {
+                level = '英语二大神';
+                badgeColor = 'bg-emerald-100 text-emerald-800';
+                title = '你让abandon都感动了';
+                desc = '你的英语水平已经超越了99%的考研人，可以出书了。';
+                emotional = '🎉 你太强了！建议直接去当考研英语出题人。继续保持，英二80+稳了！';
+                advice = '保持手感，每周做一套真题，重点练习写作和翻译，冲击85+。';
+                quote = '“The best revenge is massive success.” — Frank Sinatra';
+            } else if (pct >= 70) {
+                level = '英语二小能手';
+                badgeColor = 'bg-blue-100 text-blue-800';
+                title = '不错啊，考研人！';
+                desc = '你有扎实的基础，但还有一些陷阱会绊倒你。';
+                emotional = '💪 加油！你已经比大多数人有竞争力了。再刷几套题，把易错点记牢，英二70+不是梦。';
+                advice = '重点复习错题，特别是词汇辨析和阅读逻辑题。每天背50个高频词，坚持到考前。';
+                quote = '“Success is not final, failure is not fatal: it is the courage to continue that counts.”';
+            } else if (pct >= 50) {
+                level = '需要加把劲';
+                badgeColor = 'bg-amber-100 text-amber-800';
+                title = '你的英语底子还在，但需要抢救';
+                desc = '你有一些知识漏洞，特别是词汇和语法部分。';
+                emotional = '😅 别慌！现在发现漏洞就是赚到。每天花1小时专项突破，你还有时间逆袭。考研人，支棱起来！';
+                advice = '从基础词汇和语法开始补，每天精读一篇阅读，分析长难句。建议用《考研英语二真题精讲》刷题。';
+                quote = '“It does not matter how slowly you go as long as you do not stop.” — Confucius';
+            } else {
+                level = '危险了！';
+                badgeColor = 'bg-rose-100 text-rose-800';
+                title = '你的英语需要紧急救援';
+                desc = '你的基础比较薄弱，很多高频考点都没有掌握。';
+                emotional = '🚨 醒醒！考研英语二不是你这样玩的。赶紧放下手机去背单词，从abandon开始重新做人！';
+                advice = '立即开始：每天背100个核心词，精读两篇真题阅读，分析每一道错题。建议报个冲刺班或找研友互相督促。';
+                quote = '“The only way to do great work is to love what you do.” — Steve Jobs (先爱上英语吧)';
+            }
+            document.getElementById('levelBadge').className = `result-badge ${badgeColor} mb-3`;
+            document.getElementById('levelBadge').innerText = level;
+            document.getElementById('levelTitle').innerText = title;
+            document.getElementById('levelDesc').innerText = desc;
+            document.getElementById('emotionalBoost').innerHTML = `“${emotional}”`;
+            document.getElementById('actionPlan').innerHTML = advice;
+            document.getElementById('famousQuote').innerHTML = `“${quote}”`;
+            // 强弱项分析
+            let weakText = '', strongText = '';
+            const sortedCats = Object.keys(weakMap).sort((a,b) => (weakMap[a].correct/weakMap[a].total) - (weakMap[b].correct/weakMap[b].total));
+            const weakest = sortedCats.slice(0, 2);
+            const strongest = sortedCats.slice(-2).reverse();
+            weakText = weakest.map(c => {
+                const stat = weakMap[c];
+                const p = Math.round((stat.correct/stat.total)*100);
+                return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;
+            }).join('<br>');
+            strongText = strongest.map(c => {
+                const stat = weakMap[c];
+                const p = Math.round((stat.correct/stat.total)*100);
+                return `▸ ${c}：正确率 ${p}%（${stat.correct}/${stat.total}）`;
+            }).join('<br>');
+            if (weakText === '') weakText = '暂无数据，继续加油！';
+            if (strongText === '') strongText = '暂无数据，继续加油！';
+            document.getElementById('weaknesses').innerHTML = weakText;
+            document.getElementById('strengths').innerHTML = strongText;
+            // 薄弱板块分析（详细）
+            let analysisHTML = '';
+            sortedCats.forEach(cat => {
+                const stat = weakMap[cat];
+                const p = Math.round((stat.correct/stat.total)*100);
+                let emoji = p >= 70 ? '🟢' : p >= 50 ? '🟡' : '🔴';
+                analysisHTML += `<p>${emoji} <strong>${cat}</strong>：正确率 ${p}%（${stat.correct}/${stat.total}题）${p < 60 ? ' ⚠️ 需要重点突破' : ' ✅ 保持'}</p>`;
+            });
+            document.getElementById('weaknessAnalysis').innerHTML = analysisHTML;
+
+            // ========== 渲染全部题目+答案解析 ==========
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const rightAns = q.ans;
+                const labels = ['A','B','C','D'];
+                const isRight = userSel === rightAns;
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${q.opts[userSel]}` : "未作答";
+                const rightSelText = `${labels[rightAns]}. ${q.opts[rightAns]}`;
+
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border ${isRight ? 'border-emerald-300 bg-emerald-50' : 'border-red-300 bg-red-50'}`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2">
+                        <span class="font-bold text-slate-800">第${i+1}题【${q.cat}】</span>
+                        <span class="ml-2 px-2 py-0.5 rounded text-xs ${isRight ? 'bg-emerald-200 text-emerald-800' : 'bg-red-200 text-red-800'}">
+                            ${isRight ? '回答正确' : '回答错误'}
+                        </span>
+                    </div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs space-y-1 mb-2">
+                        <p>你的选择：${userSelText}</p>
+                        <p class="text-emerald-700 font-medium">正确答案：${rightSelText}</p>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-200">
+                        <p class="text-xs text-slate-700"><strong>解析：</strong>${q.exp}</p>
+                    </div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+
+            window.scrollTo(0, 0);
+        }
+        // ============================================================
+        // 重新开始
+        // ============================================================
+        window.restart = function() {
+            resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+        // 呼吸圈交互 (无实际功能，纯视觉)
+        document.getElementById('breathCircle').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10);
+        });
+    </script>
+</body>
+</html>
