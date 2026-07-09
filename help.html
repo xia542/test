@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>人际行为量表 · 探索你的社交模式</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%); min-height: 100vh; font-family: 'Noto Sans SC', sans-serif; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #8b5cf6, #7c3aed); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #c4b5fd; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #7c3aed; background: #ede9fe; transform: translateX(5px); }
+        .option-card.selected { border-color: #6d28d9; background: #ddd6fe; box-shadow: 0 2px 12px rgba(109,40,217,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #c4b5fd; }
+        .fade-in { animation: fadePop 0.3s ease-out; } @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .insight-card { transition: all 0.2s; } .insight-card:hover { transform: translateY(-2px); }
+        .dimension-card { border-left: 6px solid; transition: all 0.2s; } .dimension-card:hover { transform: translateX(4px); }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .disclaimer { background: #f5f3ff; border-left: 4px solid #7c3aed; }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-handshake mr-1"></i> 关系是镜子，照见自己</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-purple-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600 to-violet-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-users text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-purple-700 to-violet-700 bg-clip-text text-transparent">人际行为量表</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-purple-200 text-purple-600">
+                <i class="fa-regular fa-clipboard mr-1"></i> 社交模式探索
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🤝🌱💬</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">人际行为量表</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">社交主动性 · 共情力 · 合作性 · 冲突处理 · 自我表露<br>了解你在人际关系中的行为模式</p>
+                <p class="text-xs text-purple-500 mt-1 mb-6">✨ 自我觉察 · 关系成长 · 非诊断 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🫂</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，回想你最近的人际互动</p>
+                            <div class="bg-purple-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 请根据最近一周的真实感受作答 · 结果仅供自我参考</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快筛</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 初步了解</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-violet-200 hover:border-violet-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-violet-100 text-violet-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">20题 · 中度</h3>
+                        <p class="text-xs text-slate-400">5分钟 · 较全面评估</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-fuchsia-200 hover:border-fuchsia-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">30题 · 完整版</h3>
+                        <p class="text-xs text-slate-400">8分钟 · 五维精测</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 完整版包含五个维度 · 结果含详细分析与成长建议</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-purple-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-purple-500 to-violet-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-purple-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 社交主动性</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-purple-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-purple-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的人际行为报告</h3>
+                <p class="text-sm text-slate-500">人际关系是通往自我的桥梁</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-2 text-center">
+                    <div><div class="text-xs text-slate-500">主动性</div><div id="score_initiative" class="text-xl font-bold text-indigo-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">共情力</div><div id="score_empathy" class="text-xl font-bold text-rose-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">合作性</div><div id="score_cooperation" class="text-xl font-bold text-emerald-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">冲突处理</div><div id="score_conflict" class="text-xl font-bold text-amber-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">自我表露</div><div id="score_disclosure" class="text-xl font-bold text-cyan-600">--</div></div>
+                </div>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div id="overallBar" class="bg-gradient-to-r from-purple-500 to-violet-500 h-1.5 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="overallLabel" class="text-xs text-slate-400 mt-2">综合人际行为倾向</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="dimension-card bg-indigo-50/60 rounded-2xl p-5 border-indigo-400">
+                    <h3 class="font-bold text-indigo-800 flex gap-2"><i class="fa-regular fa-rocket"></i> 社交主动性</h3>
+                    <div id="analysis_initiative" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-rose-50/60 rounded-2xl p-5 border-rose-400">
+                    <h3 class="font-bold text-rose-800 flex gap-2"><i class="fa-regular fa-heart"></i> 共情力</h3>
+                    <div id="analysis_empathy" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-emerald-50/60 rounded-2xl p-5 border-emerald-400">
+                    <h3 class="font-bold text-emerald-800 flex gap-2"><i class="fa-regular fa-handshake"></i> 合作性</h3>
+                    <div id="analysis_cooperation" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-amber-50/60 rounded-2xl p-5 border-amber-400">
+                    <h3 class="font-bold text-amber-800 flex gap-2"><i class="fa-regular fa-compass"></i> 冲突处理</h3>
+                    <div id="analysis_conflict" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-cyan-50/60 rounded-2xl p-5 border-cyan-400 md:col-span-2">
+                    <h3 class="font-bold text-cyan-800 flex gap-2"><i class="fa-regular fa-comment"></i> 自我表露</h3>
+                    <div id="analysis_disclosure" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-purple-50 to-violet-50 rounded-2xl p-6 border-l-8 border-purple-400">
+                <h3 class="font-bold text-purple-800 flex gap-2"><i class="fa-regular fa-lightbulb"></i> 人际成长指南</h3>
+                <div id="comprehensiveAdvice" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 给你的话</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 关系行动建议</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-purple-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“人际关系是心灵的一面镜子，照见我们最真实的模样。”</span>
+            </div>
+            <div class="disclaimer p-4 rounded-xl text-xs text-slate-600 leading-relaxed">
+                <i class="fa-regular fa-triangle-exclamation text-purple-500 mr-1"></i>
+                免责声明：本测试仅供自我参考，不构成专业评估。如需深入探索人际关系，建议寻求心理咨询师帮助。
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-purple-400 text-purple-700 font-medium hover:bg-purple-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+计分说明</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">人际行为量表 · 仅供自我觉察使用</div>
+        </section>
+    </main>
+    <script>
+        // 人际行为量表 - 30题 (5维度 × 6题)
+        const allItems = [
+            // 社交主动性 (initiative) - 6题
+            { dim: 'initiative', text: '我容易主动和陌生人交谈。' },
+            { dim: 'initiative', text: '在聚会中，我通常是比较活跃的人。' },
+            { dim: 'initiative', text: '我愿意主动邀请朋友一起活动。' },
+            { dim: 'initiative', text: '在团队中，我经常主动发表意见。' },
+            { dim: 'initiative', text: '我善于在社交场合中打破冷场。' },
+            { dim: 'initiative', text: '我通常会主动联系许久未见的朋友。' },
+            // 共情力 (empathy) - 6题
+            { dim: 'empathy', text: '我能准确察觉他人情绪的变化。' },
+            { dim: 'empathy', text: '当朋友遇到困难时，我能真心实意地安慰他。' },
+            { dim: 'empathy', text: '我常常能站在他人的角度思考问题。' },
+            { dim: 'empathy', text: '我会因为他人的不幸而感到难过。' },
+            { dim: 'empathy', text: '我能理解别人没有说出口的感受。' },
+            { dim: 'empathy', text: '身边的人说我很善解人意。' },
+            // 合作性 (cooperation) - 6题
+            { dim: 'cooperation', text: '我喜欢与他人合作完成任务。' },
+            { dim: 'cooperation', text: '我能够为了团队利益而让步。' },
+            { dim: 'cooperation', text: '我善于协调不同意见达成一致。' },
+            { dim: 'cooperation', text: '在团队中，我会积极支持他人的想法。' },
+            { dim: 'cooperation', text: '我认为集体利益往往比个人利益更重要。' },
+            { dim: 'cooperation', text: '我能接受集体决定，即使与我自己的想法不同。' },
+            // 冲突处理 (conflict) - 6题
+            { dim: 'conflict', text: '面对冲突，我能保持冷静和理性。' },
+            { dim: 'conflict', text: '我善于通过沟通化解人际矛盾。' },
+            { dim: 'conflict', text: '我能接受他人的批评而不产生敌意。' },
+            { dim: 'conflict', text: '在意见不合时，我会尝试理解对方的立场。' },
+            { dim: 'conflict', text: '我不会因为冲突而轻易结束一段关系。' },
+            { dim: 'conflict', text: '我能在冲突中找到建设性的解决方案。' },
+            // 自我表露 (disclosure) - 6题
+            { dim: 'disclosure', text: '我容易向朋友敞开心扉。' },
+            { dim: 'disclosure', text: '我愿意分享自己的真实感受。' },
+            { dim: 'disclosure', text: '在亲密关系中，我能坦诚表达自己的需求。' },
+            { dim: 'disclosure', text: '我不害怕向他人展示自己的脆弱。' },
+            { dim: 'disclosure', text: '当遇到困扰时，我会主动找人倾诉。' },
+            { dim: 'disclosure', text: '我习惯对信任的人说出心里话。' }
+        ];
+
+        function getIndices(mode) {
+            const indices = allItems.map((_, i) => i);
+            if (mode === 'quick') return indices.slice(0, 10);
+            if (mode === 'medium') return indices.slice(0, 20);
+            return indices;
+        }
+
+        let currentQuestions = [],
+            currentAnswers = [],
+            currentIndex = 0,
+            currentMode = 'full',
+            answerPanelOpen = false;
+        const welcome = document.getElementById('welcomeScreen'),
+            testScreen = document.getElementById('testScreen'),
+            resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer'),
+            answerWrap = document.getElementById('allAnswerWrap'),
+            arrowIcon = document.getElementById('arrowIcon'),
+            answerListDom = document.getElementById('allAnswerList');
+        toggleBtn.addEventListener('click', () => { answerPanelOpen = !answerPanelOpen; if (answerPanelOpen) { answerWrap.classList.remove('hidden');
+                arrowIcon.style.transform = 'rotate(180deg)'; } else { answerWrap.classList.add('hidden');
+                arrowIcon.style.transform = 'rotate(0deg)'; } });
+
+        window.startTest = function(mode) {
+            currentMode = mode;
+            const idx = getIndices(mode);
+            currentQuestions = idx.map(i => ({ ...allItems[i], index: i }));
+            shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            const dimMap = { initiative: '社交主动性', empathy: '共情力', cooperation: '合作性', conflict: '冲突处理',
+                disclosure: '自我表露' };
+            document.getElementById('categoryLabel').innerHTML =
+            `<i class="fa-regular fa-circle-question"></i> ${dimMap[q.dim] || q.dim}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            const optTexts = ['完全不符合', '不太符合', '比较符合', '非常符合'];
+            q.opts = optTexts;
+            optTexts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className =
+                    `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML =
+                    `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-purple-500 bg-purple-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => { currentAnswers[currentIndex] = idx;
+                    renderQuestion(); if (currentIndex < currentQuestions.length - 1) { setTimeout(() => window
+                            .nextQuestion(), 250); } };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length - 1) ? (currentAnswers[currentIndex] !== null ?
+                "📊 查看报告" : "查看报告") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length,
+                done = currentAnswers.filter(a => a !== null).length,
+                pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() { if (currentAnswers[currentIndex] === null) return; if (currentIndex ===
+                currentQuestions.length - 1) { showResult(); } else { currentIndex++;
+                renderQuestion(); } };
+        window.prevQuestion = function() { if (currentIndex > 0) { currentIndex--;
+                renderQuestion(); } };
+        document.addEventListener('keydown', (e) => { if (testScreen.classList.contains('hidden')) return; if (['1', '2',
+                    '3', '4'
+                ].includes(e.key)) { const idx = parseInt(e.key) - 1; if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion(); if (currentIndex < currentQuestions.length - 1) { setTimeout(() => window
+                            .nextQuestion(), 250); } } } else if (e.key === 'Enter') { window.nextQuestion(); } });
+
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            const dims = { initiative: 0, empathy: 0, cooperation: 0, conflict: 0, disclosure: 0 };
+            const counts = { initiative: 0, empathy: 0, cooperation: 0, conflict: 0, disclosure: 0 };
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                if (ans === null) return;
+                const score = ans + 1;
+                if (dims[q.dim] !== undefined) { dims[q.dim] += score;
+                    counts[q.dim]++; }
+            });
+            const dimMap = { initiative: '主动性', empathy: '共情力', cooperation: '合作性', conflict: '冲突处理',
+                disclosure: '自我表露' };
+            const colors = { initiative: 'indigo', empathy: 'rose', cooperation: 'emerald', conflict: 'amber',
+                disclosure: 'cyan' };
+            const results = {};
+            let totalScore = 0,
+                totalCount = 0;
+            Object.keys(dims).forEach(d => {
+                const avg = counts[d] > 0 ? Math.round((dims[d] / counts[d]) * 25) : 0;
+                results[d] = avg;
+                totalScore += dims[d];
+                totalCount += counts[d];
+                document.getElementById('score_' + d).innerHTML = avg;
+            });
+            const overall = totalCount > 0 ? Math.round((totalScore / totalCount) * 25) : 0;
+            document.getElementById('overallBar').style.width = Math.min(overall, 100) + '%';
+            const labels = ['有待发展', '基本形成', '较为突出', '非常突出'];
+            const idx = overall < 35 ? 0 : overall < 55 ? 1 : overall < 75 ? 2 : 3;
+            document.getElementById('overallLabel').innerHTML =
+            `综合人际行为倾向 · ${labels[idx]} (${overall}分)`;
+            // 各维度分析
+            const analysisMap = {
+                initiative: d => d < 35 ? '你在社交中较为被动，可能需要更多勇气主动连接他人。可以从小范围的互动开始练习。' :
+                    d < 55 ? '你具备一定的社交主动性，但有时仍会犹豫。尝试在熟悉的场合多表达自己，建立社交自信。' :
+                    d < 75 ? '你有较强的社交主动性，善于发起互动，是团队中的活跃力量。继续保持这份热情！' :
+                    '你的社交主动性非常突出，有很强的社交能力和热情，能够轻松融入各种社交场合。',
+                empathy: d => d < 35 ? '你可能不太擅长察觉他人情绪，这可能会影响人际深度。可以尝试更多地关注他人的非语言信号。' :
+                    d < 55 ? '你具备基本的共情能力，能够理解他人的感受。可以通过主动倾听进一步提升共情力。' :
+                    d < 75 ? '你有较强的共情力，能够理解并回应他人的情感需求，是身边人愿意倾诉的对象。' :
+                    '你的共情力非常出色，能够深刻理解他人的内心世界，具有很强的情感连接能力。',
+                cooperation: d => d < 35 ? '你可能更倾向于独立完成任务，不太习惯合作。可以尝试在团队中承担一些小任务，培养合作意识。' :
+                    d < 55 ? '你能够与人合作，但有时会坚持自己的想法。学习倾听和妥协能让合作更顺畅。' :
+                    d < 75 ? '你有很好的合作能力，善于协调团队关系，是优秀的团队成员。' :
+                    '你的合作意识非常强，能够很好地融入团队，促进集体目标的达成。',
+                conflict: d => d < 35 ? '面对冲突时，你可能会回避或感到不安。学习一些冲突沟通技巧，能够帮助你在矛盾中保持平静。' :
+                    d < 55 ? '你能够处理一些简单的冲突，但面对复杂矛盾时可能仍会感到困难。多练习建设性沟通。' :
+                    d < 75 ? '你有不错的冲突处理能力，能够冷静应对人际矛盾，找到双方都能接受的解决方案。' :
+                    '你在冲突处理方面非常成熟，能够以建设性的方式化解矛盾，是关系中的稳定力量。',
+                disclosure: d => d < 35 ? '你不太习惯分享自己的内心世界，这可能会让人感到难以接近。可以从分享一些小事开始练习。' :
+                    d < 55 ? '你能够分享一些个人感受，但有时仍会有所保留。建立信任是自我表露的关键。' :
+                    d < 75 ? '你善于表达自己的内心感受，能够建立真诚的人际连接。' :
+                    '你有很强的自我表露能力，能够坦然地分享自己的真实想法和感受，建立深厚的关系。'
+            };
+            Object.keys(dims).forEach(d => {
+                document.getElementById('analysis_' + d).innerHTML = analysisMap[d](results[d]);
+            });
+            // 综合建议
+            const topDim = Object.keys(results).reduce((a, b) => results[a] > results[b] ? a : b, 'initiative');
+            const lowDim = Object.keys(results).reduce((a, b) => results[a] < results[b] ? a : b, 'initiative');
+            document.getElementById('comprehensiveAdvice').innerHTML = `
+                <p>🌟 你的人际行为中最突出的维度是 <strong>${dimMap[topDim]}</strong>，这是你的人际优势所在。</p>
+                <p>🪴 最需要关注和提升的维度是 <strong>${dimMap[lowDim]}</strong>，通过有意识的练习可以逐步改善。</p>
+                <p>💡 人际关系是一个动态的平衡，每个维度都有其价值。你不需要成为“完美的社交者”，只需要找到适合自己的方式。</p>
+            `;
+            // 情绪价值
+            const boosts = [
+                '你已经在探索自己的人际模式了，这就是成长的第一步。关系中的你，值得被看见和接纳。',
+                '每个人都有自己独特的人际风格，你的风格就是你的魅力所在。不必与他人比较。',
+                '人际关系中的每一次尝试，都是一次自我发现。你已经走在了对的路上。',
+                '你是值得被听见的，你的感受是重要的。在关系中，你的存在本身就是意义。',
+                '关系的本质是连接，而连接始于你对自己的看见。你已经开始了这段旅程。'
+            ];
+            document.getElementById('emotionalBoost').innerHTML = `“${boosts[Math.floor(Math.random()*boosts.length)]}”`;
+            // 行动建议
+            document.getElementById('actionPlan').innerHTML = `
+                <p>✅ 每天做一件主动连接他人的小事（发一条问候消息、分享一个想法）</p>
+                <p>✅ 练习倾听：下次与人交流时，把注意力完全放在对方身上</p>
+                <p>✅ 尝试表达：每周至少一次，主动分享你的真实感受</p>
+                <p>✅ 接纳冲突：把冲突视为理解和成长的机会，而非威胁</p>
+                <p>✅ 邀请反馈：问一位信任的朋友“你觉得我在人际中做得好的地方和可以改进的地方”</p>
+            `;
+            const quotes = [
+                '“人际关系是心灵的一面镜子，照见我们最真实的模样。”',
+                '“我们不是在寻找完美的关系，而是在关系中学习如何更完整地成为自己。”',
+                '“每一次真诚的连接，都在治愈我们内心深处的孤独。”',
+                '“你不需要成为所有人喜欢的那个，只需要成为真实的自己。”'
+            ];
+            document.getElementById('famousQuote').innerHTML = `“${quotes[Math.floor(Math.random()*quotes.length)]}”`;
+            // 全部题目
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const labels = ['A', 'B', 'C', 'D'];
+                const optTexts = ['完全不符合', '不太符合', '比较符合', '非常符合'];
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${optTexts[userSel]}` : "未作答";
+                const dimMap2 = { initiative: '社交主动性', empathy: '共情力', cooperation: '合作性', conflict: '冲突处理',
+                    disclosure: '自我表露' };
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border border-slate-200 bg-white`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2"><span class="font-bold text-slate-800">第${i+1}题【${dimMap2[q.dim]}】</span></div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs text-slate-500">你的选择：${userSelText} · 得分：${userSel !== null ? userSel+1 : '-'}</div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+            window.scrollTo(0, 0);
+        }
+        window.restart = function() { resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0, 0); };
+        document.getElementById('breathCircle').addEventListener('click', function() { this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10); });
+    </script>
+</body>
+</html>
