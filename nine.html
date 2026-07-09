@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>九型人格 · 探索你的核心动机</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); min-height: 100vh; font-family: 'Noto Sans SC', sans-serif; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #db2777, #be185d); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #f9a8d4; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #db2777; background: #fdf2f8; transform: translateX(5px); }
+        .option-card.selected { border-color: #be185d; background: #fce7f3; box-shadow: 0 2px 12px rgba(190,24,93,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #f9a8d4; }
+        .fade-in { animation: fadePop 0.3s ease-out; } @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .type-card { transition: all 0.2s; border: 1px solid #e5e7eb; border-radius: 16px; padding: 16px; background: white; cursor: default; }
+        .type-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+        .type-score-bar { height: 24px; border-radius: 30px; transition: width 0.8s ease; }
+        .disclaimer { background: #fdf2f8; border-left: 4px solid #db2777; }
+        .detail-section { background: white; border-radius: 16px; padding: 20px; border: 1px solid #f3e8ff; }
+        .detail-section h4 { font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+        .tag { display: inline-block; padding: 2px 12px; border-radius: 30px; font-size: 11px; font-weight: 600; }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .type-icon { font-size: 2.5rem; }
+        .fear-text { color: #b91c1c; font-weight: 500; }
+        .desire-text { color: #15803d; font-weight: 500; }
+        .wing-badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 10px; font-weight: 600; background: #f3e8ff; color: #7c3aed; margin: 0 2px; }
+        .score-distribution { display: flex; flex-direction: column; gap: 6px; }
+        .score-row { display: flex; align-items: center; gap: 10px; }
+        .score-row .label { width: 60px; font-size: 13px; font-weight: 500; text-align: right; }
+        .score-row .bar-wrap { flex: 1; height: 22px; background: #f1f5f9; border-radius: 30px; overflow: hidden; }
+        .score-row .bar-wrap .bar { height: 100%; border-radius: 30px; transition: width 0.6s ease; }
+        .score-row .value { width: 40px; font-size: 13px; font-weight: 600; text-align: left; }
+        @media (max-width: 640px) { .score-row .label { width: 45px; font-size: 11px; } }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-compass mr-1"></i> 认识你的核心动机</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-pink-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-pink-600 to-rose-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-circle-dot text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-pink-700 to-rose-700 bg-clip-text text-transparent">九型人格 · 核心动机探索</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-pink-200 text-pink-600">
+                <i class="fa-regular fa-star mr-1"></i> Enneagram
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🪷🔮🦋</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">九型人格 · 核心动机探索</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">完美型 · 助人型 · 成就型 · 自我型 · 理智型<br>忠诚型 · 活跃型 · 领袖型 · 和平型</p>
+                <p class="text-xs text-pink-500 mt-1 mb-6">✨ 了解行为背后的深层驱动力 · 适合深度个人成长 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，坦诚面对内心的真实</p>
+                            <div class="bg-pink-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 九型人格关注核心动机 · 没有好坏之分 · 请诚实作答</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-pink-200 hover:border-pink-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">9题 · 快筛</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 初探类型</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-rose-200 hover:border-rose-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">27题 · 中度</h3>
+                        <p class="text-xs text-slate-400">5分钟 · 较精准</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-fuchsia-200 hover:border-fuchsia-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-fuchsia-100 text-fuchsia-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">54题 · 完整版</h3>
+                        <p class="text-xs text-slate-400">10分钟 · 深度解析</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 完整版包含9种类型各6题 · 结果含九型分布、深度解读、成长建议</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-pink-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-pink-500 to-rose-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-pink-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 核心动机</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-pink-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-pink-600 text-white font-medium hover:bg-pink-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-pink-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">🪷 你的九型人格报告</h3>
+                <p class="text-sm text-slate-500">核心动机 · 深层恐惧 · 成长方向</p>
+            </div>
+            <!-- 主导类型大卡片 -->
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center" id="mainTypeCard">
+                <div id="mainTypeIcon" class="text-6xl mb-2">🦋</div>
+                <div id="mainTypeBadge" class="result-badge bg-pink-100 text-pink-800 mb-3">4号 · 自我型</div>
+                <h2 id="mainTypeName" class="text-2xl font-extrabold text-slate-800 mb-1">自我型 · 个人主义者</h2>
+                <p id="mainTypeTagline" class="text-sm text-slate-500 italic">“我渴望找到真正的自我和独特身份。”</p>
+                <div class="mt-3 grid grid-cols-2 gap-4 max-w-sm mx-auto text-sm">
+                    <div><span class="text-rose-600 font-bold">核心恐惧</span><br><span id="mainFear" class="text-slate-600">害怕没有身份、意义</span></div>
+                    <div><span class="text-emerald-600 font-bold">核心欲望</span><br><span id="mainDesire" class="text-slate-600">寻找独特的自我和深刻的意义</span></div>
+                </div>
+            </div>
+            <!-- 九型分布图 -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <h3 class="font-bold text-slate-700 flex gap-2 mb-4"><i class="fa-regular fa-chart-bar"></i> 九型得分分布</h3>
+                <div class="score-distribution" id="scoreDistribution"></div>
+                <p class="text-xs text-slate-400 mt-3">* 得分越高，该类型特征越明显</p>
+            </div>
+            <!-- 深度解读 -->
+            <div class="detail-section" id="detailSection">
+                <h3 class="font-bold text-slate-700 flex gap-2 mb-3"><i class="fa-regular fa-eye"></i> 深度解读</h3>
+                <div id="deepInterpretation" class="text-sm text-slate-700 leading-relaxed space-y-3"></div>
+            </div>
+            <!-- 行为模式 -->
+            <div class="detail-section">
+                <h3 class="font-bold text-slate-700 flex gap-2 mb-2"><i class="fa-regular fa-arrows-rotate"></i> 行为模式</h3>
+                <div id="behaviorPattern" class="text-sm text-slate-600"></div>
+            </div>
+            <!-- 压力与成长 -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-rose-50/60 rounded-2xl p-5 border border-rose-200">
+                    <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-cloud-rain"></i> 压力下的表现</h3>
+                    <div id="stressBehavior" class="text-sm text-slate-700 mt-2"></div>
+                </div>
+                <div class="bg-emerald-50/60 rounded-2xl p-5 border border-emerald-200">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-sun"></i> 成长方向</h3>
+                    <div id="growthDirection" class="text-sm text-slate-700 mt-2"></div>
+                </div>
+            </div>
+            <!-- 职业与关系 -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-indigo-700 flex gap-2"><i class="fa-regular fa-briefcase"></i> 适合职业</h3>
+                    <div id="careerAdvice" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-handshake"></i> 人际关系</h3>
+                    <div id="relationshipAdvice" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <!-- 成长建议 -->
+            <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-seedling"></i> 自我成长建议</h3>
+                <div id="growthAdvice" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+            </div>
+            <!-- 名言 -->
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-pink-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“认识你自己。” — 苏格拉底</span>
+            </div>
+            <div class="disclaimer p-4 rounded-xl text-xs text-slate-600 leading-relaxed">
+                <i class="fa-regular fa-triangle-exclamation text-pink-500 mr-1"></i>
+                免责声明：本测试仅供自我探索参考，不构成专业评估。九型人格是成长工具，非标签。
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-pink-400 text-pink-700 font-medium hover:bg-pink-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-pink-600 text-white font-medium hover:bg-pink-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+计分</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">九型人格 · Enneagram · 基于现代九型人格理论</div>
+        </section>
+    </main>
+    <script>
+        // ============================================================
+        // 题库：54题，每个类型6题
+        // 维度: type1 ~ type9
+        // 选项: 1=非常不符合, 2=比较不符合, 3=比较符合, 4=非常符合
+        // 无反向计分，直接累加
+        // ============================================================
+        const allItems = [
+            // 类型1 - 完美型 (6题)
+            { dim: 'type1', text: '我对自己有很高的标准，追求完美。' },
+            { dim: 'type1', text: '我很容易发现自己和他人的错误。' },
+            { dim: 'type1', text: '我相信"正确"比"快乐"更重要。' },
+            { dim: 'type1', text: '我经常感到内心有一个严厉的批评者。' },
+            { dim: 'type1', text: '我做事非常有原则和道德感。' },
+            { dim: 'type1', text: '我很难接受不完美的事物。' },
+            // 类型2 - 助人型 (6题)
+            { dim: 'type2', text: '我很容易感受到他人的需求。' },
+            { dim: 'type2', text: '我愿意牺牲自己的需求来帮助他人。' },
+            { dim: 'type2', text: '我害怕自己不被需要或不被爱。' },
+            { dim: 'type2', text: '我经常主动提供帮助和建议。' },
+            { dim: 'type2', text: '我很难拒绝别人的请求。' },
+            { dim: 'type2', text: '我感觉自己被重视是因为我对别人有用。' },
+            // 类型3 - 成就型 (6题)
+            { dim: 'type3', text: '我非常重视成功和成就。' },
+            { dim: 'type3', text: '我善于展现自己最好的一面。' },
+            { dim: 'type3', text: '我害怕失败和被人看不起。' },
+            { dim: 'type3', text: '我经常设定高目标并努力实现。' },
+            { dim: 'type3', text: '我注重形象和他人对我的看法。' },
+            { dim: 'type3', text: '我相信"结果"比"过程"更重要。' },
+            // 类型4 - 自我型 (6题)
+            { dim: 'type4', text: '我渴望找到真正的自我和独特身份。' },
+            { dim: 'type4', text: '我经常感到自己与他人不同。' },
+            { dim: 'type4', text: '我容易被美的、深刻的事物吸引。' },
+            { dim: 'type4', text: '我害怕生活是平淡和没有意义的。' },
+            { dim: 'type4', text: '我倾向于关注缺失的东西而不是已有的。' },
+            { dim: 'type4', text: '我觉得自己的情感体验比常人更深。' },
+            // 类型5 - 理智型 (6题)
+            { dim: 'type5', text: '我渴望获得知识和理解世界。' },
+            { dim: 'type5', text: '我害怕自己无知或无能。' },
+            { dim: 'type5', text: '我习惯先观察和思考，再行动。' },
+            { dim: 'type5', text: '我重视独立的思考空间。' },
+            { dim: 'type5', text: '我倾向于用理性来应对情绪。' },
+            { dim: 'type5', text: '我觉得自己需要足够的资源才能安心。' },
+            // 类型6 - 忠诚型 (6题)
+            { dim: 'type6', text: '我经常为可能的危险和问题做准备。' },
+            { dim: 'type6', text: '我渴望安全和稳定的支持系统。' },
+            { dim: 'type6', text: '我重视忠诚和承诺。' },
+            { dim: 'type6', text: '我做决定时常常犹豫不决。' },
+            { dim: 'type6', text: '我信任权威但也有怀疑倾向。' },
+            { dim: 'type6', text: '我害怕没有依靠和支持。' },
+            // 类型7 - 活跃型 (6题)
+            { dim: 'type7', text: '我追求快乐和新鲜的体验。' },
+            { dim: 'type7', text: '我害怕被限制、感到痛苦或无聊。' },
+            { dim: 'type7', text: '我善于看到事情积极的一面。' },
+            { dim: 'type7', text: '我很难专注于一件事，想要尝试所有。' },
+            { dim: 'type7', text: '我避免面对负面情绪。' },
+            { dim: 'type7', text: '我觉得生活应该充满乐趣和冒险。' },
+            // 类型8 - 领袖型 (6题)
+            { dim: 'type8', text: '我渴望掌控和保护自己和他人。' },
+            { dim: 'type8', text: '我害怕被伤害或被控制。' },
+            { dim: 'type8', text: '我敢于直接表达自己的想法。' },
+            { dim: 'type8', text: '我习惯面对冲突而不是回避。' },
+            { dim: 'type8', text: '我重视力量和独立。' },
+            { dim: 'type8', text: '我相信"强者"才能生存。' },
+            // 类型9 - 和平型 (6题)
+            { dim: 'type9', text: '我渴望内心和人际关系的和谐。' },
+            { dim: 'type9', text: '我害怕冲突和分离。' },
+            { dim: 'type9', text: '我习惯忽略自己的需求来维持和平。' },
+            { dim: 'type9', text: '我倾向于回避矛盾和对抗。' },
+            { dim: 'type9', text: '我容易吸收他人的立场，难以确定自己的。' },
+            { dim: 'type9', text: '我觉得平静比一切更重要。' }
+        ];
+
+        // 类型元数据
+        const typeMeta = {
+            type1: { id:1, name:'完美型', alias:'改革者', icon:'⚖️', color:'#4f46e5', bg:'#eef2ff',
+                fear:'害怕自己变坏、腐败、不完美', desire:'渴望正确、完美、有道德',
+                tagline:'“我追求正确和完美”',
+                desc:'完美型人格的核心动机是“做正确的事”。你内心有一个严厉的批评者，不断审视自己和他人是否符合标准。你追求道德、秩序和完美，但也容易因不完美而焦虑和自责。',
+                behavior:'你注重细节，善于发现问题，做事有条理。你是规则的维护者，希望世界按“正确”的方式运转。你对自己和他人都有很高的期望，常常用“应该”和“必须”来要求自己。',
+                stress:'在压力下，你变得更加挑剔、苛责，容易愤怒和批判。你会过度关注错误和不足，变得僵硬和不宽容。你可能会陷入“非黑即白”的思维，失去灵活性和幽默感。',
+                growth:'学习接纳不完美，允许自己犯错。练习放松标准，培养幽默感和弹性。认识到“足够好”也是好的，快乐比正确更重要。关注过程而非结果。',
+                career:'审计师、法官、编辑、质量控制、教育工作者、宗教人士、道德哲学家、非营利组织负责人。',
+                relation:'你是一个可靠和负责的伴侣/朋友，但可能让关系显得紧张。你容易批评他人，需要学会表达欣赏和温暖。你的高标准可能让人感到压力，学习放松要求。',
+                advice:'练习自我同理心，减少自我批评。每天做一件“不完美但快乐”的事。学习欣赏他人和世界的多样性，放下“唯一正确”的执念。',
+                quote:'“不要因为追求完美而错过美好的生活。”'
+            },
+            type2: { id:2, name:'助人型', alias:'给予者', icon:'🤝', color:'#ec4899', bg:'#fdf2f8',
+                fear:'害怕不被爱、不被需要、被遗弃', desire:'渴望被爱、被需要、被感激',
+                tagline:'“我通过付出来获得爱”',
+                desc:'助人型人格的核心动机是“被爱和被需要”。你非常敏感于他人的需求，善于给予关怀和支持。你通过付出来建立连接，但有时会忽略自己的需求，甚至为了取悦他人而失去自我。',
+                behavior:'你主动关心他人，善于察言观色，乐于助人。你是团队中的“润滑剂”，能够营造温暖的氛围。你很难拒绝别人，常常把别人的需求放在自己之前。',
+                stress:'在压力下，你变得过度付出，甚至操控。你会用“牺牲”来获得关注和感激，可能会产生受害者心理。当你的付出不被认可时，你会感到愤怒和受伤。',
+                growth:'学习先照顾好自己的需求，再帮助他人。练习说“不”，建立健康的边界。认识到自己的价值不取决于对别人的用处。允许自己接受别人的帮助。',
+                career:'护士、心理咨询师、社工、教师、人力资源、客服、非营利组织工作、家庭主妇/夫。',
+                relation:'你是一个温暖和体贴的伴侣/朋友，但可能让关系失衡。你容易过度付出，让对方产生压力。学习平衡给予和接受，允许自己偶尔接受照顾。',
+                advice:'每天做一件“只为自己”的事。练习接受赞美和帮助，不把接受视为软弱。记住：你值得被爱，不需要通过付出来证明。',
+                quote:'“爱自己，才能更好地爱他人。”'
+            },
+            type3: { id:3, name:'成就型', alias:'实干者', icon:'🏆', color:'#f59e0b', bg:'#fffbeb',
+                fear:'害怕失败、无价值、被看不起', desire:'渴望成功、被认可、有价值',
+                tagline:'“我通过成功来证明自己”',
+                desc:'成就型人格的核心动机是“获得成功和认可”。你目标明确，行动力强，善于展现自己的优点。你追求卓越，但也可能为了成功而牺牲真实自我，过度关注外界评价。',
+                behavior:'你善于制定目标并高效执行，注重形象和效率。你在职场和社交中表现出色，善于推销自己。你害怕失败，所以总是保持“赢家”的姿态。',
+                stress:'在压力下，你变得过度竞争、急功近利。你会忽略情感和关系，只关注结果。当失败时，你可能会伪装成功或逃避现实。',
+                growth:'学习真实面对自己的情感和脆弱，不必时刻完美。重视“过程”和“关系”的满足感。练习不以外界的成功定义自我价值。',
+                career:'企业家、销售经理、市场总监、演员、政治家、律师、金融分析师、体育教练。',
+                relation:'你是一个有魅力和成功的伴侣/朋友，但可能让人觉得不够真诚。你容易把关系看作“成就”的一部分，需要学习在关系中展现真实的自己。',
+                advice:'每天做一件“没有目的”的事，纯为乐趣。练习倾听而非表现。记住：你本身就是有价值的，不需要用成就来证明。',
+                quote:'“成功不是终点，失败也不是终结，唯有勇气才是永恒。”'
+            },
+            type4: { id:4, name:'自我型', alias:'个人主义者', icon:'🦋', color:'#8b5cf6', bg:'#f5f3ff',
+                fear:'害怕没有身份、失去意义、平凡无奇', desire:'渴望寻找独特的自我和深刻的意义',
+                tagline:'“我渴望成为真正的自己”',
+                desc:'自我型人格的核心动机是“寻找独特的自我和意义”。你情感丰富，富有创造力，追求深度和真实。你渴望与众不同，但也可能因为过度关注缺失而忽略已有的美好。',
+                behavior:'你敏感、艺术、浪漫，常常沉浸在自己的内心世界。你有很强的审美能力，喜欢表达独特的观点。你容易感到“缺失”，总在寻找更完美的自我。',
+                stress:'在压力下，你变得过度忧郁、自我沉溺。你会陷入对过去和缺失的执念，产生强烈的自我否定和嫉妒。你可能变得孤僻和疏离。',
+                growth:'学习欣赏当下和已有的美好，减少与“理想自我”的对比。培养日常生活中的小确幸，允许自己平凡。将创造力转化为实际行动。',
+                career:'艺术家、作家、音乐家、设计师、心理咨询师、导演、摄影师、哲学教授。',
+                relation:'你是一个深刻和真实的伴侣/朋友，但可能情绪波动大。你容易被“懂你的人”吸引，但也容易因为不完美而失望。学习接纳他人的平凡和温暖。',
+                advice:'每天记录三件“我已拥有”的美好事物。练习欣赏普通和平凡。表达感受时，也关心他人的感受。',
+                quote:'“你是独一无二的，和所有人一样。”'
+            },
+            type5: { id:5, name:'理智型', alias:'观察者', icon:'🔬', color:'#06b6d4', bg:'#ecfeff',
+                fear:'害怕无知、无能、依赖他人', desire:'渴望知识、理解、自给自足',
+                tagline:'“我通过知识来获得安全感”',
+                desc:'理智型人格的核心动机是“获得知识和自给自足”。你善于观察和思考，喜欢独立探索世界。你重视理性，倾向于用头脑而非情感应对生活，但有时会疏离情绪和人际关系。',
+                behavior:'你热爱学习，喜欢深入研究感兴趣的话题。你善于分析，习惯先观察再行动。你注重隐私和独立空间，不太擅长表达情感。',
+                stress:'在压力下，你变得过度孤立和退缩。你会陷入空泛的理论和沉思，与现实脱节。你可能变得冷漠和回避社交。',
+                growth:'学习与自己的身体和情感连接，而非只活在头脑中。练习参与而非仅仅观察。允许自己依赖他人，接受合作和共享。',
+                career:'科学家、研究员、程序员、工程师、学者、数据分析师、图书馆员、技术顾问。',
+                relation:'你是一个理性和独立的伴侣/朋友，但可能显得疏离。你需要对方尊重你的空间和独立性。学习分享感受，而非只分享想法。',
+                advice:'每天做一件“身体参与”的事（运动、手工）。练习表达感受而非仅仅是观点。允许自己接受帮助，不把依赖视为软弱。',
+                quote:'“知道自己无知，是智慧的开始。”'
+            },
+            type6: { id:6, name:'忠诚型', alias:'怀疑者', icon:'🛡️', color:'#f97316', bg:'#fff7ed',
+                fear:'害怕没有支持、失去指引、被遗弃', desire:'渴望安全、稳定、可靠的依靠',
+                tagline:'“我通过忠诚来获得安全感”',
+                desc:'忠诚型人格的核心动机是“获得安全和依靠”。你重视忠诚和承诺，善于预见风险，为可能的困难做准备。你可能在信任权威和怀疑权威之间摇摆。',
+                behavior:'你谨慎、负责，喜欢计划和准备。你忠诚于信任的人和团体，但也会不断测试对方的可靠性。你做决定时常常犹豫，需要他人的确认。',
+                stress:'在压力下，你变得过度焦虑和多疑。你会放大风险，陷入对未知的恐惧。你可能变得防御性强，对他人产生不信任。',
+                growth:'学习信任自己的判断力，减少对他人的过度依赖。练习面对不确定性，接受无法完全控制的事实。培养内在的安全感。',
+                career:'风险管理、警察、消防员、社工、医生、护士、质量检验、项目经理、公关。',
+                relation:'你是一个忠诚和可靠的伴侣/朋友，但可能让关系显得紧张。你容易担心和过度保护，需要学习放松控制。练习直接表达需求而非测试对方。',
+                advice:'每天练习“信任一个小事”。学习区分“真实的危险”和“想象的危险”。培养内在的平静和自信。',
+                quote:'“勇气不是没有恐惧，而是带着恐惧依然前行。”'
+            },
+            type7: { id:7, name:'活跃型', alias:'享乐主义者', icon:'🎉', color:'#f43f5e', bg:'#fff1f2',
+                fear:'害怕被限制、痛苦、无聊', desire:'渴望快乐、自由、丰富的体验',
+                tagline:'“我通过快乐来逃避痛苦”',
+                desc:'活跃型人格的核心动机是“追求快乐和自由”。你精力充沛，乐观开朗，善于发现生活的乐趣。你回避痛苦和限制，喜欢尝试新事物，但也容易在三分钟热度中迷失。',
+                behavior:'你热情、好奇、充满创意，是团队中的“气氛组”。你善于看到事物的积极面，但可能忽略负面信息。你难以专注，总是想要更多体验。',
+                stress:'在压力下，你变得过度兴奋或焦虑。你会用更多的活动来逃避问题，导致精疲力尽。你可能变得肤浅和逃避深层情感。',
+                growth:'学习面对而非逃避负面情绪。练习专注和深度，减少“浅尝辄止”的习惯。接纳限制和无聊是生活的一部分。',
+                career:'创业者、活动策划、旅行博主、销售、娱乐业、广告创意、媒体人、培训师。',
+                relation:'你是一个有趣和充满活力的伴侣/朋友，但可能让人觉得不够可靠。你需要学习承诺和深度，而非总是追求新鲜感。练习倾听和陪伴。',
+                advice:'每天完成一件“不有趣但重要”的事。练习享受安静的独处。面对负面情绪时，允许自己在其中停留片刻。',
+                quote:'“真正的自由不是想做什么就做什么，而是不想做什么时可以不做。”'
+            },
+            type8: { id:8, name:'领袖型', alias:'挑战者', icon:'🦅', color:'#1e293b', bg:'#f1f5f9',
+                fear:'害怕被伤害、被控制、被侵犯', desire:'渴望掌控、力量、保护自己和他人',
+                tagline:'“我通过力量来保护自己”',
+                desc:'领袖型人格的核心动机是“掌控和保护”。你强大、直接、果断，勇于面对冲突和挑战。你重视正义和公平，保护弱小，但也可能因过度强势而让人感到压迫。',
+                behavior:'你敢于表达，善于领导，行动力强。你习惯掌控局面，不怕冲突。你保护身边的人，但有时也会过度控制。你重视力量和独立，不愿示弱。',
+                stress:'在压力下，你变得过度强势和攻击性。你会过度控制和支配，变得偏执和好斗。你可能因为害怕脆弱而关闭情感。',
+                growth:'学习承认自己的脆弱和需求。练习柔软和倾听，而非总是占据上风。信任他人，允许自己被保护和照顾。',
+                career:'CEO、军官、律师、企业家、警察、项目经理、工会领袖、教练、创业者。',
+                relation:'你是一个强有力且保护性强的伴侣/朋友，但可能让人觉得压力大。你容易在关系中占据主导地位，需要学习给予对方空间和话语权。练习共情和温和。',
+                advice:'每天练习“听而不是说”。表达愤怒前，先感受自己的脆弱。允许自己偶尔示弱，接受他人的关心。',
+                quote:'“真正的强者，不是没有眼泪，而是含着眼泪依然奔跑。”'
+            },
+            type9: { id:9, name:'和平型', alias:'调停者', icon:'☮️', color:'#10b981', bg:'#ecfdf5',
+                fear:'害怕冲突、分离、失去连接', desire:'渴望内心平静、和谐、融入',
+                tagline:'“我通过和谐来获得安宁”',
+                desc:'和平型人格的核心动机是“维持和谐和连接”。你温和、包容，善于调和矛盾。你避免冲突，有时会忽略自己的需求来维持和平，但也可能因此失去自我。',
+                behavior:'你随和、友善，善于倾听和理解不同立场。你喜欢和平的环境，回避对抗和争执。你容易“吸收”他人的意见，难以确定自己的立场。',
+                stress:'在压力下，你变得过度顺从或顽固。你会通过“关闭”自己来逃避冲突，也可能突然爆发压抑已久的情绪。你可能会“麻痹”自己以避免不和谐。',
+                growth:'学习面对而非逃避冲突，练习表达自己的立场。培养自我觉察，明确自己的需求。允许自己和他人有不同意见，相信关系可以承受分歧。',
+                career:'人力资源、咨询师、调解员、教师、非营利组织、外交官、心理治疗师、社工。',
+                relation:'你是一个平和且包容的伴侣/朋友，但可能让关系缺乏动力。你容易过度妥协，需要学习表达自己的真实想法和需求。练习主动而非被动。',
+                advice:'每天练习表达一个“真实的观点”。把冲突视为成长的机会，而非威胁。学会说“我需要…”，而非永远说“都可以”。',
+                quote:'“真正的和平不是没有冲突，而是在冲突中依然保持连接。”'
+            }
+        };
+
+        // 选择题目索引
+        function getIndices(mode) {
+            const typeGroups = { type1:[], type2:[], type3:[], type4:[], type5:[], type6:[], type7:[], type8:[], type9:[] };
+            allItems.forEach((item, idx) => {
+                if (typeGroups[item.dim]) typeGroups[item.dim].push(idx);
+            });
+            if (mode === 'quick') {
+                // 每个类型取第1题
+                return Object.values(typeGroups).map(arr => arr[0]).filter(i => i !== undefined);
+            } else if (mode === 'medium') {
+                // 每个类型取前3题
+                const selected = [];
+                Object.values(typeGroups).forEach(arr => {
+                    selected.push(arr[0], arr[1], arr[2]);
+                });
+                return selected.filter(i => i !== undefined);
+            } else {
+                return allItems.map((_, i) => i);
+            }
+        }
+
+        // 全局状态
+        let currentQuestions = [], currentAnswers = [], currentIndex = 0, currentMode = 'full';
+        let answerPanelOpen = false;
+
+        const welcome = document.getElementById('welcomeScreen');
+        const testScreen = document.getElementById('testScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer');
+        const answerWrap = document.getElementById('allAnswerWrap');
+        const arrowIcon = document.getElementById('arrowIcon');
+        const answerListDom = document.getElementById('allAnswerList');
+
+        toggleBtn.addEventListener('click', () => {
+            answerPanelOpen = !answerPanelOpen;
+            if (answerPanelOpen) { answerWrap.classList.remove('hidden'); arrowIcon.style.transform = 'rotate(180deg)'; }
+            else { answerWrap.classList.add('hidden'); arrowIcon.style.transform = 'rotate(0deg)'; }
+        });
+
+        window.startTest = function(mode) {
+            currentMode = mode;
+            const indices = getIndices(mode);
+            currentQuestions = indices.map(i => ({ ...allItems[i], index: i }));
+            shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            const typeNames = { type1:'完美型', type2:'助人型', type3:'成就型', type4:'自我型', type5:'理智型', type6:'忠诚型', type7:'活跃型', type8:'领袖型', type9:'和平型' };
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${typeNames[q.dim] || ''}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            const optTexts = ['非常不符合', '比较不符合', '比较符合', '非常符合'];
+            optTexts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-pink-500 bg-pink-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length - 1) ? (currentAnswers[currentIndex] !== null ? "📊 查看报告" : "查看报告") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const done = currentAnswers.filter(a => a !== null).length;
+            const pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() {
+            if (currentAnswers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (testScreen.classList.contains('hidden')) return;
+            if (['1','2','3','4'].includes(e.key)) {
+                const idx = parseInt(e.key) - 1;
+                if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+
+        // ============================================================
+        // 结果计算与展示（丰富版）
+        // ============================================================
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            // 计算各类型得分
+            const scores = { type1:0, type2:0, type3:0, type4:0, type5:0, type6:0, type7:0, type8:0, type9:0 };
+            const counts = { type1:0, type2:0, type3:0, type4:0, type5:0, type6:0, type7:0, type8:0, type9:0 };
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                if (ans === null) return;
+                const raw = ans + 1;
+                if (scores[q.dim] !== undefined) {
+                    scores[q.dim] += raw;
+                    counts[q.dim]++;
+                }
+            });
+
+            // 计算平均分 (0-4)，转为百分比 (0-100)
+            const avgScores = {};
+            const typeOrder = ['type1','type2','type3','type4','type5','type6','type7','type8','type9'];
+            typeOrder.forEach(d => {
+                avgScores[d] = counts[d] > 0 ? Math.round((scores[d] / counts[d]) / 4 * 100) : 0;
+            });
+
+            // 找出主导类型
+            let maxType = 'type1';
+            let maxScore = 0;
+            typeOrder.forEach(d => {
+                if (avgScores[d] > maxScore) { maxScore = avgScores[d]; maxType = d; }
+            });
+
+            // 如果有并列，取第一个
+            const meta = typeMeta[maxType];
+            const typeNum = maxType.replace('type','');
+            const typeName = meta.name;
+            const typeAlias = meta.alias;
+
+            // 渲染主导类型卡片
+            document.getElementById('mainTypeIcon').innerHTML = meta.icon;
+            document.getElementById('mainTypeBadge').className = `result-badge bg-pink-100 text-pink-800 mb-3`;
+            document.getElementById('mainTypeBadge').innerHTML = `${typeNum}号 · ${typeName}`;
+            document.getElementById('mainTypeName').innerHTML = `${typeName} · ${typeAlias}`;
+            document.getElementById('mainTypeTagline').innerHTML = meta.tagline;
+            document.getElementById('mainFear').innerHTML = meta.fear;
+            document.getElementById('mainDesire').innerHTML = meta.desire;
+
+            // 渲染九型分布图
+            const distContainer = document.getElementById('scoreDistribution');
+            distContainer.innerHTML = '';
+            const typeLabels = {
+                type1:'1号完美', type2:'2号助人', type3:'3号成就', type4:'4号自我',
+                type5:'5号理智', type6:'6号忠诚', type7:'7号活跃', type8:'8号领袖', type9:'9号和平'
+            };
+            const colors = ['#4f46e5','#ec4899','#f59e0b','#8b5cf6','#06b6d4','#f97316','#f43f5e','#1e293b','#10b981'];
+            typeOrder.forEach((d, i) => {
+                const val = avgScores[d];
+                const row = document.createElement('div');
+                row.className = 'score-row';
+                row.innerHTML = `
+                    <span class="label">${typeLabels[d]}</span>
+                    <div class="bar-wrap"><div class="bar" style="width:0%;background:${colors[i]};"></div></div>
+                    <span class="value">${val}%</span>
+                `;
+                distContainer.appendChild(row);
+                setTimeout(() => {
+                    const bar = row.querySelector('.bar');
+                    if (bar) bar.style.width = val + '%';
+                }, 200 + i * 50);
+            });
+
+            // 深度解读
+            document.getElementById('deepInterpretation').innerHTML = `
+                <p><strong>核心恐惧：</strong><span class="fear-text">${meta.fear}</span></p>
+                <p><strong>核心欲望：</strong><span class="desire-text">${meta.desire}</span></p>
+                <p>${meta.desc}</p>
+            `;
+
+            // 行为模式
+            document.getElementById('behaviorPattern').innerHTML = `<p>${meta.behavior}</p>`;
+
+            // 压力与成长
+            document.getElementById('stressBehavior').innerHTML = `<p>${meta.stress}</p>`;
+            document.getElementById('growthDirection').innerHTML = `<p>${meta.growth}</p>`;
+
+            // 职业
+            document.getElementById('careerAdvice').innerHTML = `<p>${meta.career}</p>`;
+
+            // 人际关系
+            document.getElementById('relationshipAdvice').innerHTML = `<p>${meta.relation}</p>`;
+
+            // 成长建议
+            document.getElementById('growthAdvice').innerHTML = `<p>${meta.advice}</p>`;
+
+            // 名言
+            document.getElementById('famousQuote').innerHTML = `“${meta.quote}”`;
+
+            // 全部题目回顾
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const labels = ['A','B','C','D'];
+                const optTexts = ['非常不符合', '比较不符合', '比较符合', '非常符合'];
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${optTexts[userSel]}` : "未作答";
+                const raw = userSel !== null ? userSel+1 : 0;
+                const typeNames = { type1:'完美型', type2:'助人型', type3:'成就型', type4:'自我型', type5:'理智型', type6:'忠诚型', type7:'活跃型', type8:'领袖型', type9:'和平型' };
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border border-slate-200 bg-white`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2"><span class="font-bold text-slate-800">第${i+1}题【${typeNames[q.dim] || ''}】</span></div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs text-slate-500">你的选择：${userSelText} · 得分：${raw}</div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        window.restart = function() {
+            resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0,0);
+        };
+
+        document.getElementById('breathCircle').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10);
+        });
+    </script>
+</body>
+</html>
