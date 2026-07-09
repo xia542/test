@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>心理幸福感量表(PWB) · 你的幸福蓝图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #fefce8 0%, #fef3c7 100%); min-height: 100vh; font-family: 'Noto Sans SC', sans-serif; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #f59e0b, #d97706); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #fcd34d; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #f59e0b; background: #fef3c7; transform: translateX(5px); }
+        .option-card.selected { border-color: #d97706; background: #fde68a; box-shadow: 0 2px 12px rgba(217,119,6,0.15); }
+        .glass-card { background: rgba(255,255,245,0.85); backdrop-filter: blur(8px); border: 1px solid #fcd34d; }
+        .fade-in { animation: fadePop 0.3s ease-out; } @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .insight-card { transition: all 0.2s; } .insight-card:hover { transform: translateY(-2px); }
+        .dimension-card { border-left: 6px solid; transition: all 0.2s; } .dimension-card:hover { transform: translateX(4px); }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .disclaimer { background: #fefce8; border-left: 4px solid #f59e0b; }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-seedling mr-1"></i> 幸福是一种能力</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-amber-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-sun text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-amber-700 to-orange-700 bg-clip-text text-transparent">心理幸福感量表 (PWB)</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-amber-200 text-amber-600">
+                <i class="fa-regular fa-clipboard mr-1"></i> 幸福六维度
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🌻💛✨</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">心理幸福感量表 (PWB)</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">自我接纳 · 积极关系 · 自主性 · 环境掌控 · 生活目标 · 个人成长<br>探索你的幸福蓝图</p>
+                <p class="text-xs text-amber-500 mt-1 mb-6">✨ 经典量表 · 自我觉察 · 幸福探索 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🌱</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，感受此刻的平静</p>
+                            <div class="bg-amber-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 请根据最近两周的真实感受作答</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-amber-200 hover:border-amber-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">12题 · 快筛</h3>
+                        <p class="text-xs text-slate-400">3分钟 · 初步了解</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-orange-200 hover:border-orange-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">24题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 较全面评估</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-yellow-200 hover:border-yellow-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">36题 · 完整版</h3>
+                        <p class="text-xs text-slate-400">10分钟 · 六维精测</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 基于Ryff心理幸福感模型 · 结果含六维分析</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-amber-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-amber-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 自我接纳</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-amber-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-amber-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的心理幸福感报告</h3>
+                <p class="text-sm text-slate-500">幸福不是状态，是一种持续的内在能力</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-center">
+                    <div><div class="text-xs text-slate-500">自我接纳</div><div id="score_selfaccept" class="text-xl font-bold text-indigo-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">积极关系</div><div id="score_posrel" class="text-xl font-bold text-rose-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">自主性</div><div id="score_autonomy" class="text-xl font-bold text-emerald-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">环境掌控</div><div id="score_envmaster" class="text-xl font-bold text-amber-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">生活目标</div><div id="score_purpose" class="text-xl font-bold text-cyan-600">--</div></div>
+                    <div><div class="text-xs text-slate-500">个人成长</div><div id="score_pgrowth" class="text-xl font-bold text-purple-600">--</div></div>
+                </div>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div id="overallBar" class="bg-gradient-to-r from-amber-500 to-orange-500 h-1.5 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="overallLabel" class="text-xs text-slate-400 mt-2">综合心理幸福感</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="dimension-card bg-indigo-50/60 rounded-2xl p-5 border-indigo-400">
+                    <h3 class="font-bold text-indigo-800 flex gap-2"><i class="fa-regular fa-heart"></i> 自我接纳</h3>
+                    <div id="analysis_selfaccept" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-rose-50/60 rounded-2xl p-5 border-rose-400">
+                    <h3 class="font-bold text-rose-800 flex gap-2"><i class="fa-regular fa-handshake"></i> 积极关系</h3>
+                    <div id="analysis_posrel" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-emerald-50/60 rounded-2xl p-5 border-emerald-400">
+                    <h3 class="font-bold text-emerald-800 flex gap-2"><i class="fa-regular fa-compass"></i> 自主性</h3>
+                    <div id="analysis_autonomy" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-amber-50/60 rounded-2xl p-5 border-amber-400">
+                    <h3 class="font-bold text-amber-800 flex gap-2"><i class="fa-regular fa-chart-pie"></i> 环境掌控</h3>
+                    <div id="analysis_envmaster" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-cyan-50/60 rounded-2xl p-5 border-cyan-400">
+                    <h3 class="font-bold text-cyan-800 flex gap-2"><i class="fa-regular fa-flag"></i> 生活目标</h3>
+                    <div id="analysis_purpose" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-purple-50/60 rounded-2xl p-5 border-purple-400">
+                    <h3 class="font-bold text-purple-800 flex gap-2"><i class="fa-regular fa-seedling"></i> 个人成长</h3>
+                    <div id="analysis_pgrowth" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-6 border-l-8 border-amber-400">
+                <h3 class="font-bold text-amber-800 flex gap-2"><i class="fa-regular fa-lightbulb"></i> 幸福提升指南</h3>
+                <div id="happinessGuide" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 给你的话</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 幸福行动清单</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-amber-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“幸福不是目的地，而是旅行的方式。”</span>
+            </div>
+            <div class="disclaimer p-4 rounded-xl text-xs text-slate-600 leading-relaxed">
+                <i class="fa-regular fa-triangle-exclamation text-amber-500 mr-1"></i>
+                免责声明：本测试仅供自我参考，不构成专业评估。幸福是一种可以练习的能力。
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-amber-400 text-amber-700 font-medium hover:bg-amber-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-amber-600 text-white font-medium hover:bg-amber-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+计分说明</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">心理幸福感量表(PWB) · 基于Ryff模型</div>
+        </section>
+    </main>
+    <script>
+        const allItems = [
+            // 自我接纳 (selfaccept) - 6题
+            { dim: 'selfaccept', text: '我喜欢自己身上的大多数特点。' },
+            { dim: 'selfaccept', text: '我对自己感到满意，包括我的缺点。' },
+            { dim: 'selfaccept', text: '我能够接受生活中的不完美。' },
+            { dim: 'selfaccept', text: '我觉得自己是一个有价值的人。' },
+            { dim: 'selfaccept', text: '我不会因为自己的不足而过度自责。' },
+            { dim: 'selfaccept', text: '总的来说，我对自己持积极态度。' },
+            // 积极关系 (posrel) - 6题
+            { dim: 'posrel', text: '我有值得信赖和依靠的朋友。' },
+            { dim: 'posrel', text: '我与重要的人之间有着深厚的情感连接。' },
+            { dim: 'posrel', text: '在关系中我能感受到被理解和接纳。' },
+            { dim: 'posrel', text: '我善于建立和维持亲密关系。' },
+            { dim: 'posrel', text: '我愿意为重要的人际关系投入时间和精力。' },
+            { dim: 'posrel', text: '我的关系让我感到充实和安全。' },
+            // 自主性 (autonomy) - 6题
+            { dim: 'autonomy', text: '我能够按照自己的价值观生活。' },
+            { dim: 'autonomy', text: '我不容易被他人的意见所左右。' },
+            { dim: 'autonomy', text: '我能够独立做出重要的决定。' },
+            { dim: 'autonomy', text: '我坚持自己的信念，即使与主流不同。' },
+            { dim: 'autonomy', text: '我的生活方式反映了我真实的自我。' },
+            { dim: 'autonomy', text: '我不需要用他人的标准来评价自己。' },
+            // 环境掌控 (envmaster) - 6题
+            { dim: 'envmaster', text: '我能够有效地管理日常生活中的事务。' },
+            { dim: 'envmaster', text: '我有能力应对生活中的各种挑战。' },
+            { dim: 'envmaster', text: '我能够创造一个让自己舒适的生活环境。' },
+            { dim: 'envmaster', text: '我善于规划自己的时间和精力。' },
+            { dim: 'envmaster', text: '我能很好地适应生活中的变化。' },
+            { dim: 'envmaster', text: '我能够解决生活中遇到的实际问题。' },
+            // 生活目标 (purpose) - 6题
+            { dim: 'purpose', text: '我有清晰的人生方向和目标。' },
+            { dim: 'purpose', text: '我对自己正在做的事情充满意义感。' },
+            { dim: 'purpose', text: '我能够为自己的未来设定明确的目标。' },
+            { dim: 'purpose', text: '我相信自己的努力会带来积极的变化。' },
+            { dim: 'purpose', text: '我的生活有明确的目的和方向感。' },
+            { dim: 'purpose', text: '我对自己的人生道路感到坚定和确信。' },
+            // 个人成长 (pgrowth) - 6题
+            { dim: 'pgrowth', text: '我愿意接受新的挑战和经历。' },
+            { dim: 'pgrowth', text: '我一直在不断学习和成长。' },
+            { dim: 'pgrowth', text: '我觉得自己比以前更加成熟和智慧。' },
+            { dim: 'pgrowth', text: '我享受探索新的可能性和方向。' },
+            { dim: 'pgrowth', text: '我能够从生活中的经历中汲取智慧。' },
+            { dim: 'pgrowth', text: '我对自己的成长和进步感到满意。' }
+        ];
+
+        function getIndices(mode) {
+            const indices = allItems.map((_, i) => i);
+            if (mode === 'quick') {
+                const dims = ['selfaccept', 'posrel', 'autonomy', 'envmaster', 'purpose', 'pgrowth'];
+                const selected = [];
+                dims.forEach(d => {
+                    const items = allItems.map((_, i) => i).filter(i => allItems[i].dim === d);
+                    selected.push(items[0], items[1]);
+                });
+                return selected;
+            }
+            if (mode === 'medium') {
+                const dims = ['selfaccept', 'posrel', 'autonomy', 'envmaster', 'purpose', 'pgrowth'];
+                const selected = [];
+                dims.forEach(d => {
+                    const items = allItems.map((_, i) => i).filter(i => allItems[i].dim === d);
+                    selected.push(items[0], items[1], items[2], items[3]);
+                });
+                return selected;
+            }
+            return indices;
+        }
+
+        let currentQuestions = [],
+            currentAnswers = [],
+            currentIndex = 0,
+            currentMode = 'full',
+            answerPanelOpen = false;
+        const welcome = document.getElementById('welcomeScreen'),
+            testScreen = document.getElementById('testScreen'),
+            resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer'),
+            answerWrap = document.getElementById('allAnswerWrap'),
+            arrowIcon = document.getElementById('arrowIcon'),
+            answerListDom = document.getElementById('allAnswerList');
+        toggleBtn.addEventListener('click', () => { answerPanelOpen = !answerPanelOpen; if (answerPanelOpen) { answerWrap.classList.remove('hidden');
+                arrowIcon.style.transform = 'rotate(180deg)'; } else { answerWrap.classList.add('hidden');
+                arrowIcon.style.transform = 'rotate(0deg)'; } });
+
+        window.startTest = function(mode) {
+            currentMode = mode;
+            const idx = getIndices(mode);
+            currentQuestions = idx.map(i => ({ ...allItems[i], index: i }));
+            shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]]; } return arr; }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            const dimMap = { selfaccept: '自我接纳', posrel: '积极关系', autonomy: '自主性', envmaster: '环境掌控',
+                purpose: '生活目标', pgrowth: '个人成长' };
+            document.getElementById('categoryLabel').innerHTML =
+            `<i class="fa-regular fa-circle-question"></i> ${dimMap[q.dim] || q.dim}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            const optTexts = ['完全不符合', '不太符合', '比较符合', '非常符合'];
+            q.opts = optTexts;
+            optTexts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className =
+                    `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML =
+                    `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-amber-500 bg-amber-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => { currentAnswers[currentIndex] = idx;
+                    renderQuestion(); if (currentIndex < currentQuestions.length - 1) { setTimeout(() => window
+                            .nextQuestion(), 250); } };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length - 1) ? (currentAnswers[currentIndex] !== null ?
+                "📊 查看报告" : "查看报告") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length,
+                done = currentAnswers.filter(a => a !== null).length,
+                pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() { if (currentAnswers[currentIndex] === null) return; if (currentIndex ===
+                currentQuestions.length - 1) { showResult(); } else { currentIndex++;
+                renderQuestion(); } };
+        window.prevQuestion = function() { if (currentIndex > 0) { currentIndex--;
+                renderQuestion(); } };
+        document.addEventListener('keydown', (e) => { if (testScreen.classList.contains('hidden')) return; if (['1', '2',
+                    '3', '4'
+                ].includes(e.key)) { const idx = parseInt(e.key) - 1; if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion(); if (currentIndex < currentQuestions.length - 1) { setTimeout(() => window
+                            .nextQuestion(), 250); } } } else if (e.key === 'Enter') { window.nextQuestion(); } });
+
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            const dims = { selfaccept: 0, posrel: 0, autonomy: 0, envmaster: 0, purpose: 0, pgrowth: 0 };
+            const counts = { selfaccept: 0, posrel: 0, autonomy: 0, envmaster: 0, purpose: 0, pgrowth: 0 };
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                if (ans === null) return;
+                const score = ans + 1;
+                if (dims[q.dim] !== undefined) { dims[q.dim] += score;
+                    counts[q.dim]++; }
+            });
+            const dimMap = { selfaccept: '自我接纳', posrel: '积极关系', autonomy: '自主性', envmaster: '环境掌控', purpose: '生活目标',
+                pgrowth: '个人成长' };
+            const colors = { selfaccept: 'indigo', posrel: 'rose', autonomy: 'emerald', envmaster: 'amber', purpose: 'cyan',
+                pgrowth: 'purple' };
+            const results = {};
+            let totalScore = 0,
+                totalCount = 0;
+            Object.keys(dims).forEach(d => {
+                const avg = counts[d] > 0 ? Math.round((dims[d] / counts[d]) * 25) : 0;
+                results[d] = avg;
+                totalScore += dims[d];
+                totalCount += counts[d];
+                document.getElementById('score_' + d).innerHTML = avg;
+            });
+            const overall = totalCount > 0 ? Math.round((totalScore / totalCount) * 25) : 0;
+            document.getElementById('overallBar').style.width = Math.min(overall, 100) + '%';
+            const labels = ['有待发展', '基本形成', '较为良好', '非常突出'];
+            const idx = overall < 35 ? 0 : overall < 55 ? 1 : overall < 75 ? 2 : 3;
+            document.getElementById('overallLabel').innerHTML =
+            `综合心理幸福感 · ${labels[idx]} (${overall}分)`;
+            // 各维度分析
+            const analysisMap = {
+                selfaccept: d => d < 35 ? '你可能对自己有些苛刻，难以接受自己的不完美。试着像对待朋友一样对待自己，练习自我关怀。' :
+                    d < 55 ? '你能够接纳自己的一部分特点，但有时仍会自我批评。可以多关注自己的优点和进步。' :
+                    d < 75 ? '你有较好的自我接纳能力，能够接受自己的长处和短处。' :
+                    '你有很强的自我接纳能力，能够真诚地欣赏和接纳完整的自己。',
+                posrel: d => d < 35 ? '你可能感到孤独或难以建立亲密关系。可以从小的信任开始，逐步建立人际连接。' :
+                    d < 55 ? '你有一些亲密关系，但可能不够深厚。尝试更主动地表达情感和需求。' :
+                    d < 75 ? '你有良好的人际关系，能够建立信任和亲密的连接。' :
+                    '你的人际关系非常丰富和深厚，能够给予和接受爱和支持。',
+                autonomy: d => d < 35 ? '你可能比较依赖他人的意见和评价。尝试从小事开始独立做决定，培养内在的判断力。' :
+                    d < 55 ? '你有时能够独立决定，但面对压力时容易动摇。练习坚持自己的价值观。' :
+                    d < 75 ? '你有较好的自主性，能够按照自己的价值观生活。' :
+                    '你有很强的自主性，能够独立思考、自主决策，不受外界压力左右。',
+                envmaster: d => d < 35 ? '你可能觉得生活难以掌控。可以从整理环境、制定小计划开始，逐步建立掌控感。' :
+                    d < 55 ? '你能够处理日常事务，但面对复杂情况时可能感到压力。学习时间管理和问题解决技巧。' :
+                    d < 75 ? '你有良好的环境掌控能力，能够有效管理生活和工作。' :
+                    '你有很强的环境掌控能力，能够从容应对各种生活挑战。',
+                purpose: d => d < 35 ? '你可能觉得生活缺乏方向。尝试设定一些短期小目标，慢慢找到让自己感到有意义的事情。' :
+                    d < 55 ? '你有一些大致的方向，但需要更清晰地定义自己的人生目标。' :
+                    d < 75 ? '你有明确的人生方向，对自己的未来充满期待和规划。' :
+                    '你有非常清晰的生活目标和方向，生活充满意义感。',
+                pgrowth: d => d < 35 ? '你可能不太愿意走出舒适区。尝试从小挑战开始，学习新技能或接触新领域。' :
+                    d < 55 ? '你愿意学习新事物，但有时会停滞不前。保持好奇心和开放心态。' :
+                    d < 75 ? '你有较强的个人成长意识，愿意不断学习和进步。' :
+                    '你有很强的个人成长驱动力，持续拓展自己的能力和视野。'
+            };
+            Object.keys(dims).forEach(d => {
+                document.getElementById('analysis_' + d).innerHTML = analysisMap[d](results[d]);
+            });
+            // 幸福指南
+            const topDims = Object.keys(results).filter(d => results[d] >= 70);
+            const lowDims = Object.keys(results).filter(d => results[d] < 50);
+            let guide = '<p>🌻 你的幸福蓝图正在展开。</p>';
+            if (topDims.length > 0) {
+                guide += `<p>🌟 你在 <strong>${topDims.map(d=>dimMap[d]).join('、')}</strong> 上已有良好的基础，这是你幸福的重要支柱。</p>`;
+            }
+            if (lowDims.length > 0) {
+                guide +=
+                    `<p>🪴 在 <strong>${lowDims.map(d=>dimMap[d]).join('、')}</strong> 方面还有成长空间，这正是你通往更完整幸福的方向。</p>`;
+            }
+            guide +=
+                '<p>💡 幸福不是完美的状态，而是一个不断成长和整合的过程。每个维度都是你生命拼图的一部分，它们共同构成了你独特的幸福蓝图。</p>';
+            document.getElementById('happinessGuide').innerHTML = guide;
+            // 情绪价值
+            const boosts = [
+                '你已经开始了探索幸福的旅程，这就是最重要的第一步。你值得拥有丰盛而完整的人生。',
+                '幸福不是要成为别人，而是要成为更完整的自己。你已经在这条路上了。',
+                '你的存在本身就是意义所在。你不需要通过“变得更好”来证明自己值得幸福。',
+                '幸福是一种内在的能力，它已经在你的心中。你只需要允许它生长。',
+                '每一次对自己的看见和接纳，都是在浇灌幸福的种子。'
+            ];
+            document.getElementById('emotionalBoost').innerHTML = `“${boosts[Math.floor(Math.random()*boosts.length)]}”`;
+            document.getElementById('actionPlan').innerHTML = `
+                <p>✅ 每天写下一件让你感到感激的事</p>
+                <p>✅ 每周做一件“真正为自己”的事，不带有任何目的性</p>
+                <p>✅ 尝试与一个人进行深度对话，分享你的真实感受</p>
+                <p>✅ 设定一个小目标，并制定完成它的步骤</p>
+                <p>✅ 每天花5分钟独处，感受自己的存在</p>
+            `;
+            const quotes = [
+                '“幸福不是目的地，而是旅行的方式。”',
+                '“真正的幸福来自于成为自己人生的作者。”',
+                '“幸福不是拥有最好的，而是把拥有的变成最好的。”',
+                '“幸福是一种技能，需要不断练习。”'
+            ];
+            document.getElementById('famousQuote').innerHTML = `“${quotes[Math.floor(Math.random()*quotes.length)]}”`;
+            // 全部题目
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const labels = ['A', 'B', 'C', 'D'];
+                const optTexts = ['完全不符合', '不太符合', '比较符合', '非常符合'];
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${optTexts[userSel]}` : "未作答";
+                const dimMap2 = { selfaccept: '自我接纳', posrel: '积极关系', autonomy: '自主性', envmaster: '环境掌控',
+                    purpose: '生活目标', pgrowth: '个人成长' };
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border border-slate-200 bg-white`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2"><span class="font-bold text-slate-800">第${i+1}题【${dimMap2[q.dim]}】</span></div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs text-slate-500">你的选择：${userSelText} · 得分：${userSel !== null ? userSel+1 : '-'}</div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+            window.scrollTo(0, 0);
+        }
+        window.restart = function() { resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0, 0); };
+        document.getElementById('breathCircle').addEventListener('click', function() { this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10); });
+    </script>
+</body>
+</html>
