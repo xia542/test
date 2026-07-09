@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>大五人格测试 · OCEAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh; font-family: 'Noto Sans SC', sans-serif; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #3b82f6, #1d4ed8); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #bfdbfe; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #3b82f6; background: #eff6ff; transform: translateX(5px); }
+        .option-card.selected { border-color: #2563eb; background: #dbeafe; box-shadow: 0 2px 12px rgba(37,99,235,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #bfdbfe; }
+        .fade-in { animation: fadePop 0.3s ease-out; } @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .insight-card { transition: all 0.2s; } .insight-card:hover { transform: translateY(-2px); }
+        .dimension-card { border-left: 6px solid; transition: all 0.2s; } .dimension-card:hover { transform: translateX(4px); }
+        .radar-container { position: relative; width: 200px; height: 200px; margin: 0 auto; }
+        .radar-container canvas { width: 100%; height: 100%; }
+        .dimension-label { font-size: 11px; font-weight: 600; }
+        .score-bar-bg { background: #e2e8f0; border-radius: 20px; height: 10px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 20px; transition: width 0.8s ease; }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .disclaimer { background: #f0f9ff; border-left: 4px solid #3b82f6; }
+        .detail-card { background: white; border-radius: 16px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+        .detail-card h4 { font-weight: 700; margin-bottom: 6px; }
+        .tag { display: inline-block; padding: 2px 12px; border-radius: 30px; font-size: 11px; font-weight: 600; }
+        .tag-high { background: #dbeafe; color: #1d4ed8; }
+        .tag-low { background: #f3e8ff; color: #7c3aed; }
+        .tag-mid { background: #fef3c7; color: #b45309; }
+        @media (max-width: 640px) { .radar-container { width: 160px; height: 160px; } }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-compass mr-1"></i> 认识自己，是智慧的开始</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-blue-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-chart-bar text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">大五人格测试 · OCEAN</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-blue-200 text-blue-600">
+                <i class="fa-regular fa-star mr-1"></i> 心理学界公认
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🌊⛵🧭</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">大五人格测试 · OCEAN</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">开放性 · 责任心 · 外向性 · 宜人性 · 神经质<br>描绘你的人格画像</p>
+                <p class="text-xs text-blue-500 mt-1 mb-6">✨ 心理学界公认度最高的人格模型之一 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🎯</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸，凭直觉作答</p>
+                            <div class="bg-blue-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 请根据真实感受作答 · 没有好坏之分</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-blue-200 hover:border-blue-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快筛</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 初步轮廓</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-indigo-200 hover:border-indigo-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">5分钟 · 较精准</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">50题 · 完整版</h3>
+                        <p class="text-xs text-slate-400">10分钟 · 深度解析</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 完整版包含五维度各10题 · 结果含雷达图、详细解读、职业与关系建议</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-blue-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-blue-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 开放性</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-blue-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-blue-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">🧩 你的大五人格画像</h3>
+                <p class="text-sm text-slate-500">五个维度共同构成了独特的你</p>
+            </div>
+            <!-- 雷达图 + 概览 -->
+            <div class="bg-white rounded-2xl shadow-xl p-6">
+                <div class="flex flex-col md:flex-row items-center gap-6">
+                    <div class="radar-container">
+                        <canvas id="radarCanvas" width="200" height="200"></canvas>
+                    </div>
+                    <div class="flex-1 grid grid-cols-2 md:grid-cols-1 gap-1 text-sm">
+                        <div><span class="font-bold text-indigo-600">开放性</span> <span id="ov_openness" class="float-right">--</span></div>
+                        <div><span class="font-bold text-emerald-600">责任心</span> <span id="ov_conscientiousness" class="float-right">--</span></div>
+                        <div><span class="font-bold text-amber-600">外向性</span> <span id="ov_extraversion" class="float-right">--</span></div>
+                        <div><span class="font-bold text-rose-600">宜人性</span> <span id="ov_agreeableness" class="float-right">--</span></div>
+                        <div><span class="font-bold text-purple-600">神经质</span> <span id="ov_neuroticism" class="float-right">--</span></div>
+                    </div>
+                </div>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div id="overallBar" class="bg-gradient-to-r from-blue-500 to-indigo-500 h-1.5 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="overallLabel" class="text-xs text-slate-400 mt-2">综合人格特质强度</p>
+            </div>
+            <!-- 五维度详细卡片 -->
+            <div id="dimensionDetails" class="space-y-4"></div>
+            <!-- 综合描述 -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border-l-8 border-blue-400">
+                <h3 class="font-bold text-blue-800 flex gap-2"><i class="fa-regular fa-compass"></i> 你的人格综合描述</h3>
+                <div id="comprehensiveDesc" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <!-- 职业推荐 & 人际关系 -->
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-emerald-700 flex gap-2"><i class="fa-regular fa-briefcase"></i> 适合的职业方向</h3>
+                    <div id="careerAdvice" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 insight-card">
+                    <h3 class="font-bold text-rose-700 flex gap-2"><i class="fa-regular fa-handshake"></i> 人际关系风格</h3>
+                    <div id="relationshipAdvice" class="text-sm text-slate-600 mt-2"></div>
+                </div>
+            </div>
+            <!-- 成长建议 -->
+            <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-seedling"></i> 自我成长与关怀</h3>
+                <div id="growthAdvice" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+            </div>
+            <!-- 名言 -->
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-blue-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“认识你自己。” — 苏格拉底</span>
+            </div>
+            <div class="disclaimer p-4 rounded-xl text-xs text-slate-600 leading-relaxed">
+                <i class="fa-regular fa-triangle-exclamation text-blue-500 mr-1"></i>
+                免责声明：本测试仅供自我参考，不构成专业评估。大五人格是描述性模型，无好坏之分。
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-blue-400 text-blue-700 font-medium hover:bg-blue-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+计分</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">大五人格测试 · OCEAN · 基于Costa & McCrae</div>
+        </section>
+    </main>
+    <script>
+        // ============================================================
+        // 题库：50题，每个维度10题，部分反向
+        // 维度: O-开放性, C-责任心, E-外向性, A-宜人性, N-神经质
+        // 选项: 1=非常不符合, 2=比较不符合, 3=比较符合, 4=非常符合
+        // reverse: true 表示反向计分
+        // ============================================================
+        const allItems = [
+            // 开放性 (O)
+            { dim: 'openness', text: '我对抽象概念和理论很感兴趣。', reverse: false },
+            { dim: 'openness', text: '我享受探索不同的文化和观点。', reverse: false },
+            { dim: 'openness', text: '我经常有新的创意和想法。', reverse: false },
+            { dim: 'openness', text: '我喜欢思考人生的意义和目的。', reverse: false },
+            { dim: 'openness', text: '我对艺术和美学有很高的鉴赏力。', reverse: false },
+            { dim: 'openness', text: '我更倾向于传统和常规的方法。', reverse: true },
+            { dim: 'openness', text: '我不太喜欢尝试新的食物或活动。', reverse: true },
+            { dim: 'openness', text: '我很少对深奥的思想产生兴趣。', reverse: true },
+            { dim: 'openness', text: '我觉得改变是麻烦的。', reverse: true },
+            { dim: 'openness', text: '我更喜欢熟悉的套路，而不是冒险。', reverse: true },
+            // 责任心 (C)
+            { dim: 'conscientiousness', text: '我做事很有条理，注重细节。', reverse: false },
+            { dim: 'conscientiousness', text: '我认真完成每一项任务。', reverse: false },
+            { dim: 'conscientiousness', text: '我善于规划时间和资源。', reverse: false },
+            { dim: 'conscientiousness', text: '我追求高标准，尽力做到最好。', reverse: false },
+            { dim: 'conscientiousness', text: '我是一个可靠和负责任的人。', reverse: false },
+            { dim: 'conscientiousness', text: '我常常拖延重要的事情。', reverse: true },
+            { dim: 'conscientiousness', text: '我容易分心，很难专注。', reverse: true },
+            { dim: 'conscientiousness', text: '我不太在意细节。', reverse: true },
+            { dim: 'conscientiousness', text: '我做事比较随意，缺乏计划。', reverse: true },
+            { dim: 'conscientiousness', text: '我经常半途而废。', reverse: true },
+            // 外向性 (E)
+            { dim: 'extraversion', text: '我喜欢与人交往，享受社交活动。', reverse: false },
+            { dim: 'extraversion', text: '我精力充沛，喜欢热闹的场合。', reverse: false },
+            { dim: 'extraversion', text: '我容易与人建立联系，有很多朋友。', reverse: false },
+            { dim: 'extraversion', text: '我在人群中感到充满能量。', reverse: false },
+            { dim: 'extraversion', text: '我是一个爱说话的人。', reverse: false },
+            { dim: 'extraversion', text: '我更喜欢独处，不太喜欢社交。', reverse: true },
+            { dim: 'extraversion', text: '我觉得社交很累，需要恢复时间。', reverse: true },
+            { dim: 'extraversion', text: '我在陌生人面前很害羞。', reverse: true },
+            { dim: 'extraversion', text: '我很少主动联系朋友。', reverse: true },
+            { dim: 'extraversion', text: '我倾向于安静和反思。', reverse: true },
+            // 宜人性 (A)
+            { dim: 'agreeableness', text: '我关心他人的感受和需要。', reverse: false },
+            { dim: 'agreeableness', text: '我乐于助人，愿意为他人付出。', reverse: false },
+            { dim: 'agreeableness', text: '我善于合作，能够与他人和谐相处。', reverse: false },
+            { dim: 'agreeableness', text: '我同情那些遇到困难的人。', reverse: false },
+            { dim: 'agreeableness', text: '我容易信任他人，相信人性本善。', reverse: false },
+            { dim: 'agreeableness', text: '我有时会冷淡和漠不关心。', reverse: true },
+            { dim: 'agreeableness', text: '我倾向于批评和挑剔他人。', reverse: true },
+            { dim: 'agreeableness', text: '我更喜欢竞争而不是合作。', reverse: true },
+            { dim: 'agreeableness', text: '我对他人的问题不感兴趣。', reverse: true },
+            { dim: 'agreeableness', text: '我可能有点自私和以自我为中心。', reverse: true },
+            // 神经质 (N)
+            { dim: 'neuroticism', text: '我经常感到焦虑和紧张。', reverse: false },
+            { dim: 'neuroticism', text: '我容易情绪波动，喜怒无常。', reverse: false },
+            { dim: 'neuroticism', text: '我很容易感到压力。', reverse: false },
+            { dim: 'neuroticism', text: '我常常担心不好的事情会发生。', reverse: false },
+            { dim: 'neuroticism', text: '我情绪低落的时候较多。', reverse: false },
+            { dim: 'neuroticism', text: '我通常能够保持情绪稳定。', reverse: true },
+            { dim: 'neuroticism', text: '我很少感到紧张或焦虑。', reverse: true },
+            { dim: 'neuroticism', text: '我对自己有自信，不易动摇。', reverse: true },
+            { dim: 'neuroticism', text: '我能够很好地应对挫折。', reverse: true },
+            { dim: 'neuroticism', text: '我大部分时间心情愉快。', reverse: true }
+        ];
+
+        // 维度信息
+        const dimInfo = {
+            openness: { label: '开放性', icon: '🎨', color: 'indigo', description: '对经验、创意、新事物的开放程度。' },
+            conscientiousness: { label: '责任心', icon: '📋', color: 'emerald', description: '自律、有条理、追求成就的程度。' },
+            extraversion: { label: '外向性', icon: '🌟', color: 'amber', description: '社交活力、热情、积极情绪的程度。' },
+            agreeableness: { label: '宜人性', icon: '🤝', color: 'rose', description: '合作、信任、关怀他人的程度。' },
+            neuroticism: { label: '神经质', icon: '🌊', color: 'purple', description: '情绪稳定性、对压力的敏感程度。' }
+        };
+
+        // 选择题目索引
+        function getIndices(mode) {
+            const all = allItems.map((_, i) => i);
+            if (mode === 'quick') {
+                // 每个维度取2题（正反各1题，尽量均匀）
+                const dims = ['openness','conscientiousness','extraversion','agreeableness','neuroticism'];
+                const selected = [];
+                dims.forEach(d => {
+                    const items = allItems.map((_,i)=>i).filter(i => allItems[i].dim === d);
+                    // 取前2个（正反各1）
+                    selected.push(items[0], items[items.length-1]);
+                });
+                return selected;
+            } else if (mode === 'medium') {
+                // 每个维度取5题
+                const dims = ['openness','conscientiousness','extraversion','agreeableness','neuroticism'];
+                const selected = [];
+                dims.forEach(d => {
+                    const items = allItems.map((_,i)=>i).filter(i => allItems[i].dim === d);
+                    selected.push(items[0], items[1], items[2], items[3], items[4]);
+                });
+                return selected;
+            } else {
+                return all;
+            }
+        }
+
+        // 全局状态
+        let currentQuestions = [], currentAnswers = [], currentIndex = 0, currentMode = 'full';
+        let answerPanelOpen = false;
+
+        const welcome = document.getElementById('welcomeScreen');
+        const testScreen = document.getElementById('testScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer');
+        const answerWrap = document.getElementById('allAnswerWrap');
+        const arrowIcon = document.getElementById('arrowIcon');
+        const answerListDom = document.getElementById('allAnswerList');
+
+        toggleBtn.addEventListener('click', () => {
+            answerPanelOpen = !answerPanelOpen;
+            if (answerPanelOpen) { answerWrap.classList.remove('hidden'); arrowIcon.style.transform = 'rotate(180deg)'; }
+            else { answerWrap.classList.add('hidden'); arrowIcon.style.transform = 'rotate(0deg)'; }
+        });
+
+        window.startTest = function(mode) {
+            currentMode = mode;
+            const indices = getIndices(mode);
+            currentQuestions = indices.map(i => ({ ...allItems[i], index: i }));
+            shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            const dimLabel = dimInfo[q.dim].label;
+            document.getElementById('categoryLabel').innerHTML = `<i class="fa-regular fa-circle-question"></i> ${dimLabel}`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            const optTexts = ['非常不符合', '比较不符合', '比较符合', '非常符合'];
+            optTexts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML = `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-blue-500 bg-blue-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length - 1) ? (currentAnswers[currentIndex] !== null ? "📊 查看报告" : "查看报告") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const done = currentAnswers.filter(a => a !== null).length;
+            const pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() {
+            if (currentAnswers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (testScreen.classList.contains('hidden')) return;
+            if (['1','2','3','4'].includes(e.key)) {
+                const idx = parseInt(e.key) - 1;
+                if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+
+        // ============================================================
+        // 结果计算与展示（丰富版）
+        // ============================================================
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            // 计算各维度得分
+            const dimScores = { openness:0, conscientiousness:0, extraversion:0, agreeableness:0, neuroticism:0 };
+            const dimCounts = { openness:0, conscientiousness:0, extraversion:0, agreeableness:0, neuroticism:0 };
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                if (ans === null) return;
+                let raw = ans + 1; // 1-4
+                if (q.reverse) raw = 5 - raw;
+                if (dimScores[q.dim] !== undefined) {
+                    dimScores[q.dim] += raw;
+                    dimCounts[q.dim]++;
+                }
+            });
+
+            // 转换为0-100分（每个维度平均分 * 25）
+            const dimPercent = {};
+            Object.keys(dimScores).forEach(d => {
+                const avg = dimCounts[d] > 0 ? dimScores[d] / dimCounts[d] : 0;
+                dimPercent[d] = Math.round((avg / 4) * 100);
+                document.getElementById('ov_' + d).innerHTML = dimPercent[d] + '%';
+            });
+
+            // 总体强度（平均百分比）
+            const overall = Math.round(Object.values(dimPercent).reduce((a,b) => a+b, 0) / 5);
+            document.getElementById('overallBar').style.width = Math.min(overall, 100) + '%';
+            const overallLabels = ['平衡型', '中等', '较突出', '鲜明'];
+            const idx = overall < 40 ? 0 : overall < 60 ? 1 : overall < 80 ? 2 : 3;
+            document.getElementById('overallLabel').innerHTML = `综合人格强度 · ${overallLabels[idx]} (${overall}%)`;
+
+            // 绘制雷达图
+            drawRadar(dimPercent);
+
+            // 生成维度详细卡片
+            const detailsContainer = document.getElementById('dimensionDetails');
+            detailsContainer.innerHTML = '';
+            const dimOrder = ['openness','conscientiousness','extraversion','agreeableness','neuroticism'];
+            dimOrder.forEach(d => {
+                const info = dimInfo[d];
+                const score = dimPercent[d];
+                const level = score < 40 ? '低' : score < 60 ? '中等' : '高';
+                const tagClass = score < 40 ? 'tag-low' : score < 60 ? 'tag-mid' : 'tag-high';
+                const tagText = score < 40 ? '倾向低' : score < 60 ? '中等' : '倾向高';
+                // 解读文本
+                let interpretation = '';
+                if (d === 'openness') {
+                    interpretation = score < 40 ? '你可能更务实、偏好常规，倾向于保守和传统。' :
+                        score < 60 ? '你对新鲜事物有一定兴趣，但在面对重大变化时可能仍会犹豫。' :
+                        '你充满好奇，喜欢探索新想法、新体验，对艺术和美有敏锐的感受力。';
+                } else if (d === 'conscientiousness') {
+                    interpretation = score < 40 ? '你更随性，喜欢灵活安排，不太在意细节和计划。' :
+                        score < 60 ? '你在重要事情上会认真负责，但也允许自己偶尔放松。' :
+                        '你高度自律，有条不紊，追求卓越，是值得信赖的执行者。';
+                } else if (d === 'extraversion') {
+                    interpretation = score < 40 ? '你内向安静，更享受独处，在社交后需要时间恢复。' :
+                        score < 60 ? '你能适应社交场合，但也需要独处时间。' :
+                        '你充满活力，热爱社交，是人群中的能量来源。';
+                } else if (d === 'agreeableness') {
+                    interpretation = score < 40 ? '你较为怀疑、批判，注重保护自己，不太轻易信任他人。' :
+                        score < 60 ? '你能够合作，但在冲突时倾向于优先考虑自己的利益。' :
+                        '你温暖体贴，信任他人，善于合作和化解冲突。';
+                } else if (d === 'neuroticism') {
+                    interpretation = score < 40 ? '你情绪稳定，即使压力下也能保持平静，不易焦虑。' :
+                        score < 60 ? '你有正常的情绪波动，能够应对日常压力。' :
+                        '你比较敏感，容易紧张和焦虑，情绪波动较大。';
+                }
+                const card = document.createElement('div');
+                card.className = `detail-card`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">${info.icon}</span>
+                        <h4 class="text-slate-800">${info.label}</h4>
+                        <span class="tag ${tagClass}">${tagText}</span>
+                        <span class="ml-auto font-bold text-slate-600">${score}%</span>
+                    </div>
+                    <div class="score-bar-bg mt-2">
+                        <div class="score-bar-fill bg-${info.color}-500" style="width:0%"></div>
+                    </div>
+                    <p class="text-sm text-slate-600 mt-2">${interpretation}</p>
+                    <div class="text-xs text-slate-500 mt-1">${info.description}</div>
+                    <div class="mt-2 text-xs">
+                        <span class="font-medium">建议：</span>
+                        <span>${getAdvice(d, score)}</span>
+                    </div>
+                `;
+                detailsContainer.appendChild(card);
+                // 延迟动画填充进度条
+                setTimeout(() => {
+                    const fill = card.querySelector('.score-bar-fill');
+                    if (fill) fill.style.width = score + '%';
+                }, 100);
+            });
+
+            // 综合描述
+            const compDesc = generateComprehensiveDesc(dimPercent);
+            document.getElementById('comprehensiveDesc').innerHTML = compDesc;
+
+            // 职业推荐
+            document.getElementById('careerAdvice').innerHTML = getCareerAdvice(dimPercent);
+
+            // 人际关系
+            document.getElementById('relationshipAdvice').innerHTML = getRelationshipAdvice(dimPercent);
+
+            // 成长建议
+            document.getElementById('growthAdvice').innerHTML = getGrowthAdvice(dimPercent);
+
+            // 名言
+            const quotes = [
+                '“认识你自己。” — 苏格拉底',
+                '“性格决定命运。” — 赫拉克利特',
+                '“人应该同时了解自己的优点和缺点。” — 亚里士多德',
+                '“人格是人生的总和。” — 荣格',
+                '“成为你自己。” — 尼采'
+            ];
+            document.getElementById('famousQuote').innerHTML = `“${quotes[Math.floor(Math.random()*quotes.length)]}”`;
+
+            // 全部题目回顾
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const labels = ['A','B','C','D'];
+                const optTexts = ['非常不符合', '比较不符合', '比较符合', '非常符合'];
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${optTexts[userSel]}` : "未作答";
+                const raw = userSel !== null ? userSel+1 : 0;
+                const rev = q.reverse ? (userSel !== null ? 5 - raw : 0) : raw;
+                const dimLabel = dimInfo[q.dim].label;
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border border-slate-200 bg-white`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2"><span class="font-bold text-slate-800">第${i+1}题【${dimLabel}】</span></div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs text-slate-500">你的选择：${userSelText} · 原始分：${raw} ${q.reverse ? '→ 反向分：'+rev : ''}</div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        // 辅助函数：各维度具体建议
+        function getAdvice(dim, score) {
+            const adviceMap = {
+                openness: score < 40 ? '尝试定期接触新事物，如阅读不同领域的书籍、参加文化活动，逐渐拓宽视野。' :
+                    score < 60 ? '保持好奇心，偶尔突破舒适区，你会获得更多成长体验。' :
+                    '你的开放性很高，注意平衡新奇与实用，避免过度追求新意而忽略现实。',
+                conscientiousness: score < 40 ? '建立一些简单的日常习惯，从小处开始培养自律，比如固定作息或每日任务清单。' :
+                    score < 60 ? '继续强化计划能力，但也要允许自己灵活调整，避免完美主义压力。' :
+                    '你的责任心很强，注意放松和休息，避免因过度追求完美而耗竭。',
+                extraversion: score < 40 ? '你不必强迫自己变外向，但可以练习在需要时主动交流，同时在社交后给自己充足的独处时间。' :
+                    score < 60 ? '平衡社交与独处，找到适合自己的节奏。' :
+                    '你的外向性高，注意倾听他人，避免在表达中忽略别人的感受。',
+                agreeableness: score < 40 ? '学会适当开放心扉，信任他人是建立深度关系的基础，但也要保持辨别力。' :
+                    score < 60 ? '在合作中坚持自己的立场，同时尊重他人，寻求双赢。' :
+                    '你的宜人性很高，注意保护自己的边界，学会说“不”，避免过度付出。',
+                neuroticism: score < 40 ? '你情绪稳定，继续保持，同时留意不要压抑负面情绪，适时表达。' :
+                    score < 60 ? '学习压力管理技巧，如正念、运动，以保持情绪平衡。' :
+                    '你的情绪敏感度较高，建议练习正念冥想、深度呼吸，必要时寻求专业支持。'
+            };
+            return adviceMap[dim] || '继续自我探索。';
+        }
+
+        // 综合描述
+        function generateComprehensiveDesc(dimPercent) {
+            const high = [];
+            const low = [];
+            const dims = {
+                openness: '开放性', conscientiousness: '责任心', extraversion: '外向性',
+                agreeableness: '宜人性', neuroticism: '神经质'
+            };
+            Object.keys(dimPercent).forEach(d => {
+                if (dimPercent[d] >= 65) high.push(dims[d]);
+                else if (dimPercent[d] <= 35) low.push(dims[d]);
+            });
+            let desc = '';
+            if (high.length > 0 && low.length > 0) {
+                desc = `你展现出较高的 ${high.join('、')}，同时 ${low.join('、')} 相对较低。`;
+            } else if (high.length > 0) {
+                desc = `你在 ${high.join('、')} 上表现突出，这些是你人格的鲜明特征。`;
+            } else if (low.length > 0) {
+                desc = `你在 ${low.join('、')} 上较为平和，这让你在某些情境下显得从容。`;
+            } else {
+                desc = '你的人格各维度较为均衡，具有很好的适应性和灵活性。';
+            }
+            desc += ' 大五人格没有优劣之分，每种组合都有其独特的优势和挑战。';
+            return desc;
+        }
+
+        // 职业推荐
+        function getCareerAdvice(dimPercent) {
+            const O = dimPercent.openness, C = dimPercent.conscientiousness,
+                  E = dimPercent.extraversion, A = dimPercent.agreeableness,
+                  N = dimPercent.neuroticism;
+            let careers = [];
+            if (O >= 60 && C >= 60) careers.push('研究员、科学家、战略顾问');
+            if (O >= 60 && E >= 60) careers.push('创意总监、艺术家、公关');
+            if (C >= 60 && A >= 60) careers.push('教师、人力资源、咨询师');
+            if (E >= 60 && A >= 60) careers.push('销售、市场营销、客户经理');
+            if (C >= 60 && N <= 40) careers.push('项目经理、工程师、会计师');
+            if (E >= 60 && O >= 50) careers.push('创业者、投资人、媒体');
+            if (A >= 60 && O >= 50) careers.push('社会工作者、心理咨询师、医护人员');
+            if (C >= 60 && E >= 60) careers.push('管理者、领导者');
+            if (careers.length === 0) {
+                careers = ['多元化选择：根据具体兴趣和技能，可在多个领域找到适合的岗位。'];
+            }
+            return '💼 ' + careers.join('；');
+        }
+
+        // 人际关系
+        function getRelationshipAdvice(dimPercent) {
+            const E = dimPercent.extraversion, A = dimPercent.agreeableness, N = dimPercent.neuroticism;
+            let advice = '';
+            if (E >= 60 && A >= 60) advice = '你热情友善，容易吸引他人，擅长营造和谐关系。注意平衡付出与接受。';
+            else if (E >= 60 && A < 40) advice = '你充满活力，但可能有时过于直接。练习倾听和共情，关系会更融洽。';
+            else if (E < 40 && A >= 60) advice = '你温柔体贴，是很好的倾听者。可以适当主动表达自己的需求。';
+            else if (E < 40 && A < 40) advice = '你独立自足，关系中保持一定距离。尝试开放心扉，建立少量深度的连接。';
+            else advice = '你有良好的人际基础，继续用真诚和尊重对待他人。';
+            if (N >= 60) advice += ' 情绪敏感时，先照顾好自己，再与他人互动。';
+            return advice;
+        }
+
+        // 成长建议
+        function getGrowthAdvice(dimPercent) {
+            const O = dimPercent.openness, C = dimPercent.conscientiousness,
+                  E = dimPercent.extraversion, A = dimPercent.agreeableness,
+                  N = dimPercent.neuroticism;
+            let tips = [];
+            if (O < 45) tips.push('🌱 每周尝试一件新事物（新书、新路线），培养好奇心。');
+            if (C < 45) tips.push('📅 建立每日小目标清单，逐步提升执行力。');
+            if (E < 45) tips.push('💬 主动与一位朋友进行一次深度交流，练习社交投入。');
+            if (A < 45) tips.push('❤️ 练习换位思考，每天为他人做一件善事。');
+            if (N > 55) tips.push('🧘 练习正念冥想，每天5分钟，增强情绪调节能力。');
+            if (tips.length === 0) {
+                tips.push('🌟 你已在各维度上较为均衡，继续保持自我觉察和反思。');
+            }
+            tips.push('📖 阅读与人格成长相关的书籍，持续探索自我。');
+            return tips.map(t => '<p>'+t+'</p>').join('');
+        }
+
+        // 雷达图绘制
+        function drawRadar(dimPercent) {
+            const canvas = document.getElementById('radarCanvas');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const cx = w/2, cy = h/2, radius = Math.min(w,h)*0.38;
+            const dims = ['openness','conscientiousness','extraversion','agreeableness','neuroticism'];
+            const labels = ['开放性','责任心','外向性','宜人性','神经质'];
+            const colors = ['#4f46e5','#10b981','#f59e0b','#f43f5e','#8b5cf6'];
+            ctx.clearRect(0,0,w,h);
+            // 绘制网格
+            for (let r = 1; r <= 3; r++) {
+                ctx.beginPath();
+                for (let i=0; i<5; i++) {
+                    const angle = -Math.PI/2 + (i/5)*2*Math.PI;
+                    const x = cx + (radius * r/3) * Math.cos(angle);
+                    const y = cy + (radius * r/3) * Math.sin(angle);
+                    if (i===0) ctx.moveTo(x,y);
+                    else ctx.lineTo(x,y);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+            // 坐标轴
+            for (let i=0; i<5; i++) {
+                const angle = -Math.PI/2 + (i/5)*2*Math.PI;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx + radius*Math.cos(angle), cy + radius*Math.sin(angle));
+                ctx.strokeStyle = '#94a3b8';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                // 标签
+                const labelRadius = radius + 22;
+                const lx = cx + labelRadius * Math.cos(angle);
+                const ly = cy + labelRadius * Math.sin(angle);
+                ctx.fillStyle = '#334155';
+                ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(labels[i], lx, ly);
+            }
+            // 数据点
+            ctx.beginPath();
+            const values = dims.map(d => dimPercent[d] / 100);
+            for (let i=0; i<5; i++) {
+                const angle = -Math.PI/2 + (i/5)*2*Math.PI;
+                const r = radius * values[i];
+                const x = cx + r * Math.cos(angle);
+                const y = cy + r * Math.sin(angle);
+                if (i===0) ctx.moveTo(x,y);
+                else ctx.lineTo(x,y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(79,70,229,0.25)';
+            ctx.fill();
+            ctx.strokeStyle = '#4f46e5';
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+            // 数据点标记
+            for (let i=0; i<5; i++) {
+                const angle = -Math.PI/2 + (i/5)*2*Math.PI;
+                const r = radius * values[i];
+                const x = cx + r * Math.cos(angle);
+                const y = cy + r * Math.sin(angle);
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, 2*Math.PI);
+                ctx.fillStyle = colors[i];
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        window.restart = function() {
+            resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0,0);
+        };
+
+        document.getElementById('breathCircle').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10);
+        });
+    </script>
+</body>
+</html>
