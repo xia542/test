@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>情绪健康双评量表 · SDS抑郁 + SAS焦虑</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); min-height: 100vh; font-family: 'Noto Sans SC', sans-serif; }
+        .breathe-grad { width: 100px; height: 100px; background: radial-gradient(circle, #6366f1, #8b5cf6); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; animation: floatGrad 5s infinite ease-in-out; margin: 0 auto; cursor: pointer; }
+        @keyframes floatGrad { 0%,100% { transform: translateY(0) rotate(0deg); border-radius: 30% 70% 50% 50% / 40% 50% 50% 60%; } 50% { transform: translateY(-8px) rotate(2deg); border-radius: 50% 50% 30% 70% / 50% 40% 60% 50%; } }
+        .option-card { transition: all 0.2s; border: 1.5px solid #c7d2fe; background: white; cursor: pointer; }
+        .option-card:hover { border-color: #6366f1; background: #eef2ff; transform: translateX(5px); }
+        .option-card.selected { border-color: #4f46e5; background: #e0e7ff; box-shadow: 0 2px 12px rgba(79,70,229,0.15); }
+        .glass-card { background: rgba(255,255,255,0.85); backdrop-filter: blur(8px); border: 1px solid #c7d2fe; }
+        .fade-in { animation: fadePop 0.3s ease-out; }
+        @keyframes fadePop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+        .result-badge { display: inline-block; padding: 8px 24px; border-radius: 40px; font-weight: 800; font-size: 1.2rem; }
+        .insight-card { transition: all 0.2s; } .insight-card:hover { transform: translateY(-2px); }
+        .dimension-card { border-left: 6px solid; transition: all 0.2s; }
+        .dimension-card:hover { transform: translateX(4px); }
+        .abandon-sticker { position: fixed; bottom: 20px; right: 20px; background: #fef3c7; border: 2px solid #f59e0b; border-radius: 30px; padding: 8px 16px; font-size: 14px; font-weight: bold; color: #92400e; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 999; animation: bounceSticker 2s infinite; }
+        @keyframes bounceSticker { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .disclaimer { background: #fef2f2; border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="abandon-sticker"><i class="fa-regular fa-heart mr-1"></i> 看见情绪，就是疗愈的开始</div>
+    <nav class="sticky top-0 z-50 glass-card border-b border-indigo-200 shadow-md">
+        <div class="max-w-2xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center shadow-sm">
+                    <i class="fa-regular fa-face-smile text-white text-sm"></i>
+                </div>
+                <h1 class="text-base font-bold bg-gradient-to-r from-indigo-700 to-purple-700 bg-clip-text text-transparent">情绪健康双评量表</h1>
+            </div>
+            <div class="text-[11px] bg-white/70 px-3 py-1 rounded-full border border-indigo-200 text-indigo-600">
+                <i class="fa-regular fa-clipboard mr-1"></i> SDS抑郁 · SAS焦虑
+            </div>
+        </div>
+    </nav>
+    <main class="max-w-2xl mx-auto px-4 py-8 pb-28">
+        <section id="welcomeScreen" class="fade-in">
+            <div class="text-center py-6">
+                <div class="text-6xl mb-3 animate-bounce">🌿🧠💙</div>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 mb-3">情绪健康双评量表</h2>
+                <p class="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">抑郁自评量表(SDS) + 焦虑自评量表(SAS)<br>了解你近期的情绪状态</p>
+                <p class="text-xs text-indigo-500 mt-1 mb-6">✨ 专业量表 · 自我觉察 · 非诊断 ✨</p>
+                <div class="glass-card rounded-2xl p-5 mb-8 text-left max-w-md mx-auto">
+                    <div class="flex gap-3">
+                        <div class="text-2xl">🫂</div>
+                        <div>
+                            <h3 class="font-bold text-slate-800">测前仪式</h3>
+                            <div class="breathe-grad my-3" id="breathCircle"></div>
+                            <p class="text-xs text-center text-slate-500">深呼吸三次，对自己说：我的感受是真实的</p>
+                            <div class="bg-indigo-50/60 rounded-lg p-2 text-xs text-slate-600 mt-3 leading-relaxed">💡 请根据最近一周的实际感受作答 · 结果仅供自我参考</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-2xl mx-auto">
+                    <button onclick="window.startTest('quick')" class="group bg-white p-4 rounded-2xl shadow-md border border-indigo-200 hover:border-indigo-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2">⚡</div>
+                        <h3 class="font-bold text-slate-800">10题 · 快筛</h3>
+                        <p class="text-xs text-slate-400">2分钟 · 初步了解</p>
+                    </button>
+                    <button onclick="window.startTest('medium')" class="group bg-white p-4 rounded-2xl shadow-md border border-purple-200 hover:border-purple-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mb-2">📊</div>
+                        <h3 class="font-bold text-slate-800">25题 · 中度</h3>
+                        <p class="text-xs text-slate-400">6分钟 · 较全面评估</p>
+                    </button>
+                    <button onclick="window.startTest('full')" class="group bg-white p-4 rounded-2xl shadow-md border border-rose-200 hover:border-rose-400 transition text-left">
+                        <div class="w-10 h-10 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mb-2">🏆</div>
+                        <h3 class="font-bold text-slate-800">40题 · 完整版</h3>
+                        <p class="text-xs text-slate-400">10分钟 · 双维度精测</p>
+                    </button>
+                </div>
+                <p class="text-[10px] text-slate-400 mt-6">🌱 完整版包含SDS 20题 + SAS 20题 · 结果含双维度详细分析</p>
+            </div>
+        </section>
+        <section id="testScreen" class="hidden fade-in">
+            <div class="mb-5">
+                <div class="flex justify-between text-xs text-indigo-600 mb-1">
+                    <span id="stepLabel">第 1 题</span>
+                    <span id="progressText">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl shadow-xl p-6 mb-5">
+                <div class="text-xs text-indigo-500 font-bold uppercase flex gap-2 items-center mb-2" id="categoryLabel"><i class="fa-regular fa-circle-question"></i> 情绪状态</div>
+                <div class="text-lg md:text-xl font-semibold text-slate-800 leading-relaxed" id="questionText">加载中...</div>
+                <div class="mt-6 space-y-3" id="optionsContainer"></div>
+            </div>
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" onclick="window.prevQuestion()" class="px-5 py-2 rounded-xl bg-white/70 text-slate-500 hover:bg-indigo-50 transition text-sm" style="visibility:hidden;">← 上一题</button>
+                <button id="nextBtn" onclick="window.nextQuestion()" class="px-7 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 shadow-md transition disabled:opacity-40">下一题 →</button>
+            </div>
+            <p class="text-center text-[11px] text-slate-400 mt-6"><kbd>1</kbd>-<kbd>4</kbd> 快速选择，<kbd>Enter</kbd> 下一题</p>
+        </section>
+        <section id="resultScreen" class="hidden space-y-6 fade-in">
+            <div class="glass-card rounded-2xl p-6 text-center border-t-8 border-indigo-400">
+                <div class="breathe-grad w-16 h-16 mb-2"></div>
+                <h3 class="text-xl font-bold text-slate-800">📊 你的情绪健康报告</h3>
+                <p class="text-sm text-slate-500">抑郁与焦虑是两种常见的情绪状态，了解它们是自我关怀的第一步</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-xl p-6 text-center">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="border-r border-slate-200">
+                        <div class="text-sm text-slate-500">抑郁指数 (SDS)</div>
+                        <div id="depScore" class="text-3xl font-black text-indigo-600">--</div>
+                        <div id="depLevel" class="text-xs font-bold mt-1">--</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-slate-500">焦虑指数 (SAS)</div>
+                        <div id="anxScore" class="text-3xl font-black text-rose-600">--</div>
+                        <div id="anxLevel" class="text-xs font-bold mt-1">--</div>
+                    </div>
+                </div>
+                <div class="mt-3 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                    <div id="overallBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-1.5 rounded-full" style="width:0%"></div>
+                </div>
+                <p id="overallLabel" class="text-xs text-slate-400 mt-2">综合情绪状态 · 评估中</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="dimension-card bg-indigo-50/60 rounded-2xl p-5 border-indigo-400">
+                    <h3 class="font-bold text-indigo-800 flex gap-2"><i class="fa-regular fa-cloud-rain"></i> 抑郁维度分析</h3>
+                    <div id="depAnalysis" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+                <div class="dimension-card bg-rose-50/60 rounded-2xl p-5 border-rose-400">
+                    <h3 class="font-bold text-rose-800 flex gap-2"><i class="fa-regular fa-hand"></i> 焦虑维度分析</h3>
+                    <div id="anxAnalysis" class="text-sm text-slate-700 mt-2 leading-relaxed"></div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-indigo-50 to-rose-50 rounded-2xl p-6 border-l-8 border-purple-400">
+                <h3 class="font-bold text-purple-800 flex gap-2"><i class="fa-regular fa-lightbulb"></i> 给你的综合建议</h3>
+                <div id="comprehensiveAdvice" class="text-sm text-slate-700 mt-3 leading-relaxed"></div>
+            </div>
+            <div class="bg-amber-50/60 p-5 rounded-2xl border border-amber-200">
+                <h3 class="font-bold text-amber-700 flex gap-2"><i class="fa-regular fa-face-smile"></i> 给正在读这份报告的你</h3>
+                <div id="emotionalBoost" class="text-sm text-slate-700 mt-2 italic"></div>
+            </div>
+            <div class="bg-slate-800 text-white rounded-2xl p-5">
+                <h3 class="font-bold flex gap-2 mb-2"><i class="fa-regular fa-list-check"></i> 自我关怀行动指南</h3>
+                <div id="actionPlan" class="text-sm text-slate-300"></div>
+            </div>
+            <div class="bg-white/80 p-5 rounded-2xl border border-slate-200 text-center">
+                <i class="fa-regular fa-quote-left text-indigo-400 mr-2"></i>
+                <span id="famousQuote" class="text-sm text-slate-600 italic">“情绪不是敌人，它们是信使，告诉你内心正在发生什么。”</span>
+            </div>
+            <div class="disclaimer p-4 rounded-xl text-xs text-slate-600 leading-relaxed">
+                <i class="fa-regular fa-triangle-exclamation text-rose-500 mr-1"></i>
+                免责声明：本测试结果仅供自我参考，不构成医学诊断。如果你正经历严重的情绪困扰，请及时寻求专业心理咨询或精神科医生的帮助。
+            </div>
+            <div class="flex justify-center gap-3 pt-3">
+                <button onclick="window.restart()" class="px-5 py-2.5 rounded-xl border border-indigo-400 text-indigo-700 font-medium hover:bg-indigo-50">重新测试</button>
+                <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-indigo-600 text-white font-medium hover:bg-indigo-700 shadow">保存报告</button>
+            </div>
+            <div class="mt-10 border-t pt-6">
+                <button id="toggleAllAnswer" class="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 flex justify-between items-center px-4 font-medium text-slate-700">
+                    <span><i class="fa-solid fa-file-lines mr-2"></i>查看全部题目+逐题解析</span>
+                    <i class="fa-solid fa-chevron-down transition-transform" id="arrowIcon"></i>
+                </button>
+                <div id="allAnswerWrap" class="hidden mt-4 space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <div id="allAnswerList" class="space-y-5"></div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-slate-400 pb-8">SDS抑郁自评量表 · SAS焦虑自评量表 · 仅供自我觉察使用</div>
+        </section>
+    </main>
+    <script>
+        // ============================================================
+        // 情绪健康双评量表 - 数据
+        // 维度: 'depression' 或 'anxiety'，reverse: true 表示反向计分
+        // ============================================================
+        const allItems = [
+            // --- SDS 抑郁自评量表 (20题) ---
+            { dim: 'depression', text: '我觉得闷闷不乐，情绪低沉', reverse: false },
+            { dim: 'depression', text: '我觉得一天之中早晨最好', reverse: true },
+            { dim: 'depression', text: '我一阵阵哭出来或觉得想哭', reverse: false },
+            { dim: 'depression', text: '我晚上睡眠不好', reverse: false },
+            { dim: 'depression', text: '我吃得跟平常一样多', reverse: true },
+            { dim: 'depression', text: '我与异性密切接触时和以往一样感到愉快', reverse: true },
+            { dim: 'depression', text: '我发觉我的体重在下降', reverse: false },
+            { dim: 'depression', text: '我有便秘的苦恼', reverse: false },
+            { dim: 'depression', text: '我心跳比平时快', reverse: false },
+            { dim: 'depression', text: '我无缘无故地感到疲乏', reverse: false },
+            { dim: 'depression', text: '我的头脑跟平常一样清楚', reverse: true },
+            { dim: 'depression', text: '我觉得经常做的事情并没困难', reverse: true },
+            { dim: 'depression', text: '我觉得不安而平静不下来', reverse: false },
+            { dim: 'depression', text: '我对将来抱有希望', reverse: true },
+            { dim: 'depression', text: '我比平常容易生气激动', reverse: false },
+            { dim: 'depression', text: '我觉得作决定是容易的', reverse: true },
+            { dim: 'depression', text: '我觉得自己是个有用的人，有人需要我', reverse: true },
+            { dim: 'depression', text: '我的生活过得很有意思', reverse: true },
+            { dim: 'depression', text: '我认为如果我死了别人会生活得好些', reverse: false },
+            { dim: 'depression', text: '平常感兴趣的事我仍然感兴趣', reverse: true },
+            // --- SAS 焦虑自评量表 (20题) ---
+            { dim: 'anxiety', text: '我觉得比平常容易紧张和着急', reverse: false },
+            { dim: 'anxiety', text: '我无缘无故地感到害怕', reverse: false },
+            { dim: 'anxiety', text: '我容易心里烦乱或觉得惊恐', reverse: false },
+            { dim: 'anxiety', text: '我觉得我可能将要发疯', reverse: false },
+            { dim: 'anxiety', text: '我觉得一切都很好，也不会发生什么不幸', reverse: true },
+            { dim: 'anxiety', text: '我手脚发抖打颤', reverse: false },
+            { dim: 'anxiety', text: '我因为头痛、颈痛和背痛而苦恼', reverse: false },
+            { dim: 'anxiety', text: '我感觉容易衰弱和疲乏', reverse: false },
+            { dim: 'anxiety', text: '我觉得心平气和，并且容易安静坐着', reverse: true },
+            { dim: 'anxiety', text: '我觉得心跳得很快', reverse: false },
+            { dim: 'anxiety', text: '我因为一阵阵头晕而苦恼', reverse: false },
+            { dim: 'anxiety', text: '我有晕倒发作，或觉得要晕倒似的', reverse: false },
+            { dim: 'anxiety', text: '我吸气呼气都感到很容易', reverse: true },
+            { dim: 'anxiety', text: '我手脚麻木和刺痛', reverse: false },
+            { dim: 'anxiety', text: '我因为胃痛和消化不良而苦恼', reverse: false },
+            { dim: 'anxiety', text: '我常常要小便', reverse: false },
+            { dim: 'anxiety', text: '我的手常常是干燥温暖的', reverse: true },
+            { dim: 'anxiety', text: '我脸红发热', reverse: false },
+            { dim: 'anxiety', text: '我容易入睡并且一夜睡得很好', reverse: true },
+            { dim: 'anxiety', text: '我做恶梦', reverse: false }
+        ];
+
+        // 三种模式的题目索引
+        function getIndices(mode) {
+            const depIndices = allItems.map((_, i) => i).filter(i => allItems[i].dim === 'depression');
+            const anxIndices = allItems.map((_, i) => i).filter(i => allItems[i].dim === 'anxiety');
+            if (mode === 'quick') {
+                // 10题: 5抑郁+5焦虑
+                return [...depIndices.slice(0, 5), ...anxIndices.slice(0, 5)];
+            } else if (mode === 'medium') {
+                // 25题: 13抑郁+12焦虑
+                return [...depIndices.slice(0, 13), ...anxIndices.slice(0, 12)];
+            } else {
+                // 40题: 全部
+                return allItems.map((_, i) => i);
+            }
+        }
+
+        // 全局状态
+        let currentQuestions = [];
+        let currentAnswers = [];
+        let currentIndex = 0;
+        let currentMode = 'full';
+        let answerPanelOpen = false;
+
+        const welcome = document.getElementById('welcomeScreen');
+        const testScreen = document.getElementById('testScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const toggleBtn = document.getElementById('toggleAllAnswer');
+        const answerWrap = document.getElementById('allAnswerWrap');
+        const arrowIcon = document.getElementById('arrowIcon');
+        const answerListDom = document.getElementById('allAnswerList');
+
+        toggleBtn.addEventListener('click', () => {
+            answerPanelOpen = !answerPanelOpen;
+            if (answerPanelOpen) { answerWrap.classList.remove('hidden');
+                arrowIcon.style.transform = 'rotate(180deg)'; } else { answerWrap.classList.add('hidden');
+                arrowIcon.style.transform = 'rotate(0deg)'; }
+        });
+
+        // 测试启动
+        window.startTest = function(mode) {
+            currentMode = mode;
+            const indices = getIndices(mode);
+            currentQuestions = indices.map(i => ({ ...allItems[i], index: i }));
+            // 打乱顺序
+            shuffleArray(currentQuestions);
+            currentAnswers = new Array(currentQuestions.length).fill(null);
+            currentIndex = 0;
+            welcome.classList.add('hidden');
+            testScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            renderQuestion();
+            updateProgress();
+        };
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function renderQuestion() {
+            const q = currentQuestions[currentIndex];
+            if (!q) return;
+            const dimLabel = q.dim === 'depression' ? '抑郁维度' : '焦虑维度';
+            document.getElementById('categoryLabel').innerHTML =
+                `<i class="fa-regular fa-circle-question"></i> ${dimLabel} · 最近一周`;
+            document.getElementById('questionText').innerHTML = q.text;
+            const container = document.getElementById('optionsContainer');
+            container.innerHTML = '';
+            const labels = ['A', 'B', 'C', 'D'];
+            const optTexts = ['没有或很少时间', '小部分时间', '相当多时间', '绝大部分或全部时间'];
+            q.opts = optTexts;
+            optTexts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className =
+                    `option-card rounded-xl p-3 text-sm cursor-pointer ${currentAnswers[currentIndex] === idx ? 'selected' : ''}`;
+                div.innerHTML =
+                    `<div class="flex gap-3 items-center"><span class="w-6 h-6 rounded-full border-2 ${currentAnswers[currentIndex]===idx ? 'border-indigo-500 bg-indigo-500' : 'border-slate-300'} flex items-center justify-center text-white text-xs font-bold">${currentAnswers[currentIndex]===idx ? '✓' : labels[idx]}</span><span>${opt}</span></div>`;
+                div.onclick = () => {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                };
+                container.appendChild(div);
+            });
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.disabled = currentAnswers[currentIndex] === null;
+            nextBtn.innerText = (currentIndex === currentQuestions.length - 1) ? (currentAnswers[currentIndex] !==
+                null ? "📊 查看报告" : "查看报告") : "下一题 →";
+            document.getElementById('prevBtn').style.visibility = currentIndex > 0 ? 'visible' : 'hidden';
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentQuestions.length;
+            const done = currentAnswers.filter(a => a !== null).length;
+            const pct = total > 0 ? (done / total) * 100 : 0;
+            document.getElementById('progressBar').style.width = pct + '%';
+            document.getElementById('stepLabel').innerHTML = `第 ${currentIndex+1}/${total} 题 · 已答 ${done}`;
+            document.getElementById('progressText').innerText = `${Math.round(pct)}%`;
+        }
+
+        window.nextQuestion = function() {
+            if (currentAnswers[currentIndex] === null) return;
+            if (currentIndex === currentQuestions.length - 1) {
+                showResult();
+            } else {
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+
+        window.prevQuestion = function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
+        };
+
+        document.addEventListener('keydown', (e) => {
+            if (testScreen.classList.contains('hidden')) return;
+            if (['1', '2', '3', '4'].includes(e.key)) {
+                const idx = parseInt(e.key) - 1;
+                if (idx < 4 && currentQuestions[currentIndex]) {
+                    currentAnswers[currentIndex] = idx;
+                    renderQuestion();
+                    if (currentIndex < currentQuestions.length - 1) {
+                        setTimeout(() => window.nextQuestion(), 250);
+                    }
+                }
+            } else if (e.key === 'Enter') {
+                window.nextQuestion();
+            }
+        });
+
+        // ============================================================
+        // 结果计算与展示
+        // ============================================================
+        function showResult() {
+            testScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            // 分别计算抑郁和焦虑的粗分
+            let depRaw = 0,
+                anxRaw = 0;
+            let depCount = 0,
+                anxCount = 0;
+
+            currentQuestions.forEach((q, i) => {
+                const ans = currentAnswers[i];
+                if (ans === null) return;
+                let score = ans + 1; // 1-4
+                if (q.reverse) score = 5 - score; // 反向计分
+                if (q.dim === 'depression') { depRaw += score;
+                    depCount++; } else { anxRaw += score;
+                    anxCount++; }
+            });
+
+            // 标准分 = 粗分 / 题数 * 20 * 1.25 (即粗分/题数*25)
+            const depStd = depCount > 0 ? Math.round((depRaw / depCount) * 25) : 0;
+            const anxStd = anxCount > 0 ? Math.round((anxRaw / anxCount) * 25) : 0;
+
+            document.getElementById('depScore').innerHTML = depStd;
+            document.getElementById('anxScore').innerHTML = anxStd;
+
+            // 等级判定
+            const depLevel = getDepLevel(depStd);
+            const anxLevel = getAnxLevel(anxStd);
+            document.getElementById('depLevel').innerHTML =
+                `<span class="px-3 py-1 rounded-full text-xs font-bold ${depLevel.color}">${depLevel.label}</span>`;
+            document.getElementById('anxLevel').innerHTML =
+                `<span class="px-3 py-1 rounded-full text-xs font-bold ${anxLevel.color}">${anxLevel.label}</span>`;
+
+            // 综合评分
+            const overall = Math.round((depStd + anxStd) / 2);
+            document.getElementById('overallBar').style.width = Math.min(overall, 100) + '%';
+            const overallLabels = ['情绪状态良好', '轻微情绪波动', '明显情绪困扰', '强烈情绪困扰'];
+            const overallIdx = overall < 40 ? 0 : overall < 55 ? 1 : overall < 70 ? 2 : 3;
+            document.getElementById('overallLabel').innerHTML =
+                `综合情绪状态 · ${overallLabels[overallIdx]} (${overall}分)`;
+
+            // 抑郁分析
+            document.getElementById('depAnalysis').innerHTML = getDepAnalysis(depStd, depLevel);
+
+            // 焦虑分析
+            document.getElementById('anxAnalysis').innerHTML = getAnxAnalysis(anxStd, anxLevel);
+
+            // 综合建议
+            document.getElementById('comprehensiveAdvice').innerHTML = getComprehensiveAdvice(depStd, anxStd, depLevel,
+                anxLevel);
+
+            // 情绪价值
+            document.getElementById('emotionalBoost').innerHTML = getEmotionalBoost(depStd, anxStd);
+
+            // 行动指南
+            document.getElementById('actionPlan').innerHTML = getActionPlan(depStd, anxStd);
+
+            // 名言
+            const quotes = [
+                '“情绪不是敌人，它们是信使，告诉你内心正在发生什么。”',
+                '“你不需要一直坚强，脆弱也是完整的一部分。”',
+                '“看见自己的情绪，就是对自己的慈悲。”',
+                '“心理健康不是没有痛苦，而是在痛苦中依然能对自己温柔。”',
+                '“你值得被理解，值得被倾听，值得被好好对待。”'
+            ];
+            document.getElementById('famousQuote').innerHTML = `“${quotes[Math.floor(Math.random()*quotes.length)]}”`;
+
+            // 渲染全部题目
+            answerListDom.innerHTML = '';
+            currentQuestions.forEach((q, i) => {
+                const userSel = currentAnswers[i];
+                const rawScore = userSel !== null ? userSel + 1 : 0;
+                const revScore = q.reverse ? (userSel !== null ? 5 - rawScore : 0) : rawScore;
+                const isRight = true; // 无对错，只展示
+                const labels = ['A', 'B', 'C', 'D'];
+                const optTexts = ['没有或很少时间', '小部分时间', '相当多时间', '绝大部分或全部时间'];
+                const userSelText = userSel !== null ? `${labels[userSel]}. ${optTexts[userSel]}` : "未作答";
+                const dimLabel = q.dim === 'depression' ? '抑郁' : '焦虑';
+                const revLabel = q.reverse ? ' (反向计分)' : '';
+
+                const itemWrap = document.createElement('div');
+                itemWrap.className = `rounded-xl p-4 border border-slate-200 bg-white`;
+                itemWrap.innerHTML = `
+                    <div class="text-sm mb-2">
+                        <span class="font-bold text-slate-800">第${i+1}题【${dimLabel}${revLabel}】</span>
+                        <span class="ml-2 px-2 py-0.5 rounded text-xs bg-indigo-100 text-indigo-800">得分: ${rawScore} → ${revScore}</span>
+                    </div>
+                    <p class="text-slate-800 mb-3">${q.text}</p>
+                    <div class="text-xs space-y-1">
+                        <p>你的选择：${userSelText}</p>
+                        <p class="text-slate-500">计分说明：${q.reverse ? '反向计分 (1→4, 2→3, 3→2, 4→1)' : '正向计分 (1→1, 2→2, 3→3, 4→4)'}</p>
+                    </div>
+                `;
+                answerListDom.appendChild(itemWrap);
+            });
+
+            window.scrollTo(0, 0);
+        }
+
+        // ============================================================
+        // 辅助函数
+        // ============================================================
+        function getDepLevel(score) {
+            if (score < 53) return { label: '正常范围', color: 'bg-teal-100 text-teal-700' };
+            if (score < 63) return { label: '轻度抑郁', color: 'bg-amber-100 text-amber-700' };
+            if (score < 73) return { label: '中度抑郁', color: 'bg-orange-100 text-orange-700' };
+            return { label: '重度抑郁', color: 'bg-rose-100 text-rose-700' };
+        }
+
+        function getAnxLevel(score) {
+            if (score < 50) return { label: '正常范围', color: 'bg-teal-100 text-teal-700' };
+            if (score < 60) return { label: '轻度焦虑', color: 'bg-amber-100 text-amber-700' };
+            if (score < 70) return { label: '中度焦虑', color: 'bg-orange-100 text-orange-700' };
+            return { label: '重度焦虑', color: 'bg-rose-100 text-rose-700' };
+        }
+
+        function getDepAnalysis(score, level) {
+            if (score < 53) return '你的抑郁情绪水平在正常范围内，情绪状态相对稳定。偶尔的低落是正常的情绪波动，不需要过度担忧。继续保持良好的生活习惯和社交活动，你的情绪调节能力良好。';
+            if (score < 63) return '你存在轻度的抑郁情绪，可能表现为：对事情提不起兴趣、容易疲乏、睡眠或食欲出现一些变化。这通常是应激或压力下的正常反应，但值得关注。建议：规律作息、适度运动、与信任的人倾诉，同时留意情绪变化。';
+            if (score < 73) return '你的抑郁情绪已达到中度水平，可能已经影响到日常生活和工作。你可能会感到持续的疲惫、兴趣减退、自我价值感降低。这是身体在提醒你需要更多的关注和照顾。强烈建议：寻求心理咨询或与精神科医生沟通，不要独自硬扛。';
+            return '你的抑郁情绪处于重度水平，这意味着你正在经历非常困难的时期。你可能感到绝望、无价值感、甚至出现自杀念头。请立即寻求专业帮助：拨打心理援助热线或前往精神专科就诊。你不是一个人，痛苦可以被看见和缓解。';
+        }
+
+        function getAnxAnalysis(score, level) {
+            if (score < 50) return '你的焦虑水平在正常范围内，能够较好地应对日常压力。适当的焦虑是生活的正常部分，它能帮助我们保持警觉和动力。你对自己的情绪状态有良好的觉察和调节能力。';
+            if (score < 60) return '你存在轻度的焦虑情绪，可能表现为：容易紧张、坐立不安、心跳加快等身体反应。这是身体在告诉你压力正在累积。建议：练习深呼吸、正念冥想，合理安排工作和休息时间，避免过度消耗自己。';
+            if (score < 70) return '你的焦虑程度已达中度，可能已经影响到睡眠、专注力和日常功能。你可能会感到持续的担忧、肌肉紧张、心慌等。这是神经系统的过度警觉状态。建议：寻求专业心理咨询，学习焦虑管理技巧，同时保持规律的运动和社交。';
+            return '你的焦虑处于重度水平，你正在承受巨大的身心压力。你可能随时感到恐慌、失控或濒死感。这需要紧急的专业干预。请立即寻求精神科医生或心理危机干预的帮助，你不需要独自承受这一切。';
+        }
+
+        function getComprehensiveAdvice(dep, anx, depL, anxL) {
+            const depWord = dep < 53 ? '正常' : dep < 63 ? '轻度' : dep < 73 ? '中度' : '重度';
+            const anxWord = anx < 50 ? '正常' : anx < 60 ? '轻度' : anx < 70 ? '中度' : '重度';
+
+            let advice = `你的抑郁水平为「${depWord}」，焦虑水平为「${anxWord}」。`;
+
+            if (dep < 53 && anx < 50) {
+                advice += ' 你的情绪状态整体良好，这是值得肯定的。继续保持自我关怀的习惯，注意在压力时期及时调整节奏。';
+            } else if (dep < 63 && anx < 60) {
+                advice += ' 你目前处于轻度情绪困扰阶段，这通常是生活压力或阶段性挑战引起的。请优先照顾好自己的基本需求：睡眠、饮食、运动。尝试每天做一件让自己感到轻松的小事。';
+            } else if (dep >= 63 || anx >= 60) {
+                advice += ' 你的情绪状态需要更多的关注和支持。心理健康和身体健康同样重要，寻求帮助是勇敢的表现。建议：1) 联系专业心理咨询师；2) 告诉信任的人你的感受；3) 减少不必要的压力源；4) 每天进行15分钟的放松练习。';
+            }
+            advice +=
+                ' 记住：情绪是流动的，此刻的感受不代表永远。你已经在用行动照顾自己——完成这份测试本身就是自我关怀的证明。';
+            return advice;
+        }
+
+        function getEmotionalBoost(dep, anx) {
+            if (dep < 53 && anx < 50) {
+                return '🌿 你的情绪状态很好！继续保持自我觉察的习惯，你对自己的情绪有很好的感知力。当压力来临时，你已经有了足够的资源去应对。为你感到高兴！';
+            }
+            if (dep < 63 && anx < 60) {
+                return '🌱 你正在经历一些情绪波动，但这不代表你不够好。生活中的挑战有时会让我们暂时失衡，但你有能力慢慢找回平衡。给自己一些时间和耐心，你已经走在正确的路上了。';
+            }
+            if (dep < 73 || anx < 70) {
+                return '🫂 此刻的你一定很不容易。能看到这份报告，说明你正在努力理解和照顾自己。这就已经是很大的勇气了。请对自己温柔一些，你不必一个人扛着所有重量。寻求帮助不是软弱，是对自己的慈悲。';
+            }
+            return '❤️ 亲爱的你，你正在经历一段非常艰难的时期。我想告诉你：你的痛苦是真实的，你值得被帮助，被理解，被好好对待。请立刻寻求专业支持，你不是孤单一人在战斗。明天太阳照常升起，而你值得看到那个黎明。';
+        }
+
+        function getActionPlan(dep, anx) {
+            let plans = [];
+            if (dep >= 53 || anx >= 50) {
+                plans.push('🧘 每天用5分钟做「情绪扫描」：感受身体哪里紧绷，不加评判地观察它');
+                plans.push('📝 写「情绪日记」：记录一天中3个让你有情绪波动的瞬间');
+                plans.push('🚶 每天出门散步15分钟，让阳光和空气帮助你调节神经');
+                plans.push('💬 给一个你信任的人发一条消息，告诉对方你今天的状态');
+            }
+            if (dep >= 63 || anx >= 60) {
+                plans.push('📞 考虑预约一次心理咨询或精神科门诊，专业帮助能有效缓解症状');
+                plans.push('🛌 建立规律的睡眠作息，固定上床和起床时间，睡前1小时远离电子屏幕');
+                plans.push('🥗 注意饮食均衡，减少咖啡因和酒精摄入，它们会加剧焦虑和抑郁');
+            }
+            if (dep >= 73 || anx >= 70) {
+                plans.push('🚨 如果出现自伤或自杀念头，请立即拨打心理援助热线或前往医院急诊');
+                plans.push('🤝 联系你最信任的人，告诉他们你需要帮助，允许他们陪伴你');
+                plans.push('⏰ 把「活下去」当作今天唯一的目标，其他事情都可以放一放');
+            }
+            if (plans.length === 0) {
+                plans.push('🌻 继续保持良好的自我照顾习惯，你的情绪状态很健康');
+                plans.push('🎯 设定一个小的个人目标，每周完成一次，增强自我效能感');
+            }
+            return plans.map(p => `<p>${p}</p>`).join('');
+        }
+
+        window.restart = function() {
+            resultScreen.classList.add('hidden');
+            welcome.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+
+        document.getElementById('breathCircle').addEventListener('click', function() {
+            this.style.animation = 'none';
+            setTimeout(() => this.style.animation = 'floatGrad 5s infinite ease-in-out', 10);
+        });
+    </script>
+</body>
+</html>
